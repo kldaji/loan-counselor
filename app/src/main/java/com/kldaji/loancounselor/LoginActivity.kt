@@ -1,5 +1,6 @@
 package com.kldaji.loancounselor
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -21,8 +22,9 @@ class LoginActivity : AppCompatActivity() {
     private val loginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             Log.e(TAG, "카카오계정으로 로그인 실패", error)
-        } else {
-            Log.i(TAG, "카카오계정으로 로그인 성공 ${token?.accessToken}")
+        } else if (token != null) {
+            Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
+            navigateToMain()
         }
     }
 
@@ -49,11 +51,17 @@ class LoginActivity : AppCompatActivity() {
                         UserApiClient.instance.loginWithKakaoAccount(this, callback = loginCallback)
                     } else if (token != null) {
                         Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
+                        navigateToMain()
                     }
                 }
             } else {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = loginCallback)
             }
         }
+    }
+
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
