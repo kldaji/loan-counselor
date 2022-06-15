@@ -1,13 +1,19 @@
 package com.kldaji.loancounselor
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.kldaji.loancounselor.databinding.FragmentClientsBinding
 
 class ClientsFragment : Fragment() {
+    companion object {
+        private const val TAG = "ClientsFragment"
+    }
+
     private var _binding: FragmentClientsBinding? = null
     private val binding get() = _binding!!
 
@@ -17,6 +23,31 @@ class ClientsFragment : Fragment() {
     ): View {
         _binding = FragmentClientsBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navigateToOtherFragments()
+    }
+
+    private fun navigateToOtherFragments() {
+        binding.tbClients.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.search -> {
+                    this.findNavController().navigate(R.id.searchFragment)
+                    true
+                }
+                R.id.add_client -> {
+                    this.findNavController().navigate(R.id.clientInfoFragment)
+                    true
+                }
+                R.id.setting -> {
+                    this.findNavController().navigate(R.id.settingFragment)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onDestroyView() {

@@ -9,5 +9,30 @@
         android:id="@+id/clientsFragment"
         android:name="com.kldaji.loancounselor.ClientsFragment"
         android:label="fragment_clients"
-        tools:layout="@layout/fragment_clients" />
+        tools:layout="@layout/fragment_clients" >
+        <action
+            android:id="@+id/action_clientsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_clientsFragment_to_clientInfoFragment"
+            app:destination="@id/clientInfoFragment" />
+        <action
+            android:id="@+id/action_clientsFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.kldaji.loancounselor.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/clientInfoFragment"
+        android:name="com.kldaji.loancounselor.ClientInfoFragment"
+        android:label="fragment_client_info"
+        tools:layout="@layout/fragment_client_info" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.kldaji.loancounselor.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 </navigation>
