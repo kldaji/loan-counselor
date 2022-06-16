@@ -56,9 +56,12 @@ class ClientsFragment : Fragment() {
     private fun connectAdapters() {
         val scheduledClientAdapter =
             ScheduledClientViewAdapter(object : ScheduledClientViewAdapter.ItemClickCallback {
-                override fun onItemClick() {
+                override fun onItemClick(index: Int) {
+                    val direction =
+                        ClientsFragmentDirections.actionClientsFragmentToScheduledClientsFragment(
+                            index)
                     this@ClientsFragment.findNavController()
-                        .navigate(R.id.action_clientsFragment_to_scheduledClientsFragment)
+                        .navigate(direction)
                 }
             })
         scheduledClientAdapter.setItems(viewModel.scheduledClientViews)
