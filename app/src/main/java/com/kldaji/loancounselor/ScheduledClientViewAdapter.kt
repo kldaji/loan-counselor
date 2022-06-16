@@ -19,12 +19,14 @@ class ScheduledClientViewAdapter(private val itemClickCallback: ItemClickCallbac
             LayoutInflater.from(parent.context),
             R.layout.item_scheduled_client,
             parent,
-            false).also { it.root.setOnClickListener { itemClickCallback.onItemClick() } }
-
+            false)
         return ScheduledClientViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ScheduledClientViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            itemClickCallback.onItemClick(position)
+        }
         holder.bind(items[position])
     }
 
@@ -40,6 +42,6 @@ class ScheduledClientViewAdapter(private val itemClickCallback: ItemClickCallbac
     }
 
     interface ItemClickCallback {
-        fun onItemClick()
+        fun onItemClick(index: Int)
     }
 }
