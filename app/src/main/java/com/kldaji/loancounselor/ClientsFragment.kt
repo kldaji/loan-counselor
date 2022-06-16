@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import com.kldaji.loancounselor.databinding.FragmentClientsBinding
@@ -16,6 +17,7 @@ class ClientsFragment : Fragment() {
 
     private var _binding: FragmentClientsBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by activityViewModels<ClientsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +61,7 @@ class ClientsFragment : Fragment() {
                         .navigate(R.id.action_clientsFragment_to_scheduledClientsFragment)
                 }
             })
+        scheduledClientAdapter.setItems(viewModel.scheduledClientViews)
         val adapters = ConcatAdapter(scheduledClientAdapter)
         binding.rvClients.adapter = adapters
     }
