@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_clientsFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_clientsFragment_to_scheduledClientsFragment"
+            app:destination="@id/scheduledClientsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -35,4 +38,14 @@
         android:name="com.kldaji.loancounselor.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/scheduledClientsFragment"
+        android:name="com.kldaji.loancounselor.ScheduledClientsFragment"
+        android:label="fragment_scheduled_clients"
+        tools:layout="@layout/fragment_scheduled_clients" >
+        <argument
+            android:name="index"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

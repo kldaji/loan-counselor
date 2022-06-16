@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ToolBarTitle" parent="TextAppearance.MaterialComponents.Headline5" >
+
+    <style name="ToolBarTitle" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ClientsSubTitle" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/gray_858585</item>
+    </style>
+
+    <style name="ClientsTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/black</item>
+
     </style>
 </resources>

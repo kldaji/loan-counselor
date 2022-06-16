@@ -1,12 +1,13 @@
 package com.kldaji.loancounselor
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import com.kldaji.loancounselor.databinding.FragmentClientsBinding
 
 class ClientsFragment : Fragment() {
@@ -16,6 +17,7 @@ class ClientsFragment : Fragment() {
 
     private var _binding: FragmentClientsBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by activityViewModels<ClientsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +30,7 @@ class ClientsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navigateToOtherFragments()
+        connectAdapters()
     }
 
     private fun navigateToOtherFragments() {
@@ -48,6 +51,22 @@ class ClientsFragment : Fragment() {
                 else -> false
             }
         }
+    }
+
+    private fun connectAdapters() {
+        val scheduledClientAdapter =
+            ScheduledClientViewAdapter(object : ScheduledClientViewAdapter.ItemClickCallback {
+                override fun onItemClick(index: Int) {
+                    val direction =
+                        ClientsFragmentDirections.actionClientsFragmentToScheduledClientsFragment(
+                            index)
+                    this@ClientsFragment.findNavController()
+                        .navigate(direction)
+                }
+            })
+        scheduledClientAdapter.setItems(viewModel.scheduledClientViews)
+        val adapters = ConcatAdapter(scheduledClientAdapter)
+        binding.rvClients.adapter = adapters
     }
 
     override fun onDestroyView() {
