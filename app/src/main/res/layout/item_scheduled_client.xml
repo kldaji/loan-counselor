@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="scheduledClient"
-            type="com.kldaji.loancounselor.ScheduledClient" />
+            name="scheduledClientView"
+            type="com.kldaji.loancounselor.ScheduledClientView" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="12dp"
-            android:text="@{scheduledClient.subtitle}"
+            android:text="@{scheduledClientView.subtitle}"
             android:textAppearance="@style/ClientsSubTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,7 +45,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="12dp"
             android:contentDescription="@string/iv_scheduled_clients_icon"
-            app:imageResource="@{scheduledClient.icon}"
+            app:imageResource="@{scheduledClientView.icon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_sub_title"
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="@{scheduledClient.title}"
+            android:text="@{scheduledClientView.title}"
             android:textAppearance="@style/ClientsTitle"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon"
             app:layout_constraintStart_toEndOf="@id/iv_icon"
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|start"
-                android:text="@{Integer.toString(scheduledClient.howMany)}"
+                android:text="0"
                 android:textAppearance="@style/ClientsSubTitle"
                 tools:text="5" />
 

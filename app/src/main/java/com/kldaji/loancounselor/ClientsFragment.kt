@@ -1,7 +1,6 @@
 package com.kldaji.loancounselor
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +52,13 @@ class ClientsFragment : Fragment() {
     }
 
     private fun connectAdapters() {
-        val scheduledClientAdapter = ScheduledClientAdapter()
+        val scheduledClientAdapter =
+            ScheduledClientViewAdapter(object : ScheduledClientViewAdapter.ItemClickCallback {
+                override fun onItemClick() {
+                    this@ClientsFragment.findNavController()
+                        .navigate(R.id.action_clientsFragment_to_scheduledClientsFragment)
+                }
+            })
         val adapters = ConcatAdapter(scheduledClientAdapter)
         binding.rvClients.adapter = adapters
     }
