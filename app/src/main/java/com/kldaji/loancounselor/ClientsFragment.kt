@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import com.kldaji.loancounselor.databinding.FragmentClientsBinding
 
 class ClientsFragment : Fragment() {
@@ -28,6 +29,7 @@ class ClientsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navigateToOtherFragments()
+        connectAdapters()
     }
 
     private fun navigateToOtherFragments() {
@@ -48,6 +50,12 @@ class ClientsFragment : Fragment() {
                 else -> false
             }
         }
+    }
+
+    private fun connectAdapters() {
+        val scheduledClientAdapter = ScheduledClientAdapter()
+        val adapters = ConcatAdapter(scheduledClientAdapter)
+        binding.rvClients.adapter = adapters
     }
 
     override fun onDestroyView() {
