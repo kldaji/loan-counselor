@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
+import com.kldaji.domain.Client
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.R
 import com.kldaji.presentation.ui.clients.adapter.ScheduledClientViewAdapter
 import com.kldaji.presentation.databinding.FragmentClientsBinding
+import com.kldaji.presentation.ui.clients.adapter.ClientAdapter
 
 class ClientsFragment : Fragment() {
     companion object {
@@ -68,7 +70,9 @@ class ClientsFragment : Fragment() {
                 }
             })
         scheduledClientAdapter.setItems(viewModel.scheduledClientViews)
-        val adapters = ConcatAdapter(scheduledClientAdapter)
+        val clientAdapter = ClientAdapter()
+        clientAdapter.submitListWithHeader(listOf(Client(1, "김영욱", "97.07.03"))) // dummy data
+        val adapters = ConcatAdapter(scheduledClientAdapter, clientAdapter)
         binding.rvClients.adapter = adapters
     }
 

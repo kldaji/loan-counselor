@@ -1,3 +1,3 @@
 package com.kldaji.domain
 
-class Client
+data class Client(val id: Long, val name: String, val birth: String)
