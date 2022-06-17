@@ -1,10 +1,10 @@
-package com.kldaji.loancounselor
+package com.kldaji.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.kakao.sdk.user.UserApiClient
-import com.kldaji.loancounselor.databinding.ActivityMainBinding
+import com.kldaji.presentation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     companion object {

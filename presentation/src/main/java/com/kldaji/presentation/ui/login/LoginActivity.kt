@@ -1,4 +1,4 @@
-package com.kldaji.loancounselor
+package com.kldaji.presentation.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,8 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
-import com.kldaji.loancounselor.databinding.ActivityLoginBinding
+import com.kldaji.presentation.databinding.ActivityLoginBinding
+import com.kldaji.presentation.ui.MainActivity
 
 class LoginActivity : AppCompatActivity() {
     companion object {

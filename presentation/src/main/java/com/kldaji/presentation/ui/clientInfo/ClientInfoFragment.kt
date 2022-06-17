@@ -1,21 +1,22 @@
-package com.kldaji.loancounselor
+package com.kldaji.presentation.ui.clientInfo
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.kldaji.loancounselor.databinding.FragmentSettingBinding
+import com.kldaji.presentation.databinding.FragmentClientInfoBinding
 
-class SettingFragment : Fragment() {
-    private var _binding: FragmentSettingBinding? = null
+
+class ClientInfoFragment : Fragment() {
+    private var _binding: FragmentClientInfoBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentSettingBinding.inflate(inflater, container, false)
+        _binding = FragmentClientInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -1,4 +1,4 @@
-package com.kldaji.loancounselor
+package com.kldaji.presentation.ui.scheduledClients
 
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.kldaji.loancounselor.databinding.FragmentScheduledClientsBinding
+import com.kldaji.presentation.databinding.FragmentScheduledClientsBinding
 
 class ScheduledClientsFragment : Fragment() {
     companion object {

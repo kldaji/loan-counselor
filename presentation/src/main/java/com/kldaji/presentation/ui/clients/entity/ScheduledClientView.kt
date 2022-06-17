@@ -1,4 +1,4 @@
-package com.kldaji.loancounselor
+package com.kldaji.presentation.ui.clients.entity
 
 data class ScheduledClientView(
     val subtitle: String,

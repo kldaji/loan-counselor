@@ -1,10 +1,12 @@
-package com.kldaji.loancounselor
+package com.kldaji.presentation.ui.clients.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.kldaji.loancounselor.databinding.ItemScheduledClientBinding
+import com.kldaji.presentation.R
+import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
+import com.kldaji.presentation.databinding.ItemScheduledClientBinding
 
 class ScheduledClientViewAdapter(private val itemClickCallback: ItemClickCallback) :
     RecyclerView.Adapter<ScheduledClientViewAdapter.ScheduledClientViewHolder>() {
