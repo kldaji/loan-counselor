@@ -1,7 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/kotlin,androidstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=kotlin,androidstudio
 
-app/src/main/res/values/strings.xml
+# kakao login native key
+presentation/src/main/res/values/strings.xml
+
 .DS_Store
 /captures
 .cxx

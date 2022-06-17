@@ -1,6 +1,8 @@
-package com.kldaji.loancounselor
+package com.kldaji.presentation.ui
 
 import androidx.lifecycle.ViewModel
+import com.kldaji.presentation.R
+import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
 
 class ClientsViewModel: ViewModel() {
     val scheduledClientViews = listOf(

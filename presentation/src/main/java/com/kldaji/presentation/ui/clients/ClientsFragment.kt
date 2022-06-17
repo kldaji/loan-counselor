@@ -1,4 +1,4 @@
-package com.kldaji.loancounselor
+package com.kldaji.presentation.ui.clients
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
-import com.kldaji.loancounselor.databinding.FragmentClientsBinding
+import com.kldaji.presentation.ui.ClientsViewModel
+import com.kldaji.presentation.R
+import com.kldaji.presentation.ui.clients.adapter.ScheduledClientViewAdapter
+import com.kldaji.presentation.databinding.FragmentClientsBinding
 
 class ClientsFragment : Fragment() {
     companion object {

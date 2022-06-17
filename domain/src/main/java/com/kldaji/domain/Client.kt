@@ -1,4 +1,3 @@
 package com.kldaji.domain
 
-class MyClass {
-}
+class Client

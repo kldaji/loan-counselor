@@ -11,6 +11,5 @@
 
     <style name="ClientsTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">@color/black</item>
-
     </style>
 </resources>
