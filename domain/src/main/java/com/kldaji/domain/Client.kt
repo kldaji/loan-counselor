@@ -1,3 +1,5 @@
 package com.kldaji.domain
 
-data class Client(val id: Long, val name: String, val birth: String)
+import java.io.Serializable
+
+data class Client(val id: Long, val name: String, val birth: String): Serializable

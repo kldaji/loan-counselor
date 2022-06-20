@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
+import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentClientsBinding
 import com.kldaji.presentation.ui.ClientsViewModel
@@ -66,7 +67,7 @@ class ClientsFragment : Fragment() {
 
     private fun connectAdapters() {
         val scheduledClientAdapter =
-            ScheduledClientViewAdapter(object : ScheduledClientViewAdapter.ItemClickCallback {
+            ScheduledClientViewAdapter(object : ScheduledClientViewAdapter.ItemClickListener {
                 override fun onItemClick(index: Int) {
                     val direction =
                         ClientsFragmentDirections.actionClientsFragmentToScheduledClientsFragment(
@@ -76,7 +77,13 @@ class ClientsFragment : Fragment() {
                 }
             })
         scheduledClientAdapter.setItems(viewModel.scheduledClientViews)
-        clientAdapter = ClientAdapter()
+        clientAdapter = ClientAdapter(object : ClientAdapter.ItemClickListener {
+            override fun onItemClick(client: Client) {
+                val direction =
+                    ClientsFragmentDirections.actionClientsFragmentToClientInfoFragment(client)
+                this@ClientsFragment.findNavController().navigate(direction)
+            }
+        })
         val adapters = ConcatAdapter(scheduledClientAdapter, clientAdapter)
         binding.rvClients.adapter = adapters
     }
