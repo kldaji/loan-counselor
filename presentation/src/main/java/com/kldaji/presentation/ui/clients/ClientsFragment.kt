@@ -8,12 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
-import com.kldaji.domain.Client
-import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.R
-import com.kldaji.presentation.ui.clients.adapter.ScheduledClientViewAdapter
 import com.kldaji.presentation.databinding.FragmentClientsBinding
+import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.clients.adapter.ClientAdapter
+import com.kldaji.presentation.ui.clients.adapter.ScheduledClientViewAdapter
 
 class ClientsFragment : Fragment() {
     companion object {
@@ -23,6 +22,7 @@ class ClientsFragment : Fragment() {
     private var _binding: FragmentClientsBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<ClientsViewModel>()
+    private lateinit var clientAdapter: ClientAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +36,8 @@ class ClientsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navigateToOtherFragments()
         connectAdapters()
+        fetchClients()
+        addClientsObserver()
     }
 
     private fun navigateToOtherFragments() {
@@ -58,6 +60,10 @@ class ClientsFragment : Fragment() {
         }
     }
 
+    private fun fetchClients() {
+        viewModel.fetchClients()
+    }
+
     private fun connectAdapters() {
         val scheduledClientAdapter =
             ScheduledClientViewAdapter(object : ScheduledClientViewAdapter.ItemClickCallback {
@@ -70,10 +76,15 @@ class ClientsFragment : Fragment() {
                 }
             })
         scheduledClientAdapter.setItems(viewModel.scheduledClientViews)
-        val clientAdapter = ClientAdapter()
-        clientAdapter.submitListWithHeader(listOf(Client(1, "김영욱", "97.07.03"))) // dummy data
+        clientAdapter = ClientAdapter()
         val adapters = ConcatAdapter(scheduledClientAdapter, clientAdapter)
         binding.rvClients.adapter = adapters
+    }
+
+    private fun addClientsObserver() {
+        viewModel.clients.observe(viewLifecycleOwner) {
+            clientAdapter.submitListWithHeader(it)
+        }
     }
 
     override fun onDestroyView() {
