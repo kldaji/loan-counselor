@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_clientsFragment_to_scheduledClientsFragment"
             app:destination="@id/scheduledClientsFragment" />
+        <action
+            android:id="@+id/action_clientsFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -54,4 +57,9 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.kldaji.presentation.ui.calendar.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" />
 </navigation>

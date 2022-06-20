@@ -39,6 +39,7 @@ class ClientsFragment : Fragment() {
         connectAdapters()
         fetchClients()
         addClientsObserver()
+        navigateToCalendarFragment()
     }
 
     private fun navigateToOtherFragments() {
@@ -91,6 +92,12 @@ class ClientsFragment : Fragment() {
     private fun addClientsObserver() {
         viewModel.clients.observe(viewLifecycleOwner) {
             clientAdapter.submitListWithHeader(it)
+        }
+    }
+
+    private fun navigateToCalendarFragment() {
+        binding.fabCalendar.setOnClickListener {
+            findNavController().navigate(R.id.calendarFragment)
         }
     }
 
