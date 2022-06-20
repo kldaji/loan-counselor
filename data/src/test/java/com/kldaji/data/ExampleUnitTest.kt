@@ -1,4 +1,4 @@
-package com.kldaji.domain
+package com.kldaji.data
 
 import org.junit.Test
 
