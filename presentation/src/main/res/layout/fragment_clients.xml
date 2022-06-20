@@ -31,4 +31,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_scheduled_client" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/fab_calendar"
+        app:srcCompat="@drawable/ic_calendar_24" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
