@@ -8,7 +8,7 @@ import com.kldaji.presentation.R
 import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
 import com.kldaji.presentation.databinding.ItemScheduledClientBinding
 
-class ScheduledClientViewAdapter(private val itemClickCallback: ItemClickCallback) :
+class ScheduledClientViewAdapter(private val itemClickCallback: ItemClickListener) :
     RecyclerView.Adapter<ScheduledClientViewAdapter.ScheduledClientViewHolder>() {
     private lateinit var items: List<ScheduledClientView>
 
@@ -43,7 +43,7 @@ class ScheduledClientViewAdapter(private val itemClickCallback: ItemClickCallbac
         }
     }
 
-    interface ItemClickCallback {
+    interface ItemClickListener {
         fun onItemClick(index: Int)
     }
 }

@@ -10,7 +10,8 @@ import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.ItemClientBinding
 import com.kldaji.presentation.databinding.ItemClientsHeaderBinding
 
-class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff) {
+class ClientAdapter(private val itemClickListener: ItemClickListener) :
+    ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff) {
 
     fun submitListWithHeader(clients: List<Client>) {
         submitList(listOf(ClientViewItem.HeaderItem) + clients.map { ClientViewItem.ClientItem(it) })
@@ -38,6 +39,9 @@ class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff)
             is HeaderItemViewHolder -> holder.bind(currentList.size - 1) // exclude header
             is ClientItemViewHolder -> {
                 val clientItem = getItem(position) as ClientViewItem.ClientItem
+                holder.itemView.setOnClickListener {
+                    itemClickListener.onItemClick(clientItem.client)
+                }
                 holder.bind(clientItem.client)
             }
         }
@@ -78,5 +82,9 @@ class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff)
                 return oldItem == newItem
             }
         }
+    }
+
+    interface ItemClickListener {
+        fun onItemClick(client: Client)
     }
 }
