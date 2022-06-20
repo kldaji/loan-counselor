@@ -14,7 +14,9 @@ import com.kldaji.presentation.databinding.FragmentClientsBinding
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.clients.adapter.ClientAdapter
 import com.kldaji.presentation.ui.clients.adapter.ScheduledClientViewAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ClientsFragment : Fragment() {
     companion object {
         private const val TAG = "ClientsFragment"

@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import com.kakao.sdk.user.UserApiClient
 import com.kldaji.presentation.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
