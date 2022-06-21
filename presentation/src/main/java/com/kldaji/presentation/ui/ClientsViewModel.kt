@@ -23,18 +23,18 @@ class ClientsViewModel : ViewModel() {
     val clients: LiveData<List<Client>> = _clients
 
     fun fetchClients() {
-        _clients.value = listOf(
-            Client(1, "김영욱", "97.07.03"),
-            Client(2, "김영욱", "97.07.03"),
-            Client(3, "김영욱", "97.07.03"),
-            Client(4, "김영욱", "97.07.03"),
-            Client(5, "김영욱", "97.07.03"),
-            Client(6, "김영욱", "97.07.03"),
-            Client(7, "김영욱", "97.07.03"),
-            Client(8, "김영욱", "97.07.03"),
-            Client(9, "김영욱", "97.07.03"),
-            Client(10, "김영욱", "97.07.03"),
-            Client(11, "김영욱", "97.07.03")
-        )
+//        _clients.value = listOf(
+//            Client(1, "김영욱", "97.07.03"),
+//            Client(2, "김영욱", "97.07.03"),
+//            Client(3, "김영욱", "97.07.03"),
+//            Client(4, "김영욱", "97.07.03"),
+//            Client(5, "김영욱", "97.07.03"),
+//            Client(6, "김영욱", "97.07.03"),
+//            Client(7, "김영욱", "97.07.03"),
+//            Client(8, "김영욱", "97.07.03"),
+//            Client(9, "김영욱", "97.07.03"),
+//            Client(10, "김영욱", "97.07.03"),
+//            Client(11, "김영욱", "97.07.03")
+//        )
     }
 }
