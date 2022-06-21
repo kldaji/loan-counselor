@@ -29,7 +29,7 @@ class ClientsViewModel @Inject constructor(
     )
 
     val genders = listOf("남자", "여자", "기타")
-
+    
     private val _clients = MutableLiveData<List<Client>>()
     val clients: LiveData<List<Client>> = _clients
 
