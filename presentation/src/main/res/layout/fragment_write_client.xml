@@ -83,6 +83,7 @@
                 app:layout_constraintTop_toTopOf="@id/iv_profile">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp" />
@@ -100,6 +101,7 @@
                 app:layout_constraintTop_toBottomOf="@id/til_name">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_birth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp" />
@@ -126,7 +128,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
-                android:id="@+id/iv_call"
+                android:id="@+id/iv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
@@ -138,20 +140,21 @@
                 app:layout_constraintTop_toBottomOf="@id/til_birth" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_call"
+                android:id="@+id/til_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="36dp"
-                android:hint="@string/til_write_client_call"
+                android:hint="@string/til_write_client_phone"
                 app:errorEnabled="true"
                 app:helperText="ex. 010-8616-2217"
-                app:layout_constraintBottom_toBottomOf="@id/iv_call"
+                app:layout_constraintBottom_toBottomOf="@id/iv_phone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_profile"
-                app:layout_constraintTop_toTopOf="@id/iv_call">
+                app:layout_constraintTop_toTopOf="@id/iv_phone">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -168,7 +171,7 @@
                 android:src="@drawable/ic_calender_36"
                 app:layout_constraintEnd_toEndOf="@id/iv_profile"
                 app:layout_constraintStart_toStartOf="@id/iv_profile"
-                app:layout_constraintTop_toBottomOf="@id/til_call" />
+                app:layout_constraintTop_toBottomOf="@id/til_phone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_meeting"
@@ -236,6 +239,7 @@
                 app:layout_constraintTop_toBottomOf="@id/til_run">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_remark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top"

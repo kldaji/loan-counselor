@@ -8,10 +8,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentWriteClientBinding
 import com.kldaji.presentation.ui.ClientsViewModel
+import com.kldaji.presentation.util.DateConverter
+import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,9 +38,10 @@ class WriteClientFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         connectGenderDropDownAdapter()
         setDatePickerListener()
+        setNavigateToBack()
+        setCompleteClickListener()
     }
 
     private fun connectGenderDropDownAdapter() {
@@ -45,21 +50,63 @@ class WriteClientFragment : Fragment() {
     }
 
     private fun setDatePickerListener() {
-        val datePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select Date")
+        val meetingDatePicker = createDatePicker("Select meeting date")
+        val runDatePicker = createDatePicker("Select run date")
+        binding.tieMeeting.setOnClickListener {
+            meetingDatePicker.show(parentFragmentManager, "Meeting")
+        }
+        binding.tieRun.setOnClickListener {
+            runDatePicker.show(parentFragmentManager, "Run")
+        }
+        meetingDatePicker.addOnPositiveButtonClickListener {
+            Log.i(TAG, DateConverter.longToString(requireContext(), it))
+            binding.tieMeeting.setText(DateConverter.longToString(requireContext(), it))
+        }
+        runDatePicker.addOnPositiveButtonClickListener {
+            Log.i(TAG, DateConverter.longToString(requireContext(), it))
+            binding.tieRun.setText(DateConverter.longToString(requireContext(), it))
+        }
+    }
+
+    private fun createDatePicker(title: String): MaterialDatePicker<Long> {
+        return MaterialDatePicker.Builder.datePicker()
+            .setTitleText(title)
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
             .build()
-        binding.tieMeeting.setOnClickListener {
-            datePicker.show(parentFragmentManager, "Meeting")
-        }
-        binding.tieRun.setOnClickListener {
-            datePicker.show(parentFragmentManager, "Meeting")
-        }
+    }
 
-        datePicker.addOnPositiveButtonClickListener {
-            Log.i(TAG, it.toString())
+    private fun setNavigateToBack() {
+        binding.tbWriteClient.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
+    }
+
+    private fun setCompleteClickListener() {
+        binding.tbWriteClient.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.complete -> {
+                    val client = getClientInfo()
+                    Log.i(TAG, client.toString())
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun getClientInfo(): Client {
+        return Client(
+            name = binding.tieName.text.toString(),
+            birth = binding.tieBirth.text.toString(),
+            phone = binding.tiePhone.text.toString(),
+            loan = EnumConverter.stringToLoan(binding.rgWriteClient.checkedRadioButtonId),
+            gender = EnumConverter.stringToGender(binding.actGender.text.toString()),
+            meeting = DateConverter.stringToLong(requireContext(),
+                binding.tieMeeting.text.toString()),
+            run = DateConverter.stringToLong(requireContext(), binding.tieRun.text.toString()),
+            remark = binding.tieRemark.text.toString()
+        )
     }
 
     override fun onDestroyView() {
