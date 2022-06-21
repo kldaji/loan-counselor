@@ -2,10 +2,10 @@ package com.kldaji.loancounselor.di
 
 import com.kldaji.domain.ClientRepository
 import com.kldaji.domain.GetAllClientsUseCase
+import com.kldaji.domain.InsertClientUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -17,5 +17,11 @@ object UseCaseModule {
     @Singleton
     fun providesGetAllClientsUseCase(repository: ClientRepository): GetAllClientsUseCase {
         return GetAllClientsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesInsertClientUseCase(repository: ClientRepository): InsertClientUseCase {
+        return InsertClientUseCase(repository)
     }
 }

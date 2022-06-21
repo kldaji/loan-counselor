@@ -88,6 +88,8 @@ class WriteClientFragment : Fragment() {
                 R.id.complete -> {
                     val client = getClientInfo()
                     Log.i(TAG, client.toString())
+                    viewModel.insertClient(client)
+                    findNavController().popBackStack()
                     true
                 }
                 else -> false

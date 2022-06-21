@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kldaji.domain.Client
 import com.kldaji.domain.GetAllClientsUseCase
+import com.kldaji.domain.InsertClientUseCase
 import com.kldaji.presentation.R
 import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientsViewModel @Inject constructor(
     private val getAllClientsUseCase: GetAllClientsUseCase,
+    private val insertClientUseCase: InsertClientUseCase
 ) : ViewModel() {
     val scheduledClientViews = listOf(
         ScheduledClientView("미팅 예정 고객",
@@ -34,6 +36,14 @@ class ClientsViewModel @Inject constructor(
     fun fetchClients() {
         viewModelScope.launch(Dispatchers.IO) {
             _clients.postValue(getAllClientsUseCase())
+        }
+    }
+
+    fun insertClient(client: Client) {
+        viewModelScope.launch(Dispatchers.IO) {
+            insertClientUseCase(client)
+            // or do insertion sort to avoid fetch all clients overhead
+            fetchClients()
         }
     }
 }
