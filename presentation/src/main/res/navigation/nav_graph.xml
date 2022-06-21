@@ -14,8 +14,8 @@
             android:id="@+id/action_clientsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
         <action
-            android:id="@+id/action_clientsFragment_to_clientInfoFragment"
-            app:destination="@id/clientInfoFragment" />
+            android:id="@+id/action_clientsFragment_to_readClientFragment"
+            app:destination="@id/readClientFragment" />
         <action
             android:id="@+id/action_clientsFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_clientsFragment_to_calendarFragment"
             app:destination="@id/calendarFragment" />
+        <action
+            android:id="@+id/action_clientsFragment_to_writeClientFragment"
+            app:destination="@id/writeClientFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -32,10 +35,10 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/clientInfoFragment"
-        android:name="com.kldaji.presentation.ui.clientInfo.ClientInfoFragment"
-        android:label="fragment_client_info"
-        tools:layout="@layout/fragment_client_info" >
+        android:id="@+id/readClientFragment"
+        android:name="com.kldaji.presentation.ui.client.ReadClientFragment"
+        android:label="fragment_read_client"
+        tools:layout="@layout/fragment_read_client" >
         <argument
             android:name="client"
             app:argType="com.kldaji.domain.Client"
@@ -62,4 +65,9 @@
         android:name="com.kldaji.presentation.ui.calendar.CalendarFragment"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
+    <fragment
+        android:id="@+id/writeClientFragment"
+        android:name="com.kldaji.presentation.ui.client.WriteClientFragment"
+        android:label="fragment_write_client"
+        tools:layout="@layout/fragment_write_client" />
 </navigation>

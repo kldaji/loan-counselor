@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.kldaji.presentation.databinding.FragmentScheduledClientsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ScheduledClientsFragment : Fragment() {
     companion object {
         private const val TAG = "ScheduledClientsFragment"
