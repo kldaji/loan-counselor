@@ -65,7 +65,7 @@ class ClientsFragment : Fragment() {
     }
 
     private fun fetchClients() {
-//        viewModel.fetchClients()
+        viewModel.fetchClients()
     }
 
     private fun connectAdapters() {

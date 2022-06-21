@@ -1,11 +1,13 @@
 package com.kldaji.data
 
-class ClientLocalDataSourceImpl(private val clientDao: ClientDao): ClientLocalDataSource {
-    override fun getAllClients(): List<ClientEntity> {
+import javax.inject.Inject
+
+class ClientLocalDataSourceImpl @Inject constructor(private val clientDao: ClientDao): ClientLocalDataSource {
+    override suspend fun getAllClients(): List<ClientEntity> {
         return clientDao.getAllClients()
     }
 
-    override fun insertClient(clientEntity: ClientEntity) {
+    override suspend fun insertClient(clientEntity: ClientEntity) {
         clientDao.insertClient(clientEntity)
     }
 }

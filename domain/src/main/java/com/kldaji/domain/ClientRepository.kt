@@ -1,6 +1,6 @@
 package com.kldaji.domain
 
 interface ClientRepository {
-    fun getAllClients(): List<Client>
-    fun insertClient(client: Client)
+    suspend fun getAllClients(): List<Client>
+    suspend fun insertClient(client: Client)
 }

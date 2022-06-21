@@ -7,8 +7,8 @@ import androidx.room.Query
 @Dao
 interface ClientDao {
     @Query("SELECT * FROM client ORDER BY name ASC")
-    fun getAllClients(): List<ClientEntity>
+    suspend fun getAllClients(): List<ClientEntity> = listOf()
 
     @Insert
-    fun insertClient(clientEntity: ClientEntity)
+    suspend fun insertClient(clientEntity: ClientEntity)
 }

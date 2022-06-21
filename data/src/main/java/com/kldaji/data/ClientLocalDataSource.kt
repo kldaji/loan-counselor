@@ -1,6 +1,6 @@
 package com.kldaji.data
 
 interface ClientLocalDataSource {
-    fun getAllClients(): List<ClientEntity>
-    fun insertClient(clientEntity: ClientEntity)
+    suspend fun getAllClients(): List<ClientEntity>
+    suspend fun insertClient(clientEntity: ClientEntity)
 }

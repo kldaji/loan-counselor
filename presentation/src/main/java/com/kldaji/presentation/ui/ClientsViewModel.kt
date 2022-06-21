@@ -3,11 +3,20 @@ package com.kldaji.presentation.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kldaji.domain.Client
+import com.kldaji.domain.GetAllClientsUseCase
 import com.kldaji.presentation.R
 import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ClientsViewModel : ViewModel() {
+@HiltViewModel
+class ClientsViewModel @Inject constructor(
+    private val getAllClientsUseCase: GetAllClientsUseCase,
+) : ViewModel() {
     val scheduledClientViews = listOf(
         ScheduledClientView("미팅 예정 고객",
             "오늘의 미팅 예정 고객 명단 입니다!",
@@ -23,18 +32,8 @@ class ClientsViewModel : ViewModel() {
     val clients: LiveData<List<Client>> = _clients
 
     fun fetchClients() {
-//        _clients.value = listOf(
-//            Client(1, "김영욱", "97.07.03"),
-//            Client(2, "김영욱", "97.07.03"),
-//            Client(3, "김영욱", "97.07.03"),
-//            Client(4, "김영욱", "97.07.03"),
-//            Client(5, "김영욱", "97.07.03"),
-//            Client(6, "김영욱", "97.07.03"),
-//            Client(7, "김영욱", "97.07.03"),
-//            Client(8, "김영욱", "97.07.03"),
-//            Client(9, "김영욱", "97.07.03"),
-//            Client(10, "김영욱", "97.07.03"),
-//            Client(11, "김영욱", "97.07.03")
-//        )
+        viewModelScope.launch(Dispatchers.IO) {
+            _clients.postValue(getAllClientsUseCase())
+        }
     }
 }
