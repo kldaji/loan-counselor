@@ -52,7 +52,7 @@ class ClientsFragment : Fragment() {
                     true
                 }
                 R.id.add_client -> {
-                    this.findNavController().navigate(R.id.readClientFragment)
+                    this.findNavController().navigate(R.id.writeClientFragment)
                     true
                 }
                 R.id.setting -> {

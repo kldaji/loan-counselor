@@ -17,6 +17,8 @@ class ClientsViewModel : ViewModel() {
             R.drawable.ic_action_24)
     )
 
+    val genders = listOf("남자", "여자", "기타")
+
     private val _clients = MutableLiveData<List<Client>>()
     val clients: LiveData<List<Client>> = _clients
 
