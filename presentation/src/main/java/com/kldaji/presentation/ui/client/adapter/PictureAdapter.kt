@@ -5,11 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.kldaji.domain.Client
 import com.kldaji.presentation.databinding.ItemPictureBinding
 import com.kldaji.presentation.databinding.ItemPictureHeaderBinding
 import com.kldaji.presentation.ui.client.entity.PictureItemView
 
-class PictureAdapter : ListAdapter<PictureItemView, RecyclerView.ViewHolder>(diff) {
+class PictureAdapter(private val buttonClickListener: ButtonClickListener) :
+    ListAdapter<PictureItemView, RecyclerView.ViewHolder>(diff) {
+
+    fun submitListWithHeader(client: Client?) {
+        if (client == null) submitList(listOf(PictureItemView.Header))
+        else submitList(listOf(PictureItemView.Header) + client.pictures.map {
+            PictureItemView.PictureItem(it, it)
+        })
+    }
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
@@ -40,15 +49,15 @@ class PictureAdapter : ListAdapter<PictureItemView, RecyclerView.ViewHolder>(dif
     class HeaderViewHolder(private val binding: ItemPictureHeaderBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    class PictureViewHolder(private val binding: ItemPictureBinding) :
+    private inner class PictureViewHolder(private val binding: ItemPictureBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.setImageClickListener {
                 // image click
             }
-            binding.setButtonClickListener {
-                // delete button click
+            binding.ibPicture.setOnClickListener {
+                buttonClickListener.onButtonClick((getItem(bindingAdapterPosition) as PictureItemView.PictureItem).uri)
             }
         }
 
@@ -76,5 +85,9 @@ class PictureAdapter : ListAdapter<PictureItemView, RecyclerView.ViewHolder>(dif
                 return oldItem == newItem
             }
         }
+    }
+
+    interface ButtonClickListener {
+        fun onButtonClick(uri: String)
     }
 }

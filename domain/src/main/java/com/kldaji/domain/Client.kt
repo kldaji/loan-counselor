@@ -12,5 +12,6 @@ data class Client(
     val meeting: Long,
     val run: Long,
     val remark: String,
+    val pictures: List<String>
 ) : Serializable
 

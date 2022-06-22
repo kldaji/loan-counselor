@@ -25,5 +25,7 @@ data class ClientEntity(
     @ColumnInfo
     val run: Long,
     @ColumnInfo
-    val remark: String
+    val remark: String,
+    @ColumnInfo
+    val pictures: List<String>
 )

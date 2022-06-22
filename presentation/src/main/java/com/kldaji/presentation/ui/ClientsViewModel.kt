@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientsViewModel @Inject constructor(
     private val getAllClientsUseCase: GetAllClientsUseCase,
-    private val insertClientUseCase: InsertClientUseCase
+    private val insertClientUseCase: InsertClientUseCase,
 ) : ViewModel() {
     val scheduledClientViews = listOf(
         ScheduledClientView("미팅 예정 고객",
@@ -29,7 +29,7 @@ class ClientsViewModel @Inject constructor(
     )
 
     val genders = listOf("남자", "여자", "기타")
-    
+
     private val _clients = MutableLiveData<List<Client>>()
     val clients: LiveData<List<Client>> = _clients
 
@@ -45,5 +45,12 @@ class ClientsViewModel @Inject constructor(
             // or do insertion sort to avoid fetch all clients overhead
             fetchClients()
         }
+    }
+
+    private val _client = MutableLiveData<Client?>()
+    val client: LiveData<Client?> = _client
+
+    fun setClient(client: Client?) {
+        _client.value = client
     }
 }

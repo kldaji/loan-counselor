@@ -69,5 +69,11 @@
         android:id="@+id/writeClientFragment"
         android:name="com.kldaji.presentation.ui.client.WriteClientFragment"
         android:label="fragment_write_client"
-        tools:layout="@layout/fragment_write_client" />
+        tools:layout="@layout/fragment_write_client" >
+        <argument
+            android:name="client"
+            app:argType="com.kldaji.domain.Client"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

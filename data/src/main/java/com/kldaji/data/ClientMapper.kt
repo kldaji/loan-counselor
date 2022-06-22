@@ -13,7 +13,8 @@ object ClientMapper {
             gender = client.gender,
             meeting = client.meeting,
             run = client.run,
-            remark = client.remark
+            remark = client.remark,
+            pictures = client.pictures
         )
     }
 
@@ -27,7 +28,8 @@ object ClientMapper {
             gender = clientEntity.gender,
             meeting = clientEntity.meeting,
             run = clientEntity.run,
-            remark = clientEntity.remark
+            remark = clientEntity.remark,
+            pictures = clientEntity.pictures
         )
     }
 }

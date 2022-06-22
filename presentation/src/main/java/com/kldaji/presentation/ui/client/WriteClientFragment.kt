@@ -18,6 +18,7 @@ import com.kldaji.presentation.ui.client.adapter.PictureAdapter
 import com.kldaji.presentation.util.DateConverter
 import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.navigation.fragment.navArgs
 
 @AndroidEntryPoint
 class WriteClientFragment : Fragment() {
@@ -28,6 +29,8 @@ class WriteClientFragment : Fragment() {
     private var _binding: FragmentWriteClientBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<ClientsViewModel>()
+    private val navArgs: WriteClientFragmentArgs by navArgs()
+    private lateinit var pictureAdapter: PictureAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +47,8 @@ class WriteClientFragment : Fragment() {
         setNavigateToBack()
         setCompleteClickListener()
         setPictureAdapter()
+        setClient()
+        addPicturesObserver()
     }
 
     private fun connectGenderDropDownAdapter() {
@@ -109,13 +114,28 @@ class WriteClientFragment : Fragment() {
             meeting = DateConverter.stringToLong(requireContext(),
                 binding.tieMeeting.text.toString()),
             run = DateConverter.stringToLong(requireContext(), binding.tieRun.text.toString()),
-            remark = binding.tieRemark.text.toString()
+            remark = binding.tieRemark.text.toString(),
+            pictures = viewModel.client.value?.pictures ?: listOf()
         )
     }
 
     private fun setPictureAdapter() {
-        val adapter = PictureAdapter()
-        binding.rvWriteClient.adapter = adapter
+        pictureAdapter = PictureAdapter(object : PictureAdapter.ButtonClickListener {
+            override fun onButtonClick(uri: String) {
+                // delete picture
+            }
+        })
+        binding.rvWriteClient.adapter = pictureAdapter
+    }
+
+    private fun setClient() {
+        viewModel.setClient(navArgs.client)
+    }
+
+    private fun addPicturesObserver() {
+        viewModel.client.observe(viewLifecycleOwner) {
+            pictureAdapter.submitListWithHeader(it)
+        }
     }
 
     override fun onDestroyView() {
