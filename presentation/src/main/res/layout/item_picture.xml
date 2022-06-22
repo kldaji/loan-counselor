@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:id="@+id/iv_picture"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:contentDescription="@string/iv_picture"
-        android:padding="8dp"
-        android:src="@drawable/ic_launcher_background" />
+    <data>
 
-    <ImageButton
-        android:id="@+id/ib_picture"
+        <variable
+            name="imageClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="buttonClickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:background="@drawable/ic_delete_18"
-        android:contentDescription="@string/ib_picture" />
-</FrameLayout>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_picture"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:contentDescription="@string/iv_picture"
+            android:onClick="@{imageClickListener}"
+            android:padding="8dp"
+            android:src="@drawable/ic_launcher_background" />
+
+        <ImageButton
+            android:id="@+id/ib_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:background="@drawable/ic_delete_18"
+            android:contentDescription="@string/ib_picture"
+            android:onClick="@{buttonClickListener}" />
+    </FrameLayout>
+</layout>

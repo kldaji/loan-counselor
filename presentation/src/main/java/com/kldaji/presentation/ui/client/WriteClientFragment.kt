@@ -14,6 +14,7 @@ import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentWriteClientBinding
 import com.kldaji.presentation.ui.ClientsViewModel
+import com.kldaji.presentation.ui.client.adapter.PictureAdapter
 import com.kldaji.presentation.util.DateConverter
 import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +43,7 @@ class WriteClientFragment : Fragment() {
         setDatePickerListener()
         setNavigateToBack()
         setCompleteClickListener()
+        setPictureAdapter()
     }
 
     private fun connectGenderDropDownAdapter() {
@@ -109,6 +111,11 @@ class WriteClientFragment : Fragment() {
             run = DateConverter.stringToLong(requireContext(), binding.tieRun.text.toString()),
             remark = binding.tieRemark.text.toString()
         )
+    }
+
+    private fun setPictureAdapter() {
+        val adapter = PictureAdapter()
+        binding.rvWriteClient.adapter = adapter
     }
 
     override fun onDestroyView() {
