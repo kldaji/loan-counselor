@@ -1,16 +1,22 @@
 package com.kldaji.presentation.ui.client
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kldaji.domain.Client
 import com.kldaji.presentation.R
@@ -20,7 +26,9 @@ import com.kldaji.presentation.ui.client.adapter.PictureAdapter
 import com.kldaji.presentation.util.DateConverter
 import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.navigation.fragment.navArgs
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class WriteClientFragment : Fragment() {
@@ -37,6 +45,22 @@ class WriteClientFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             Log.i(TAG, uri.toString())
             if (uri != null) viewModel.addPicture(uri)
+        }
+    private var pictureUri: Uri? = null
+    private val takePictureCallback =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                Log.i(TAG, pictureUri.toString())
+                viewModel.addPicture(pictureUri)
+            }
+        }
+    private val requestPermissionCallback =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Log.i(TAG, "permission is granted")
+            } else {
+                Log.i(TAG, "permission is not granted")
+            }
         }
 
     override fun onCreateView(
@@ -130,7 +154,8 @@ class WriteClientFragment : Fragment() {
         pictureAdapter = PictureAdapter(
             object : PictureAdapter.ButtonClickListener { // camera button
                 override fun onButtonClick(uri: String?) {
-                    getContentCallback.launch("image/*")
+//                    getContentCallback.launch("image/*")
+                    requestPermission() // camera
                 }
             },
             object : PictureAdapter.ButtonClickListener { // delete button
@@ -139,6 +164,34 @@ class WriteClientFragment : Fragment() {
                 }
             })
         binding.rvWriteClient.adapter = pictureAdapter
+    }
+
+    private fun requestPermission() {
+        when {
+            ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
+                val pictureFile = createImageFile()
+                Log.i(TAG, pictureFile.absolutePath)
+                pictureUri = FileProvider.getUriForFile(requireContext(),
+                    "com.kldaji.loancounselor.fileprovider",
+                    pictureFile)
+                takePictureCallback.launch(pictureUri)
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                // explain with UI why the permission is needed
+                requestPermissionCallback.launch(Manifest.permission.CAMERA)
+            }
+            else -> {
+                requestPermissionCallback.launch(Manifest.permission.CAMERA)
+            }
+        }
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+//        val storageDir = requireContext().filesDir
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
     }
 
     private fun setClient() {

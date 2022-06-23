@@ -55,7 +55,9 @@ class ClientsViewModel @Inject constructor(
         _pictures.value = client?.pictures ?: listOf()
     }
 
-    fun addPicture(uri: Uri) {
+    fun addPicture(uri: Uri?) {
+        uri ?: return
+
         val tempPictures = _pictures.value?.toMutableList() ?: return
         tempPictures.add(uri.toString())
         _pictures.value = tempPictures
