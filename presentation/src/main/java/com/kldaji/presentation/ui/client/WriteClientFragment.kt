@@ -161,8 +161,8 @@ class WriteClientFragment : Fragment() {
                 }
             },
             object : PictureAdapter.ButtonClickListener { // delete button
-                override fun onButtonClick(uri: String?) {
-                    // delete picture
+                override fun onButtonClick(uri: String) {
+                    viewModel.deletePicture(uri)
                 }
             })
         binding.rvWriteClient.adapter = pictureAdapter

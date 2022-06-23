@@ -62,4 +62,10 @@ class ClientsViewModel @Inject constructor(
         tempPictures.add(uri.toString())
         _pictures.value = tempPictures
     }
+
+    fun deletePicture(uri: String) {
+        val tempPictures = _pictures.value?.toMutableList() ?: return
+        tempPictures.remove(uri)
+        _pictures.value = tempPictures
+    }
 }

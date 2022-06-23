@@ -120,6 +120,6 @@ class PictureAdapter(
     }
 
     interface ButtonClickListener {
-        fun onButtonClick(uri: String?)
+        fun onButtonClick(uri: String)
     }
 }
