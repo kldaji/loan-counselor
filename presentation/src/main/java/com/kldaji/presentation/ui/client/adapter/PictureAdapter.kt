@@ -1,5 +1,6 @@
 package com.kldaji.presentation.ui.client.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,13 +10,16 @@ import com.kldaji.domain.Client
 import com.kldaji.presentation.databinding.ItemPictureBinding
 import com.kldaji.presentation.databinding.ItemPictureHeaderBinding
 import com.kldaji.presentation.ui.client.entity.PictureItemView
+import java.lang.NullPointerException
 
-class PictureAdapter(private val buttonClickListener: ButtonClickListener) :
+class PictureAdapter(
+    private val cameraButtonClickListener: ButtonClickListener,
+    private val deleteButtonClickListener: ButtonClickListener,
+) :
     ListAdapter<PictureItemView, RecyclerView.ViewHolder>(diff) {
 
-    fun submitListWithHeader(client: Client?) {
-        if (client == null) submitList(listOf(PictureItemView.Header))
-        else submitList(listOf(PictureItemView.Header) + client.pictures.map {
+    fun submitListWithHeader(pictures: List<String>) {
+        submitList(listOf(PictureItemView.Header) + pictures.map {
             PictureItemView.PictureItem(it, it)
         })
     }
@@ -46,8 +50,14 @@ class PictureAdapter(private val buttonClickListener: ButtonClickListener) :
         }
     }
 
-    class HeaderViewHolder(private val binding: ItemPictureHeaderBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    private inner class HeaderViewHolder(private val binding: ItemPictureHeaderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.ivPictureHeader.setOnClickListener {
+                cameraButtonClickListener.onButtonClick(null)
+            }
+        }
+    }
 
     private inner class PictureViewHolder(private val binding: ItemPictureBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -57,12 +67,18 @@ class PictureAdapter(private val buttonClickListener: ButtonClickListener) :
                 // image click
             }
             binding.ibPicture.setOnClickListener {
-                buttonClickListener.onButtonClick((getItem(bindingAdapterPosition) as PictureItemView.PictureItem).uri)
+                deleteButtonClickListener.onButtonClick((getItem(bindingAdapterPosition) as PictureItemView.PictureItem).uri)
             }
         }
 
-        fun bind(uri: String) {
-            // set image uri
+        fun bind(uriString: String) {
+            try {
+                val uri = Uri.parse(uriString)
+                binding.ivPicture.setImageURI(uri)
+                binding.ivPicture.clipToOutline = true
+            } catch (e: NullPointerException) {
+
+            }
         }
     }
 
@@ -88,6 +104,6 @@ class PictureAdapter(private val buttonClickListener: ButtonClickListener) :
     }
 
     interface ButtonClickListener {
-        fun onButtonClick(uri: String)
+        fun onButtonClick(uri: String?)
     }
 }

@@ -1,11 +1,13 @@
 package com.kldaji.presentation.ui.client
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -31,6 +33,11 @@ class WriteClientFragment : Fragment() {
     private val viewModel by activityViewModels<ClientsViewModel>()
     private val navArgs: WriteClientFragmentArgs by navArgs()
     private lateinit var pictureAdapter: PictureAdapter
+    private val getContentCallback =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            Log.i(TAG, uri.toString())
+            if (uri != null) viewModel.addPicture(uri)
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,25 +122,32 @@ class WriteClientFragment : Fragment() {
                 binding.tieMeeting.text.toString()),
             run = DateConverter.stringToLong(requireContext(), binding.tieRun.text.toString()),
             remark = binding.tieRemark.text.toString(),
-            pictures = viewModel.client.value?.pictures ?: listOf()
+            pictures = viewModel.pictures.value ?: listOf()
         )
     }
 
     private fun setPictureAdapter() {
-        pictureAdapter = PictureAdapter(object : PictureAdapter.ButtonClickListener {
-            override fun onButtonClick(uri: String) {
-                // delete picture
-            }
-        })
+        pictureAdapter = PictureAdapter(
+            object : PictureAdapter.ButtonClickListener { // camera button
+                override fun onButtonClick(uri: String?) {
+                    getContentCallback.launch("image/*")
+                }
+            },
+            object : PictureAdapter.ButtonClickListener { // delete button
+                override fun onButtonClick(uri: String?) {
+                    // delete picture
+                }
+            })
         binding.rvWriteClient.adapter = pictureAdapter
     }
 
     private fun setClient() {
-        viewModel.setClient(navArgs.client)
+        viewModel.fetchPictures(navArgs.client)
     }
 
     private fun addPicturesObserver() {
-        viewModel.client.observe(viewLifecycleOwner) {
+        viewModel.pictures.observe(viewLifecycleOwner) {
+            Log.i(TAG, it.toString())
             pictureAdapter.submitListWithHeader(it)
         }
     }

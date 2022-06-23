@@ -1,5 +1,6 @@
 package com.kldaji.presentation.ui
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -47,10 +48,16 @@ class ClientsViewModel @Inject constructor(
         }
     }
 
-    private val _client = MutableLiveData<Client?>()
-    val client: LiveData<Client?> = _client
+    private val _pictures = MutableLiveData<List<String>>()
+    val pictures: LiveData<List<String>> = _pictures
 
-    fun setClient(client: Client?) {
-        _client.value = client
+    fun fetchPictures(client: Client?) {
+        _pictures.value = client?.pictures ?: listOf()
+    }
+
+    fun addPicture(uri: Uri) {
+        val tempPictures = _pictures.value?.toMutableList() ?: return
+        tempPictures.add(uri.toString())
+        _pictures.value = tempPictures
     }
 }
