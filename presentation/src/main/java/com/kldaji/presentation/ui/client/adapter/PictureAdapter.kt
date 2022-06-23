@@ -2,18 +2,19 @@ package com.kldaji.presentation.ui.client.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.kldaji.domain.Client
+import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.ItemPictureBinding
 import com.kldaji.presentation.databinding.ItemPictureHeaderBinding
 import com.kldaji.presentation.ui.client.entity.PictureItemView
-import java.lang.NullPointerException
 
 class PictureAdapter(
-    private val cameraButtonClickListener: ButtonClickListener,
+    private val cameraButtonClickListener: CameraButtonClickListener,
     private val deleteButtonClickListener: ButtonClickListener,
 ) :
     ListAdapter<PictureItemView, RecyclerView.ViewHolder>(diff) {
@@ -52,10 +53,21 @@ class PictureAdapter(
 
     private inner class HeaderViewHolder(private val binding: ItemPictureHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         init {
             binding.ivPictureHeader.setOnClickListener {
-                cameraButtonClickListener.onButtonClick(null)
+                showPopupMenu(it)
             }
+        }
+
+        private fun showPopupMenu(anchorView: View) {
+            val popupMenu = PopupMenu(binding.root.context, anchorView)
+            popupMenu.menuInflater.inflate(R.menu.camera_button, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                cameraButtonClickListener.onButtonClick(menuItem.itemId)
+                true
+            }
+            popupMenu.show()
         }
     }
 
@@ -101,6 +113,10 @@ class PictureAdapter(
                 return oldItem == newItem
             }
         }
+    }
+
+    interface CameraButtonClickListener {
+        fun onButtonClick(menuRes: Int)
     }
 
     interface ButtonClickListener {

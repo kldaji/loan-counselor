@@ -152,10 +152,12 @@ class WriteClientFragment : Fragment() {
 
     private fun setPictureAdapter() {
         pictureAdapter = PictureAdapter(
-            object : PictureAdapter.ButtonClickListener { // camera button
-                override fun onButtonClick(uri: String?) {
-//                    getContentCallback.launch("image/*")
-                    requestPermission() // camera
+            object : PictureAdapter.CameraButtonClickListener { // camera button
+                override fun onButtonClick(menuRes: Int) {
+                    when (menuRes) {
+                        R.id.take_picture -> requestPermission()
+                        else -> getContentCallback.launch("image/*")
+                    }
                 }
             },
             object : PictureAdapter.ButtonClickListener { // delete button
