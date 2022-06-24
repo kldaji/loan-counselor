@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kldaji.presentation.databinding.FragmentFullPictureViewPagerBinding
@@ -35,10 +36,20 @@ class FullPictureViewPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        attachTabLayout()
+        navigateToBack()
+    }
+
+    private fun attachTabLayout() {
         TabLayoutMediator(binding.tlFullPicture, binding.vpFullPicture) { tab, position -> }
             .attach()
     }
 
+    private fun navigateToBack() {
+        binding.ivFullPictureClose.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

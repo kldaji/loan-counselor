@@ -7,6 +7,13 @@
     android:background="@color/black"
     tools:context=".ui.client.FullPictureViewPagerFragment">
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_full_picture"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/tl_full_picture"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/iv_full_picture_close"
         android:layout_width="wrap_content"
@@ -15,13 +22,6 @@
         android:padding="16dp"
         android:src="@drawable/ic_close_white_36"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_full_picture"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tl_full_picture"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
