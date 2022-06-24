@@ -69,5 +69,24 @@
         android:id="@+id/writeClientFragment"
         android:name="com.kldaji.presentation.ui.client.WriteClientFragment"
         android:label="fragment_write_client"
-        tools:layout="@layout/fragment_write_client" />
+        tools:layout="@layout/fragment_write_client" >
+        <argument
+            android:name="client"
+            app:argType="com.kldaji.domain.Client"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_writeClientFragment_to_fullPictureFragment"
+            app:destination="@id/fullPictureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullPictureFragment"
+        android:name="com.kldaji.presentation.ui.client.FullPictureViewPagerFragment"
+        android:label="fragment_full_picture"
+        tools:layout="@layout/fragment_full_picture_view_pager" >
+        <argument
+            android:name="uri"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
 </navigation>

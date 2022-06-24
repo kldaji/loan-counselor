@@ -52,7 +52,8 @@ class ClientsFragment : Fragment() {
                     true
                 }
                 R.id.add_client -> {
-                    this.findNavController().navigate(R.id.writeClientFragment)
+                    val direction = ClientsFragmentDirections.actionClientsFragmentToWriteClientFragment()
+                    this.findNavController().navigate(direction)
                     true
                 }
                 R.id.setting -> {

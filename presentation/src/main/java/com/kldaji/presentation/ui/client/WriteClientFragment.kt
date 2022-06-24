@@ -1,22 +1,34 @@
 package com.kldaji.presentation.ui.client
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentWriteClientBinding
 import com.kldaji.presentation.ui.ClientsViewModel
+import com.kldaji.presentation.ui.client.adapter.PictureAdapter
 import com.kldaji.presentation.util.DateConverter
 import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class WriteClientFragment : Fragment() {
@@ -27,6 +39,29 @@ class WriteClientFragment : Fragment() {
     private var _binding: FragmentWriteClientBinding? = null
     private val binding get() = _binding!!
     private val viewModel by activityViewModels<ClientsViewModel>()
+    private val navArgs: WriteClientFragmentArgs by navArgs()
+    private lateinit var pictureAdapter: PictureAdapter
+    private val getContentCallback =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            Log.i(TAG, uri.toString())
+            if (uri != null) viewModel.addPicture(uri)
+        }
+    private var pictureUri: Uri? = null
+    private val takePictureCallback =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                Log.i(TAG, pictureUri.toString())
+                viewModel.addPicture(pictureUri)
+            }
+        }
+    private val requestPermissionCallback =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Log.i(TAG, "permission is granted")
+            } else {
+                Log.i(TAG, "permission is not granted")
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +77,9 @@ class WriteClientFragment : Fragment() {
         setDatePickerListener()
         setNavigateToBack()
         setCompleteClickListener()
+        setPictureAdapter()
+        setClient()
+        addPicturesObserver()
     }
 
     private fun connectGenderDropDownAdapter() {
@@ -107,8 +145,66 @@ class WriteClientFragment : Fragment() {
             meeting = DateConverter.stringToLong(requireContext(),
                 binding.tieMeeting.text.toString()),
             run = DateConverter.stringToLong(requireContext(), binding.tieRun.text.toString()),
-            remark = binding.tieRemark.text.toString()
+            remark = binding.tieRemark.text.toString(),
+            pictures = viewModel.pictures.value ?: listOf()
         )
+    }
+
+    private fun setPictureAdapter() {
+        pictureAdapter = PictureAdapter(
+            object : PictureAdapter.CameraButtonClickListener { // camera button
+                override fun onButtonClick(menuRes: Int) {
+                    when (menuRes) {
+                        R.id.take_picture -> requestPermission()
+                        else -> getContentCallback.launch("image/*")
+                    }
+                }
+            },
+            object : PictureAdapter.ButtonClickListener { // delete button
+                override fun onButtonClick(uri: String) {
+                    viewModel.deletePicture(uri)
+                }
+            })
+        binding.rvWriteClient.adapter = pictureAdapter
+    }
+
+    private fun requestPermission() {
+        when {
+            ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
+                val pictureFile = createImageFile()
+                Log.i(TAG, pictureFile.absolutePath)
+                pictureUri = FileProvider.getUriForFile(requireContext(),
+                    "com.kldaji.loancounselor.fileprovider",
+                    pictureFile)
+                takePictureCallback.launch(pictureUri)
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                // explain with UI why the permission is needed
+                requestPermissionCallback.launch(Manifest.permission.CAMERA)
+            }
+            else -> {
+                requestPermissionCallback.launch(Manifest.permission.CAMERA)
+            }
+        }
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+//        val storageDir = requireContext().filesDir
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
+    }
+
+    private fun setClient() {
+        viewModel.fetchPictures(navArgs.client)
+    }
+
+    private fun addPicturesObserver() {
+        viewModel.pictures.observe(viewLifecycleOwner) {
+            Log.i(TAG, it.toString())
+            pictureAdapter.submitListWithHeader(it)
+        }
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,6 @@
 package com.kldaji.presentation.ui
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientsViewModel @Inject constructor(
     private val getAllClientsUseCase: GetAllClientsUseCase,
-    private val insertClientUseCase: InsertClientUseCase
+    private val insertClientUseCase: InsertClientUseCase,
 ) : ViewModel() {
     val scheduledClientViews = listOf(
         ScheduledClientView("미팅 예정 고객",
@@ -29,7 +30,7 @@ class ClientsViewModel @Inject constructor(
     )
 
     val genders = listOf("남자", "여자", "기타")
-    
+
     private val _clients = MutableLiveData<List<Client>>()
     val clients: LiveData<List<Client>> = _clients
 
@@ -45,5 +46,26 @@ class ClientsViewModel @Inject constructor(
             // or do insertion sort to avoid fetch all clients overhead
             fetchClients()
         }
+    }
+
+    private val _pictures = MutableLiveData<List<String>>()
+    val pictures: LiveData<List<String>> = _pictures
+
+    fun fetchPictures(client: Client?) {
+        _pictures.value = client?.pictures ?: listOf()
+    }
+
+    fun addPicture(uri: Uri?) {
+        uri ?: return
+
+        val tempPictures = _pictures.value?.toMutableList() ?: return
+        tempPictures.add(uri.toString())
+        _pictures.value = tempPictures
+    }
+
+    fun deletePicture(uri: String) {
+        val tempPictures = _pictures.value?.toMutableList() ?: return
+        tempPictures.remove(uri)
+        _pictures.value = tempPictures
     }
 }
