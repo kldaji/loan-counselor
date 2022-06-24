@@ -1,16 +1,17 @@
 package com.kldaji.presentation.ui.client.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.ItemPictureBinding
 import com.kldaji.presentation.databinding.ItemPictureHeaderBinding
+import com.kldaji.presentation.ui.client.WriteClientFragmentDirections
 import com.kldaji.presentation.ui.client.entity.PictureItemView
 
 class PictureAdapter(
@@ -46,7 +47,7 @@ class PictureAdapter(
         when (holder) {
             is PictureViewHolder -> {
                 val pictureItem = getItem(position) as PictureItemView.PictureItem
-                holder.bind(pictureItem.uri)
+                holder.bind(pictureItem)
             }
         }
     }
@@ -75,22 +76,25 @@ class PictureAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.setImageClickListener {
-                // image click
+            binding.setImageClickListener { v ->
+                binding.pictureItem?.let { pictureItem ->
+                    val direction =
+                        WriteClientFragmentDirections.actionWriteClientFragmentToFullPictureFragment(
+                            pictureItem.uri)
+                    v.findNavController().navigate(direction)
+                }
             }
             binding.ibPicture.setOnClickListener {
-                deleteButtonClickListener.onButtonClick((getItem(bindingAdapterPosition) as PictureItemView.PictureItem).uri)
+                binding.pictureItem?.let { pictureItem ->
+                    deleteButtonClickListener.onButtonClick(pictureItem.uri)
+                }
             }
         }
 
-        fun bind(uriString: String) {
-            try {
-                val uri = Uri.parse(uriString)
-                binding.ivPicture.setImageURI(uri)
-                binding.ivPicture.clipToOutline = true
-            } catch (e: NullPointerException) {
-
-            }
+        fun bind(pictureItem: PictureItemView.PictureItem) {
+            binding.pictureItem = pictureItem
+            binding.ivPicture.clipToOutline = true
+            binding.executePendingBindings()
         }
     }
 
