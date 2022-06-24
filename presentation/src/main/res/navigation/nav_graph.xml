@@ -81,9 +81,9 @@
     </fragment>
     <fragment
         android:id="@+id/fullPictureFragment"
-        android:name="com.kldaji.presentation.ui.client.FullPictureFragment"
+        android:name="com.kldaji.presentation.ui.client.FullPictureViewPagerFragment"
         android:label="fragment_full_picture"
-        tools:layout="@layout/fragment_full_picture" >
+        tools:layout="@layout/fragment_full_picture_view_pager" >
         <argument
             android:name="uri"
             app:argType="string"
