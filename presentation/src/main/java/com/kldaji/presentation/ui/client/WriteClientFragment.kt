@@ -1,6 +1,7 @@
 package com.kldaji.presentation.ui.client
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -42,9 +43,11 @@ class WriteClientFragment : Fragment() {
     private val navArgs: WriteClientFragmentArgs by navArgs()
     private lateinit var pictureAdapter: PictureAdapter
     private val getContentCallback =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            Log.i(TAG, uri.toString())
-            if (uri != null) viewModel.addPicture(uri)
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.data?.data?.let {
+                requireActivity().contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                viewModel.addPicture(it)
+            }
         }
     private var pictureUri: Uri? = null
     private val takePictureCallback =
@@ -156,7 +159,11 @@ class WriteClientFragment : Fragment() {
                 override fun onButtonClick(menuRes: Int) {
                     when (menuRes) {
                         R.id.take_picture -> requestPermission()
-                        else -> getContentCallback.launch("image/*")
+                        else -> {
+                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                            intent.type = "image/*"
+                            getContentCallback.launch(intent)
+                        }
                     }
                 }
             },
