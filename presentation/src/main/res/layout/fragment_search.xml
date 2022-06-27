@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="@id/til_search" />
 
     <TextView
-        android:id="@+id/tv_search_client_result"
+        android:id="@+id/tv_search_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@id/til_search" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search_client_search_result_clients"
+        android:id="@+id/rv_search_result"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
@@ -65,7 +65,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/til_search"
-        app:layout_constraintTop_toBottomOf="@+id/tv_search_client_result"
+        app:layout_constraintTop_toBottomOf="@+id/tv_search_result"
         tools:listitem="@layout/item_client" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

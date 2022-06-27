@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kldaji.presentation.databinding.FragmentSearchBinding
+import com.kldaji.presentation.ui.search.adapter.SearchResultAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,6 +19,8 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        val adapter = SearchResultAdapter(listOf())
+        binding.rvSearchResult.adapter = adapter
         return binding.root
     }
 
