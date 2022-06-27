@@ -80,6 +80,13 @@
         <action
             android:id="@+id/action_writeClientFragment_to_fullPictureFragment"
             app:destination="@id/fullPictureFragment" />
+        <argument
+            android:name="mode"
+            app:argType="com.kldaji.presentation.ui.client.entity.Mode" />
+        <action
+            android:id="@+id/action_writeClientFragment_to_readClientFragment"
+            app:destination="@id/readClientFragment"
+            app:popUpTo="@id/clientsFragment" />
     </fragment>
     <fragment
         android:id="@+id/fullPictureFragment"

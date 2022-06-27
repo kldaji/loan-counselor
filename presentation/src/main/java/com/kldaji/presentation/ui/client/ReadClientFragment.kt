@@ -18,6 +18,7 @@ import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentReadClientBinding
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.client.adapter.BigPictureAdapter
+import com.kldaji.presentation.ui.client.entity.Mode
 import com.kldaji.presentation.ui.client.entity.PictureItemView
 import com.kldaji.presentation.util.DateConverter
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +48,8 @@ class ReadClientFragment : Fragment() {
     ): View {
         _binding = FragmentReadClientBinding.inflate(inflater, container, false)
         binding.client = navArgs.client
-        binding.tieMeeting.setText(DateConverter.longToString(requireContext(), navArgs.client.meeting))
+        binding.tieMeeting.setText(DateConverter.longToString(requireContext(),
+            navArgs.client.meeting))
         binding.tieRun.setText(DateConverter.longToString(requireContext(), navArgs.client.run))
         requestPermission()
         return binding.root
@@ -88,7 +90,7 @@ class ReadClientFragment : Fragment() {
                 R.id.edit -> {
                     val direction =
                         ReadClientFragmentDirections.actionReadClientFragmentToWriteClientFragment(
-                            navArgs.client)
+                            Mode.EDIT, navArgs.client)
                     findNavController().navigate(direction)
                     true
                 }

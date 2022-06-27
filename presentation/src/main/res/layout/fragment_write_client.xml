@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:checkedButton="@{client.loan == Loan.DAMBO ? @id/rb_dambo : @id/rb_jeonse}"
+                    android:checkedButton="@{client.loan == Loan.JEONSE ? @id/rb_jeonse : @id/rb_dambo}"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_constraintTop_toBottomOf="@id/v_line">

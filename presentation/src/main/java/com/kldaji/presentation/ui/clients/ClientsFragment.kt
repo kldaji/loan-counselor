@@ -12,6 +12,7 @@ import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentClientsBinding
 import com.kldaji.presentation.ui.ClientsViewModel
+import com.kldaji.presentation.ui.client.entity.Mode
 import com.kldaji.presentation.ui.clients.adapter.ClientAdapter
 import com.kldaji.presentation.ui.clients.adapter.ScheduledClientViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +53,8 @@ class ClientsFragment : Fragment() {
                     true
                 }
                 R.id.add_client -> {
-                    val direction = ClientsFragmentDirections.actionClientsFragmentToWriteClientFragment()
+                    val direction =
+                        ClientsFragmentDirections.actionClientsFragmentToWriteClientFragment(mode = Mode.CREATE)
                     this.findNavController().navigate(direction)
                     true
                 }

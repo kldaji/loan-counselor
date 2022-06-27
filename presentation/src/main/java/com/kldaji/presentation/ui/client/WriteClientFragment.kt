@@ -24,6 +24,7 @@ import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentWriteClientBinding
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.client.adapter.PictureAdapter
+import com.kldaji.presentation.ui.client.entity.Mode
 import com.kldaji.presentation.util.DateConverter
 import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +46,8 @@ class WriteClientFragment : Fragment() {
     private val getContentCallback =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             result.data?.data?.let {
-                requireActivity().contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                requireActivity().contentResolver.takePersistableUriPermission(it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 viewModel.addPicture(it)
             }
         }
@@ -132,10 +134,22 @@ class WriteClientFragment : Fragment() {
         binding.tbWriteClient.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.complete -> {
-                    val client = getClientInfo()
-                    Log.i(TAG, client.toString())
-                    viewModel.insertClient(client)
-                    findNavController().popBackStack()
+                    val id = navArgs.client?.id ?: 0L
+                    val client = getClientInfo(id)
+                    when (navArgs.mode) {
+                        Mode.CREATE -> {
+                            viewModel.insertClient(client)
+                            findNavController().popBackStack()
+                        }
+                        Mode.EDIT -> {
+                            viewModel.updateClient(navArgs.client!!, client)
+                            val direction =
+                                WriteClientFragmentDirections.actionWriteClientFragmentToReadClientFragment(
+                                    client)
+                            Log.i(TAG, client.toString())
+                            findNavController().navigate(direction)
+                        }
+                    }
                     true
                 }
                 else -> false
@@ -143,8 +157,9 @@ class WriteClientFragment : Fragment() {
         }
     }
 
-    private fun getClientInfo(): Client {
+    private fun getClientInfo(id: Long): Client {
         return Client(
+            id = id,
             name = binding.tieName.text.toString(),
             birth = binding.tieBirth.text.toString(),
             phone = binding.tiePhone.text.toString(),
