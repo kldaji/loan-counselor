@@ -95,7 +95,9 @@ class ReadClientFragment : Fragment() {
                     findNavController().navigate(direction)
                     true
                 }
-                R.id.delete -> { // delete
+                R.id.delete -> {
+                    viewModel.deleteClient(navArgs.client)
+                    findNavController().popBackStack()
                     true
                 }
                 else -> false
