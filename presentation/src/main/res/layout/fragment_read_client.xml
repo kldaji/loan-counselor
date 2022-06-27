@@ -1,13 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.kldaji.presentation.ui.client.ReadClientFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+        <variable
+            name="client"
+            type="com.kldaji.domain.Client" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ReadClient Fragment" />
+        android:layout_height="wrap_content"
+        tools:context="com.kldaji.presentation.ui.client.ReadClientFragment">
 
-</FrameLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp_read_client"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:layout_constraintBottom_toTopOf="@id/tl_read_client"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:layout_editor_absoluteX="0dp" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tl_read_client"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintBottom_toBottomOf="@id/vp_read_client"
+                    app:tabBackground="@drawable/tab_indicator"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp" />
+
+                <RadioGroup
+                    android:id="@+id/rg_read_client"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:checkedButton="@id/rb_dambo"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/tl_read_client">
+
+                    <RadioButton
+                        android:id="@+id/rb_dambo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/rb_write_client_dambo" />
+
+                    <RadioButton
+                        android:id="@+id/rb_jeonse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/rb_write_client_jeonse" />
+                </RadioGroup>
+
+                <ImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:contentDescription="@string/iv_write_client_profile"
+                    android:src="@drawable/ic_person_36"
+                    app:layout_constraintEnd_toStartOf="@id/til_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rg_read_client" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="36dp"
+                    android:hint="@string/til_read_client_name"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_profile"
+                    app:layout_constraintTop_toTopOf="@id/iv_profile">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="@{client.name}"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_birth"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:hint="@string/til_read_client_birth"
+                    app:layout_constraintEnd_toStartOf="@id/til_gender"
+                    app:layout_constraintStart_toStartOf="@id/til_name"
+                    app:layout_constraintTop_toBottomOf="@id/til_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_birth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="@{client.birth}"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:hint="@string/til_read_client_gender"
+                    app:layout_constraintEnd_toEndOf="@id/til_name"
+                    app:layout_constraintStart_toEndOf="@id/til_birth"
+                    app:layout_constraintTop_toTopOf="@id/til_birth">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/act_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="@{client.gender.toString()}"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/iv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:contentDescription="@string/iv_write_client_call"
+                    android:src="@drawable/ic_call_36"
+                    app:layout_constraintEnd_toEndOf="@id/iv_profile"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@id/iv_profile"
+                    app:layout_constraintTop_toBottomOf="@id/til_birth" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="36dp"
+                    android:hint="@string/til_read_client_phone"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_profile"
+                    app:layout_constraintTop_toTopOf="@id/iv_phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:inputType="number"
+                        android:text="@{client.phone}"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/iv_calender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:contentDescription="@string/iv_write_client_calendar"
+                    android:src="@drawable/ic_calender_36"
+                    app:layout_constraintEnd_toEndOf="@id/iv_profile"
+                    app:layout_constraintStart_toStartOf="@id/iv_profile"
+                    app:layout_constraintTop_toBottomOf="@id/til_phone" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_meeting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="36dp"
+                    android:hint="@string/til_read_client_meeting"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_calender"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_profile"
+                    app:layout_constraintTop_toTopOf="@id/iv_calender">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_meeting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_run"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:hint="@string/til_read_client_run"
+                    app:layout_constraintEnd_toEndOf="@id/til_meeting"
+                    app:layout_constraintStart_toStartOf="@id/til_meeting"
+                    app:layout_constraintTop_toBottomOf="@id/til_meeting">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_run"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/iv_remark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:contentDescription="@string/iv_write_client_remark"
+                    android:src="@drawable/ic_remark_36"
+                    app:layout_constraintEnd_toEndOf="@id/iv_profile"
+                    app:layout_constraintStart_toStartOf="@id/iv_profile"
+                    app:layout_constraintTop_toTopOf="@id/til_remark" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_remark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="36dp"
+                    android:layout_marginBottom="36dp"
+                    android:hint="@string/til_write_client_remark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_remark"
+                    app:layout_constraintTop_toBottomOf="@id/til_run">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_remark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:scrollbars="vertical"
+                        android:text="@{client.remark}"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tb_read_client"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/ic_arrow_back_24" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
