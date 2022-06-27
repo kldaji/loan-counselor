@@ -82,6 +82,7 @@ class ReadClientFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setOverFlowMenuListener()
+        setNavigateIconListener()
     }
 
     private fun setOverFlowMenuListener() {
@@ -99,6 +100,12 @@ class ReadClientFragment : Fragment() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun setNavigateIconListener() {
+        binding.tbReadClient.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
