@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.kldaji.presentation.databinding.FragmentSearchBinding
 import com.kldaji.presentation.ui.search.adapter.SearchResultAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,18 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setListeners()
     }
+
+    private fun setListeners() {
+        binding.tvSearchCancel.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        // TextChangeListener -> will use RxJava throttle or debounce
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
