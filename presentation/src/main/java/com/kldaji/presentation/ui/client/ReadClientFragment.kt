@@ -48,9 +48,8 @@ class ReadClientFragment : Fragment() {
     ): View {
         _binding = FragmentReadClientBinding.inflate(inflater, container, false)
         binding.client = navArgs.client
-        binding.tieMeeting.setText(DateConverter.longToString(requireContext(),
-            navArgs.client.meeting))
-        binding.tieRun.setText(DateConverter.longToString(requireContext(), navArgs.client.run))
+        binding.tieMeeting.setText(DateConverter.longToString(navArgs.client.meeting))
+        binding.tieRun.setText(DateConverter.longToString(navArgs.client.run))
         requestPermission()
         return binding.root
     }

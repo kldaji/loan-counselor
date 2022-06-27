@@ -75,8 +75,8 @@ class WriteClientFragment : Fragment() {
         _binding = FragmentWriteClientBinding.inflate(inflater, container, false)
         navArgs.client?.let {
             binding.client = it
-            binding.tieMeeting.setText(DateConverter.longToString(requireContext(), it.meeting))
-            binding.tieRun.setText(DateConverter.longToString(requireContext(), it.run))
+            binding.tieMeeting.setText(DateConverter.longToString(it.meeting))
+            binding.tieRun.setText(DateConverter.longToString(it.run))
         }
         return binding.root
     }
@@ -111,12 +111,12 @@ class WriteClientFragment : Fragment() {
             runDatePicker.show(parentFragmentManager, "Run")
         }
         meetingDatePicker.addOnPositiveButtonClickListener {
-            Log.i(TAG, DateConverter.longToString(requireContext(), it))
-            binding.tieMeeting.setText(DateConverter.longToString(requireContext(), it))
+            Log.i(TAG, DateConverter.longToString(it))
+            binding.tieMeeting.setText(DateConverter.longToString(it))
         }
         runDatePicker.addOnPositiveButtonClickListener {
-            Log.i(TAG, DateConverter.longToString(requireContext(), it))
-            binding.tieRun.setText(DateConverter.longToString(requireContext(), it))
+            Log.i(TAG, DateConverter.longToString(it))
+            binding.tieRun.setText(DateConverter.longToString(it))
         }
     }
 
@@ -169,9 +169,8 @@ class WriteClientFragment : Fragment() {
             phone = binding.tiePhone.text.toString(),
             loan = EnumConverter.stringToLoan(binding.rgWriteClient.checkedRadioButtonId),
             gender = EnumConverter.stringToGender(binding.actGender.text.toString()),
-            meeting = DateConverter.stringToLong(requireContext(),
-                binding.tieMeeting.text.toString()),
-            run = DateConverter.stringToLong(requireContext(), binding.tieRun.text.toString()),
+            meeting = DateConverter.stringToLong(binding.tieMeeting.text.toString()),
+            run = DateConverter.stringToLong(binding.tieRun.text.toString()),
             remark = binding.tieRemark.text.toString(),
             pictures = viewModel.pictures.value ?: listOf()
         )
