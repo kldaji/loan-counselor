@@ -1,8 +1,8 @@
 package com.kldaji.loancounselor.di
 
 import com.kldaji.domain.ClientRepository
-import com.kldaji.domain.GetAllClientsUseCase
-import com.kldaji.domain.InsertClientUseCase
+import com.kldaji.domain.usecase.GetAllClientsUseCase
+import com.kldaji.domain.usecase.InsertClientUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
