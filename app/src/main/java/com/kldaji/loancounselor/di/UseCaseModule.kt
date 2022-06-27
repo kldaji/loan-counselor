@@ -1,8 +1,10 @@
 package com.kldaji.loancounselor.di
 
 import com.kldaji.domain.ClientRepository
+import com.kldaji.domain.usecase.DeleteClientUseCase
 import com.kldaji.domain.usecase.GetAllClientsUseCase
 import com.kldaji.domain.usecase.InsertClientUseCase
+import com.kldaji.domain.usecase.UpdateClientUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,5 +25,17 @@ object UseCaseModule {
     @Singleton
     fun providesInsertClientUseCase(repository: ClientRepository): InsertClientUseCase {
         return InsertClientUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesUpdateClientUseCase(repository: ClientRepository): UpdateClientUseCase {
+        return UpdateClientUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesDeleteClientUseCase(repository: ClientRepository): DeleteClientUseCase {
+        return DeleteClientUseCase(repository)
     }
 }

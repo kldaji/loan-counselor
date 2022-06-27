@@ -17,4 +17,8 @@ class ClientRepositoryImpl @Inject constructor(private val clientLocalDataSource
     override suspend fun updateClient(client: Client) {
         clientLocalDataSource.updateClient(ClientMapper.clientToClientEntity(client))
     }
+
+    override suspend fun deleteClient(client: Client) {
+        clientLocalDataSource.deleteClient(ClientMapper.clientToClientEntity(client))
+    }
 }

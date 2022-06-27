@@ -1,6 +1,7 @@
 package com.kldaji.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -15,4 +16,7 @@ interface ClientDao {
 
     @Update
     suspend fun updateClient(clientEntity: ClientEntity)
+
+    @Delete
+    suspend fun deleteClient(clientEntity: ClientEntity)
 }
