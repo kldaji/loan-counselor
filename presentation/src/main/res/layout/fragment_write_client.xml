@@ -159,7 +159,6 @@
                         android:layout_height="wrap_content"
                         android:inputType="none"
                         android:labelFor="@id/til_gender"
-                        android:text="@{client.gender.toString()}"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 

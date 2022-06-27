@@ -93,7 +93,11 @@ class WriteClientFragment : Fragment() {
     }
 
     private fun connectGenderDropDownAdapter() {
-        val adapter = ArrayAdapter(requireContext(), R.layout.item_gender, viewModel.genders)
+        val genders = resources.getStringArray(R.array.gender)
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_gender, genders)
+        navArgs.client?.let {
+            binding.actGender.setText(EnumConverter.genderToString(it.gender), false)
+        }
         binding.actGender.setAdapter(adapter)
     }
 
