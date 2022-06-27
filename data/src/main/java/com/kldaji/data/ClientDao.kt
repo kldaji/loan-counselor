@@ -3,6 +3,7 @@ package com.kldaji.data
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface ClientDao {
@@ -11,4 +12,7 @@ interface ClientDao {
 
     @Insert
     suspend fun insertClient(clientEntity: ClientEntity)
+
+    @Update
+    suspend fun updateClient(clientEntity: ClientEntity)
 }

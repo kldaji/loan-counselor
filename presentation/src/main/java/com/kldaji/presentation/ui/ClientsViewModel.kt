@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.kldaji.domain.Client
 import com.kldaji.domain.GetAllClientsUseCase
 import com.kldaji.domain.InsertClientUseCase
+import com.kldaji.domain.UpdateClientUseCase
 import com.kldaji.presentation.R
 import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class ClientsViewModel @Inject constructor(
     private val getAllClientsUseCase: GetAllClientsUseCase,
     private val insertClientUseCase: InsertClientUseCase,
+    private val updateClientUseCase: UpdateClientUseCase,
 ) : ViewModel() {
     val scheduledClientViews = listOf(
         ScheduledClientView("미팅 예정 고객",
@@ -45,6 +47,16 @@ class ClientsViewModel @Inject constructor(
             insertClientUseCase(client)
             // or do insertion sort to avoid fetch all clients overhead
             fetchClients()
+        }
+    }
+
+    fun updateClient(prev: Client, client: Client) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateClientUseCase(client)
+            val temp = _clients.value!!.toMutableList()
+            val index = temp.binarySearch(prev, compareBy { it.id })
+            temp[index] = client
+            _clients.postValue(temp)
         }
     }
 

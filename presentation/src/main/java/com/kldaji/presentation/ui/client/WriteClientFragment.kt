@@ -1,6 +1,7 @@
 package com.kldaji.presentation.ui.client
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -23,6 +24,7 @@ import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentWriteClientBinding
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.client.adapter.PictureAdapter
+import com.kldaji.presentation.ui.client.entity.Mode
 import com.kldaji.presentation.util.DateConverter
 import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,9 +44,12 @@ class WriteClientFragment : Fragment() {
     private val navArgs: WriteClientFragmentArgs by navArgs()
     private lateinit var pictureAdapter: PictureAdapter
     private val getContentCallback =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            Log.i(TAG, uri.toString())
-            if (uri != null) viewModel.addPicture(uri)
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.data?.data?.let {
+                requireActivity().contentResolver.takePersistableUriPermission(it,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                viewModel.addPicture(it)
+            }
         }
     private var pictureUri: Uri? = null
     private val takePictureCallback =
@@ -68,6 +73,11 @@ class WriteClientFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentWriteClientBinding.inflate(inflater, container, false)
+        navArgs.client?.let {
+            binding.client = it
+            binding.tieMeeting.setText(DateConverter.longToString(requireContext(), it.meeting))
+            binding.tieRun.setText(DateConverter.longToString(requireContext(), it.run))
+        }
         return binding.root
     }
 
@@ -83,7 +93,11 @@ class WriteClientFragment : Fragment() {
     }
 
     private fun connectGenderDropDownAdapter() {
-        val adapter = ArrayAdapter(requireContext(), R.layout.item_gender, viewModel.genders)
+        val genders = resources.getStringArray(R.array.gender)
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_gender, genders)
+        navArgs.client?.let {
+            binding.actGender.setText(EnumConverter.genderToString(it.gender), false)
+        }
         binding.actGender.setAdapter(adapter)
     }
 
@@ -124,10 +138,22 @@ class WriteClientFragment : Fragment() {
         binding.tbWriteClient.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.complete -> {
-                    val client = getClientInfo()
-                    Log.i(TAG, client.toString())
-                    viewModel.insertClient(client)
-                    findNavController().popBackStack()
+                    val id = navArgs.client?.id ?: 0L
+                    val client = getClientInfo(id)
+                    when (navArgs.mode) {
+                        Mode.CREATE -> {
+                            viewModel.insertClient(client)
+                            findNavController().popBackStack()
+                        }
+                        Mode.EDIT -> {
+                            viewModel.updateClient(navArgs.client!!, client)
+                            val direction =
+                                WriteClientFragmentDirections.actionWriteClientFragmentToReadClientFragment(
+                                    client)
+                            Log.i(TAG, client.toString())
+                            findNavController().navigate(direction)
+                        }
+                    }
                     true
                 }
                 else -> false
@@ -135,8 +161,9 @@ class WriteClientFragment : Fragment() {
         }
     }
 
-    private fun getClientInfo(): Client {
+    private fun getClientInfo(id: Long): Client {
         return Client(
+            id = id,
             name = binding.tieName.text.toString(),
             birth = binding.tieBirth.text.toString(),
             phone = binding.tiePhone.text.toString(),
@@ -156,7 +183,11 @@ class WriteClientFragment : Fragment() {
                 override fun onButtonClick(menuRes: Int) {
                     when (menuRes) {
                         R.id.take_picture -> requestPermission()
-                        else -> getContentCallback.launch("image/*")
+                        else -> {
+                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                            intent.type = "image/*"
+                            getContentCallback.launch(intent)
+                        }
                     }
                 }
             },

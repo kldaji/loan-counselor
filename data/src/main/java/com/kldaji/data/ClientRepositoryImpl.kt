@@ -13,4 +13,8 @@ class ClientRepositoryImpl @Inject constructor(private val clientLocalDataSource
     override suspend fun insertClient(client: Client) {
         clientLocalDataSource.insertClient(ClientMapper.clientToClientEntity(client))
     }
+
+    override suspend fun updateClient(client: Client) {
+        clientLocalDataSource.updateClient(ClientMapper.clientToClientEntity(client))
+    }
 }

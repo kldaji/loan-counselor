@@ -10,4 +10,8 @@ class ClientLocalDataSourceImpl @Inject constructor(private val clientDao: Clien
     override suspend fun insertClient(clientEntity: ClientEntity) {
         clientDao.insertClient(clientEntity)
     }
+
+    override suspend fun updateClient(clientEntity: ClientEntity) {
+        clientDao.updateClient(clientEntity)
+    }
 }

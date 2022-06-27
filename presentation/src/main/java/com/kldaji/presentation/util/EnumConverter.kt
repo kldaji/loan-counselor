@@ -19,4 +19,12 @@ object EnumConverter {
             else -> Gender.ETC
         }
     }
+
+    fun genderToString(gender: Gender): String {
+        return when (gender) {
+            Gender.MALE -> "남자"
+            Gender.FEMALE -> "여자"
+            Gender.ETC -> "기타"
+        }
+    }
 }
