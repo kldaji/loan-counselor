@@ -8,6 +8,8 @@
         <variable
             name="client"
             type="com.kldaji.domain.Client" />
+
+        <import type="com.kldaji.domain.Loan" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -47,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:checkedButton="@id/rb_dambo"
+                    android:checkedButton="@{client.loan == Loan.DAMBO ? @id/rb_dambo : @id/rb_jeonse}"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_constraintTop_toBottomOf="@id/tl_read_client">
@@ -271,6 +273,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
+            app:menu="@menu/read_client_app_bar"
             app:navigationIcon="@drawable/ic_arrow_back_24" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

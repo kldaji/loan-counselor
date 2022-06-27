@@ -41,9 +41,11 @@
         tools:layout="@layout/fragment_read_client" >
         <argument
             android:name="client"
-            app:argType="com.kldaji.domain.Client"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:argType="com.kldaji.domain.Client" />
+        <action
+            android:id="@+id/action_readClientFragment_to_writeClientFragment"
+            app:destination="@id/writeClientFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"

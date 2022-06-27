@@ -71,6 +71,11 @@ class WriteClientFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentWriteClientBinding.inflate(inflater, container, false)
+        navArgs.client?.let {
+            binding.client = it
+            binding.tieMeeting.setText(DateConverter.longToString(requireContext(), it.meeting))
+            binding.tieRun.setText(DateConverter.longToString(requireContext(), it.run))
+        }
         return binding.root
     }
 
