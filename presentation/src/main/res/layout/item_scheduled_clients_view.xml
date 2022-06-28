@@ -8,10 +8,15 @@
         <variable
             name="scheduledClientView"
             type="com.kldaji.presentation.ui.clients.entity.ScheduledClientView" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:onClick="@{clickListener}"
         android:layout_height="wrap_content">
 
         <View

@@ -2,6 +2,7 @@ package com.kldaji.presentation.ui.clients.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,12 +10,14 @@ import com.kldaji.domain.Client
 import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.ItemClientBinding
 import com.kldaji.presentation.databinding.ItemClientsHeaderBinding
+import com.kldaji.presentation.ui.clients.ClientsFragmentDirections
 
-class ClientAdapter(private val itemClickListener: ItemClickListener) :
-    ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff) {
+class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff) {
 
     fun submitListWithHeader(clients: List<Client>) {
-        submitList(listOf(ClientViewItem.HeaderItem) + clients.map { ClientViewItem.ClientItem(it) })
+        submitList(listOf(ClientViewItem.HeaderItem("고객 ${clients.size}")) + clients.map {
+            ClientViewItem.ClientItem(it)
+        })
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -36,13 +39,13 @@ class ClientAdapter(private val itemClickListener: ItemClickListener) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is HeaderItemViewHolder -> holder.bind(currentList.size - 1) // exclude header
+            is HeaderItemViewHolder -> {
+                val headerItem = getItem(position) as ClientViewItem.HeaderItem
+                holder.bind(headerItem)
+            }
             is ClientItemViewHolder -> {
                 val clientItem = getItem(position) as ClientViewItem.ClientItem
-                holder.itemView.setOnClickListener {
-                    itemClickListener.onItemClick(clientItem.client)
-                }
-                holder.bind(clientItem.client)
+                holder.bind(clientItem)
             }
         }
     }
@@ -50,16 +53,27 @@ class ClientAdapter(private val itemClickListener: ItemClickListener) :
     class HeaderItemViewHolder(private val binding: ItemClientsHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(numberOfClient: Int) {
-            binding.tvSubTitle.text = "고객 $numberOfClient"
+        fun bind(headerItem: ClientViewItem.HeaderItem) {
+            binding.tvSubTitle.text = headerItem.text
         }
     }
 
     class ClientItemViewHolder(private val binding: ItemClientBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(_client: Client) {
-            binding.client = _client
+        init {
+            binding.setClickListener { v ->
+                binding.client?.let {
+                    val direction =
+                        ClientsFragmentDirections.actionClientsFragmentToReadClientFragment(it)
+                    v.findNavController().navigate(direction)
+                }
+            }
+        }
+
+        fun bind(clientItem: ClientViewItem.ClientItem) {
+            binding.client = clientItem.client
+            binding.executePendingBindings()
         }
     }
 
@@ -82,9 +96,5 @@ class ClientAdapter(private val itemClickListener: ItemClickListener) :
                 return oldItem == newItem
             }
         }
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(client: Client)
     }
 }

@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
-import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentClientsBinding
 import com.kldaji.presentation.ui.ClientsViewModel
@@ -33,13 +32,17 @@ class ClientsFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentClientsBinding.inflate(inflater, container, false)
+        val scheduledClientAdapter = ScheduledClientViewAdapter()
+        scheduledClientAdapter.setItems(viewModel.scheduledClientViews)
+        clientAdapter = ClientAdapter()
+        val adapters = ConcatAdapter(scheduledClientAdapter, clientAdapter)
+        binding.rvClients.adapter = adapters
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navigateToOtherFragments()
-        connectAdapters()
         fetchClients()
         addClientsObserver()
         navigateToCalendarFragment()
@@ -69,29 +72,6 @@ class ClientsFragment : Fragment() {
 
     private fun fetchClients() {
         viewModel.fetchClients()
-    }
-
-    private fun connectAdapters() {
-        val scheduledClientAdapter =
-            ScheduledClientViewAdapter(object : ScheduledClientViewAdapter.ItemClickListener {
-                override fun onItemClick(index: Int) {
-                    val direction =
-                        ClientsFragmentDirections.actionClientsFragmentToScheduledClientsFragment(
-                            index)
-                    this@ClientsFragment.findNavController()
-                        .navigate(direction)
-                }
-            })
-        scheduledClientAdapter.setItems(viewModel.scheduledClientViews)
-        clientAdapter = ClientAdapter(object : ClientAdapter.ItemClickListener {
-            override fun onItemClick(client: Client) {
-                val direction =
-                    ClientsFragmentDirections.actionClientsFragmentToReadClientFragment(client)
-                this@ClientsFragment.findNavController().navigate(direction)
-            }
-        })
-        val adapters = ConcatAdapter(scheduledClientAdapter, clientAdapter)
-        binding.rvClients.adapter = adapters
     }
 
     private fun addClientsObserver() {

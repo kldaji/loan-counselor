@@ -61,6 +61,9 @@
             android:name="index"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_scheduledClientsFragment_to_readClientFragment"
+            app:destination="@id/readClientFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
