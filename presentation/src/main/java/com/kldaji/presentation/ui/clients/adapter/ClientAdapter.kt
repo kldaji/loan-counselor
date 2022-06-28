@@ -20,14 +20,6 @@ class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff)
         })
     }
 
-    fun submitListScheduledClients(clients: List<Client>) {
-        submitList(clients.flatMap {
-            // text should be meeting time
-            listOf(ClientViewItem.HeaderItem("${it.meeting}", it.meeting),
-                ClientViewItem.ClientItem(it))
-        })
-    }
-
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is ClientViewItem.HeaderItem -> ITEM_HEADER

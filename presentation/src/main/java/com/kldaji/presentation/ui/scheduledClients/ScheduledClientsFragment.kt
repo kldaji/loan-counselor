@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.kldaji.presentation.databinding.FragmentScheduledClientsBinding
 import com.kldaji.presentation.ui.ClientsViewModel
-import com.kldaji.presentation.ui.clients.adapter.ClientAdapter
+import com.kldaji.presentation.ui.scheduledClients.adapter.ScheduledClientAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,14 +23,14 @@ class ScheduledClientsFragment : Fragment() {
     private val binding get() = _binding!!
     private val navArgs: ScheduledClientsFragmentArgs by navArgs()
     private val viewModel by activityViewModels<ClientsViewModel>()
-    private lateinit var adapter: ClientAdapter
+    private lateinit var adapter: ScheduledClientAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentScheduledClientsBinding.inflate(inflater, container, false)
-        adapter = ClientAdapter()
+        adapter = ScheduledClientAdapter()
         binding.rvScheduledClients.adapter = adapter
         return binding.root
     }
@@ -55,7 +55,7 @@ class ScheduledClientsFragment : Fragment() {
 
     private fun setObservers() {
         viewModel.scheduledClients.observe(viewLifecycleOwner) {
-            adapter.submitListScheduledClients(it)
+            adapter.setScheduledClients(it)
         }
     }
 

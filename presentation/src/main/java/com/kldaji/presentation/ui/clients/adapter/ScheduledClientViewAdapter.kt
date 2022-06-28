@@ -6,9 +6,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kldaji.presentation.R
-import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
-import com.kldaji.presentation.databinding.ItemScheduledClientBinding
+import com.kldaji.presentation.databinding.ItemScheduledClientsViewBinding
 import com.kldaji.presentation.ui.clients.ClientsFragmentDirections
+import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
 
 class ScheduledClientViewAdapter :
     RecyclerView.Adapter<ScheduledClientViewAdapter.ScheduledClientViewHolder>() {
@@ -19,9 +19,9 @@ class ScheduledClientViewAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduledClientViewHolder {
-        val binding = DataBindingUtil.inflate<ItemScheduledClientBinding>(
+        val binding = DataBindingUtil.inflate<ItemScheduledClientsViewBinding>(
             LayoutInflater.from(parent.context),
-            R.layout.item_scheduled_client,
+            R.layout.item_scheduled_clients_view,
             parent,
             false)
         return ScheduledClientViewHolder(binding)
@@ -33,7 +33,7 @@ class ScheduledClientViewAdapter :
 
     override fun getItemCount() = items.size
 
-    class ScheduledClientViewHolder(private val binding: ItemScheduledClientBinding) :
+    class ScheduledClientViewHolder(private val binding: ItemScheduledClientsViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
