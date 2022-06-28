@@ -2,6 +2,7 @@ package com.kldaji.presentation.ui.clients.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,9 +10,9 @@ import com.kldaji.domain.Client
 import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.ItemClientBinding
 import com.kldaji.presentation.databinding.ItemClientsHeaderBinding
+import com.kldaji.presentation.ui.clients.ClientsFragmentDirections
 
-class ClientAdapter(private val itemClickListener: ItemClickListener) :
-    ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff) {
+class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff) {
 
     fun submitListWithHeader(clients: List<Client>) {
         submitList(listOf(ClientViewItem.HeaderItem) + clients.map { ClientViewItem.ClientItem(it) })
@@ -39,10 +40,7 @@ class ClientAdapter(private val itemClickListener: ItemClickListener) :
             is HeaderItemViewHolder -> holder.bind(currentList.size - 1) // exclude header
             is ClientItemViewHolder -> {
                 val clientItem = getItem(position) as ClientViewItem.ClientItem
-                holder.itemView.setOnClickListener {
-                    itemClickListener.onItemClick(clientItem.client)
-                }
-                holder.bind(clientItem.client)
+                holder.bind(clientItem)
             }
         }
     }
@@ -58,8 +56,19 @@ class ClientAdapter(private val itemClickListener: ItemClickListener) :
     class ClientItemViewHolder(private val binding: ItemClientBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(_client: Client) {
-            binding.client = _client
+        init {
+            binding.setClickListener { v ->
+                binding.client?.let {
+                    val direction =
+                        ClientsFragmentDirections.actionClientsFragmentToReadClientFragment(it)
+                    v.findNavController().navigate(direction)
+                }
+            }
+        }
+
+        fun bind(clientItem: ClientViewItem.ClientItem) {
+            binding.client = clientItem.client
+            binding.executePendingBindings()
         }
     }
 
@@ -82,9 +91,5 @@ class ClientAdapter(private val itemClickListener: ItemClickListener) :
                 return oldItem == newItem
             }
         }
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(client: Client)
     }
 }
