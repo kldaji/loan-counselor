@@ -12,6 +12,7 @@ import com.kldaji.domain.usecase.InsertClientUseCase
 import com.kldaji.domain.usecase.UpdateClientUseCase
 import com.kldaji.presentation.R
 import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
+import com.kldaji.presentation.util.CommonLogic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -91,5 +92,22 @@ class ClientsViewModel @Inject constructor(
         val tempPictures = _pictures.value?.toMutableList() ?: return
         tempPictures.remove(uri)
         _pictures.value = tempPictures
+    }
+
+    private val _scheduledClients = MutableLiveData<List<Client>>()
+    val scheduledClients: LiveData<List<Client>> = _scheduledClients
+
+    fun fetchScheduledClients(index: Int) {
+        val startOfTodayTimeStamp = CommonLogic.getStartOfTodayTimeStamp()
+        if (index == 0) { // meeting
+            val meetingClients = clients.value?.filter {
+            val endOfTodayTimeStamp = CommonLogic.getEndOfTodayTimeStamp()
+                println(endOfTodayTimeStamp)
+                it.meeting in startOfTodayTimeStamp..endOfTodayTimeStamp
+            } ?: listOf()
+            _scheduledClients.value = meetingClients
+        } else { // run
+
+        }
     }
 }

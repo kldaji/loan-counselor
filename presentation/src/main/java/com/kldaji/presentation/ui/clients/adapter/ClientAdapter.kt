@@ -15,7 +15,17 @@ import com.kldaji.presentation.ui.clients.ClientsFragmentDirections
 class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff) {
 
     fun submitListWithHeader(clients: List<Client>) {
-        submitList(listOf(ClientViewItem.HeaderItem) + clients.map { ClientViewItem.ClientItem(it) })
+        submitList(listOf(ClientViewItem.HeaderItem("고객 ${clients.size}")) + clients.map {
+            ClientViewItem.ClientItem(it)
+        })
+    }
+
+    fun submitListScheduledClients(clients: List<Client>) {
+        submitList(clients.flatMap {
+            // text should be meeting time
+            listOf(ClientViewItem.HeaderItem("${it.meeting}", it.meeting),
+                ClientViewItem.ClientItem(it))
+        })
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -37,7 +47,10 @@ class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is HeaderItemViewHolder -> holder.bind(currentList.size - 1) // exclude header
+            is HeaderItemViewHolder -> {
+                val headerItem = getItem(position) as ClientViewItem.HeaderItem
+                holder.bind(headerItem)
+            }
             is ClientItemViewHolder -> {
                 val clientItem = getItem(position) as ClientViewItem.ClientItem
                 holder.bind(clientItem)
@@ -48,8 +61,8 @@ class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff)
     class HeaderItemViewHolder(private val binding: ItemClientsHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(numberOfClient: Int) {
-            binding.tvSubTitle.text = "고객 $numberOfClient"
+        fun bind(headerItem: ClientViewItem.HeaderItem) {
+            binding.tvSubTitle.text = headerItem.text
         }
     }
 
