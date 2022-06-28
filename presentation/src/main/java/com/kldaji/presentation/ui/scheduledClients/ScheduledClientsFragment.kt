@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.kldaji.presentation.databinding.FragmentScheduledClientsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +31,18 @@ class ScheduledClientsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i(TAG, navArgs.index.toString())
+        setToolbarTitle()
+        setClickListeners()
+    }
+
+    private fun setToolbarTitle() {
+        binding.tbScheduledClients.title = if (navArgs.index == 0) "오늘 미팅 예정 고객" else "대출 실행 예정 고객"
+    }
+
+    private fun setClickListeners() {
+        binding.tbScheduledClients.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onDestroyView() {
