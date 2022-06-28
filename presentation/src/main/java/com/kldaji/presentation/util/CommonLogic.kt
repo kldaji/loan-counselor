@@ -4,7 +4,7 @@ import java.util.*
 
 object CommonLogic {
 
-    fun getStartOfTodayTimeStamp(): Long {
+    fun getStartOfTodayTimestamp(): Long {
         val calendar = Calendar.getInstance(Locale.KOREA)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.clear(Calendar.MINUTE)
@@ -13,7 +13,7 @@ object CommonLogic {
         return calendar.timeInMillis
     }
 
-    fun getEndOfTodayTimeStamp(): Long {
+    fun getEndOfTodayTimestamp(): Long {
         val calendar = Calendar.getInstance(Locale.KOREA)
         calendar.add(Calendar.DATE, 1)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -23,9 +23,13 @@ object CommonLogic {
         return calendar.timeInMillis - 1
     }
 
-    fun getAfterOneMonthTimeStamp(): Long {
+    fun getAfterOneMonthTimestamp(): Long {
         val calendar = Calendar.getInstance(Locale.KOREA)
         calendar.add(Calendar.MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
         return calendar.timeInMillis
     }
 }

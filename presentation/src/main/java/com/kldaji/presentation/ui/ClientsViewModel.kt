@@ -98,16 +98,19 @@ class ClientsViewModel @Inject constructor(
     val scheduledClients: LiveData<List<Client>> = _scheduledClients
 
     fun fetchScheduledClients(index: Int) {
-        val startOfTodayTimeStamp = CommonLogic.getStartOfTodayTimeStamp()
+        val startOfTodayTimestamp = CommonLogic.getStartOfTodayTimestamp()
         if (index == 0) { // meeting
             val meetingClients = clients.value?.filter {
-            val endOfTodayTimeStamp = CommonLogic.getEndOfTodayTimeStamp()
-                println(endOfTodayTimeStamp)
-                it.meeting in startOfTodayTimeStamp..endOfTodayTimeStamp
+            val endOfTodayTimeStamp = CommonLogic.getEndOfTodayTimestamp()
+                it.meeting in startOfTodayTimestamp..endOfTodayTimeStamp
             } ?: listOf()
             _scheduledClients.value = meetingClients
         } else { // run
-
+            val runClients = clients.value?.filter {
+                val afterOneMonthTimestamp = CommonLogic.getAfterOneMonthTimestamp()
+                it.run in startOfTodayTimestamp..afterOneMonthTimestamp
+            } ?: listOf()
+            _scheduledClients.value = runClients
         }
     }
 }
