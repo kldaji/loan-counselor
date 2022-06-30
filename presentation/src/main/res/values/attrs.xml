@@ -3,4 +3,9 @@
     <declare-styleable name="DaysView">
         <attr name="height" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="DayItemView">
+        <attr name="dayItemViewStyle" format="reference" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
 </resources>
