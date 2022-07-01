@@ -2,8 +2,10 @@ package com.kldaji.presentation.util
 
 import android.graphics.Color
 import com.kldaji.presentation.ui.calendar.entity.Day
+import java.util.*
 
 object CalendarLogic {
+
     const val WEEKS_PER_MONTH = 6
     const val DAYS_PER_WEEK = 7
 
@@ -13,5 +15,34 @@ object CalendarLogic {
             Day.SAT -> Color.parseColor("#0000ff")
             else -> Color.parseColor("#000000")
         }
+    }
+
+    fun getStartOfTodayTimestamp(): Long {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        return calendar.timeInMillis
+    }
+
+    fun getEndOfTodayTimestamp(): Long {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.add(Calendar.DATE, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        return calendar.timeInMillis - 1
+    }
+
+    fun getAfterOneMonthTimestamp(): Long {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.add(Calendar.MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        return calendar.timeInMillis
     }
 }

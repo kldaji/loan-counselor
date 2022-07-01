@@ -2,7 +2,6 @@ package com.kldaji.presentation.ui.calendar.view
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextPaint
@@ -45,7 +44,7 @@ class DayItemView(
         canvas.drawText(
             day.dayOfWeek,
             -bounds.left.toFloat() + (width / 2 - bounds.width() / 2).toFloat(),
-            -bounds.top.toFloat(),
+            -bounds.top.toFloat() + (height / 2 - bounds.height() / 2).toFloat(),
             paint
         )
     }
