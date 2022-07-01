@@ -17,7 +17,7 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
-        val adapter = CalendarAdapter()
+        val adapter = CalendarAdapter(requireActivity())
         binding.vpCalendar.adapter = adapter
         binding.vpCalendar.setCurrentItem(CalendarAdapter.START_POSITION, false)
         return binding.root

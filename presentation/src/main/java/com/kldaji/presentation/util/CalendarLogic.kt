@@ -67,18 +67,14 @@ object CalendarLogic {
         val total = DAYS_PER_WEEK * WEEKS_PER_MONTH
 
         for (i in 0 until total) {
-            dates.add(calendar.time)
             calendar.add(Calendar.DATE, 1)
+            dates.add(calendar.time)
         }
         return dates
     }
 
-    private fun getPrevMonthOffset(calendar: Calendar): Int = calendar.get(Calendar.DAY_OF_MONTH)
-
-    fun getDay(date: Date): Int {
-        val calendar = Calendar.getInstance(Locale.KOREA)
-        calendar.time = date
-        return calendar.get(Calendar.DAY_OF_WEEK)
+    private fun getPrevMonthOffset(calendar: Calendar): Int {
+        return calendar.get(Calendar.DAY_OF_WEEK) % 7
     }
 
     fun getDateNumber(date: Date): String {
@@ -93,5 +89,11 @@ object CalendarLogic {
         val month = calendar.get(Calendar.MONTH)
         calendar.time = date
         return month == calendar.get(Calendar.MONTH)
+    }
+
+    fun isFirstDateOfMonth(date: Date): Boolean {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = date
+        return calendar.get(Calendar.DAY_OF_MONTH) == 1 && calendar.get(Calendar.MILLISECOND) == 0
     }
 }
