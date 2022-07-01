@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize">
+
+    <ImageView
+        android:id="@+id/iv_calendar_toolbar_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/iv_calendar_toolbar_back"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_calendar_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6월"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpUsage" />
+
+    <View
+        android:id="@+id/v_calendar_meeting"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_green"
+        app:layout_constraintBottom_toBottomOf="@id/tv_calendar_meeting"
+        app:layout_constraintEnd_toStartOf="@id/tv_calendar_meeting"
+        app:layout_constraintTop_toTopOf="@id/tv_calendar_meeting" />
+
+    <TextView
+        android:id="@+id/tv_calendar_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_calendar_meeting"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_calendar_run"
+        app:layout_constraintStart_toStartOf="@id/tv_calendar_run"
+        app:layout_constraintTop_toTopOf="@id/tv_calendar_toolbar"
+        tools:ignore="SpUsage" />
+
+    <View
+        android:id="@+id/v_calendar_run"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:background="@drawable/circle_yellow"
+        app:layout_constraintBottom_toBottomOf="@id/tv_calendar_run"
+        app:layout_constraintEnd_toEndOf="@id/v_calendar_meeting"
+        app:layout_constraintTop_toTopOf="@id/tv_calendar_run" />
+
+    <TextView
+        android:id="@+id/tv_calendar_run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:text="@string/tv_calendar_run"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_calendar_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_calendar_meeting"
+        tools:ignore="SpUsage" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,7 @@ import com.kldaji.domain.usecase.InsertClientUseCase
 import com.kldaji.domain.usecase.UpdateClientUseCase
 import com.kldaji.presentation.R
 import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
-import com.kldaji.presentation.util.CommonLogic
+import com.kldaji.presentation.util.CalendarLogic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -98,16 +98,16 @@ class ClientsViewModel @Inject constructor(
     val scheduledClients: LiveData<List<Client>> = _scheduledClients
 
     fun fetchScheduledClients(index: Int) {
-        val startOfTodayTimestamp = CommonLogic.getStartOfTodayTimestamp()
+        val startOfTodayTimestamp = CalendarLogic.getStartOfTodayTimestamp()
         if (index == 0) { // meeting
             val meetingClients = clients.value?.filter {
-            val endOfTodayTimeStamp = CommonLogic.getEndOfTodayTimestamp()
+            val endOfTodayTimeStamp = CalendarLogic.getEndOfTodayTimestamp()
                 it.meeting in startOfTodayTimestamp..endOfTodayTimeStamp
             } ?: listOf()
             _scheduledClients.value = meetingClients
         } else { // run
             val runClients = clients.value?.filter {
-                val afterOneMonthTimestamp = CommonLogic.getAfterOneMonthTimestamp()
+                val afterOneMonthTimestamp = CalendarLogic.getAfterOneMonthTimestamp()
                 it.run in startOfTodayTimestamp..afterOneMonthTimestamp
             } ?: listOf()
             _scheduledClients.value = runClients

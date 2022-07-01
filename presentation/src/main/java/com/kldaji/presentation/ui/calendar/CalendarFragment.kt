@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.kldaji.presentation.databinding.FragmentCalendarBinding
+import com.kldaji.presentation.ui.calendar.adapter.CalendarAdapter
 
 class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null
@@ -16,6 +17,9 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        val adapter = CalendarAdapter(requireActivity())
+        binding.vpCalendar.adapter = adapter
+        binding.vpCalendar.setCurrentItem(CalendarAdapter.START_POSITION, false)
         return binding.root
     }
 
