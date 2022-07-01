@@ -80,4 +80,18 @@ object CalendarLogic {
         calendar.time = date
         return calendar.get(Calendar.DAY_OF_WEEK)
     }
+
+    fun getDateNumber(date: Date): String {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = date
+        return calendar.get(Calendar.DATE).toString()
+    }
+
+    fun isSameMonth(firstDateOfMonth: Date, date: Date): Boolean {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = firstDateOfMonth
+        val month = calendar.get(Calendar.MONTH)
+        calendar.time = date
+        return month == calendar.get(Calendar.MONTH)
+    }
 }
