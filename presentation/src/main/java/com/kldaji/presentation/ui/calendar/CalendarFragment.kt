@@ -19,6 +19,7 @@ class CalendarFragment : Fragment() {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         val adapter = CalendarAdapter()
         binding.vpCalendar.adapter = adapter
+        binding.vpCalendar.setCurrentItem(CalendarAdapter.START_POSITION, false)
         return binding.root
     }
 

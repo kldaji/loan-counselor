@@ -17,6 +17,17 @@ object CalendarLogic {
         }
     }
 
+    fun getFirstDateOfMonthTimestamp(monthAmount: Int): Long {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.add(Calendar.MONTH, monthAmount)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        return calendar.timeInMillis
+    }
+
     fun getStartOfTodayTimestamp(): Long {
         val calendar = Calendar.getInstance(Locale.KOREA)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -44,5 +55,29 @@ object CalendarLogic {
         calendar.clear(Calendar.SECOND)
         calendar.clear(Calendar.MILLISECOND)
         return calendar.timeInMillis
+    }
+
+    fun getDateList(firstDateOfMonth: Date): List<Date> {
+        val dates = mutableListOf<Date>()
+
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = firstDateOfMonth
+        val prevMonthOffset = getPrevMonthOffset(calendar)
+        calendar.add(Calendar.DATE, -prevMonthOffset)
+        val total = DAYS_PER_WEEK * WEEKS_PER_MONTH
+
+        for (i in 0 until total) {
+            dates.add(calendar.time)
+            calendar.add(Calendar.DATE, 1)
+        }
+        return dates
+    }
+
+    private fun getPrevMonthOffset(calendar: Calendar): Int = calendar.get(Calendar.DAY_OF_MONTH)
+
+    fun getDay(date: Date): Int {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = date
+        return calendar.get(Calendar.DAY_OF_WEEK)
     }
 }
