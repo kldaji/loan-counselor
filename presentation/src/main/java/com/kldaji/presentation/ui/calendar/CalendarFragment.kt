@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.kldaji.presentation.databinding.FragmentCalendarBinding
 import com.kldaji.presentation.ui.calendar.adapter.CalendarAdapter
 
@@ -25,6 +26,13 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+        binding.tbCalendar.setOnNavigateIconClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onDestroyView() {

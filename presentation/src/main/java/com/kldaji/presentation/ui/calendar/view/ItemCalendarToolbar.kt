@@ -12,4 +12,8 @@ class ItemCalendarToolbar(context: Context, attrs: AttributeSet): ConstraintLayo
     init {
         binding = ItemCalendarToolbarBinding.inflate(LayoutInflater.from(context), this, true)
     }
+
+    fun setOnNavigateIconClickListener(onClickListener: OnClickListener) {
+        binding.ivCalendarToolbarBack.setOnClickListener(onClickListener)
+    }
 }
