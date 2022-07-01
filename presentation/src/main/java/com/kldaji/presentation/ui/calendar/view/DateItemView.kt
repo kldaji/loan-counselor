@@ -13,15 +13,20 @@ class DateItemView(context: Context, private val firstDateOfMonth: Date, private
     View(context) {
 
     private val bounds = Rect()
-    private var paint: Paint
-    private var dateNumber: String = CalendarLogic.getDateNumber(date)
+    private val textPaint: Paint
+    private val linePaint: Paint
+    private val dateNumber: String = CalendarLogic.getDateNumber(date)
 
     init {
-        paint = Paint().apply {
+        textPaint = Paint().apply {
             isAntiAlias = true
             color = Color.parseColor("#000000")
             if (!CalendarLogic.isSameMonth(firstDateOfMonth, date)) alpha = 50
             textSize = 30f
+        }
+        linePaint = Paint().apply {
+            color = Color.parseColor("#000000")
+            alpha = 50
         }
     }
 
@@ -29,12 +34,13 @@ class DateItemView(context: Context, private val firstDateOfMonth: Date, private
         super.onDraw(canvas)
         canvas ?: return
 
-        paint.getTextBounds(dateNumber, 0, dateNumber.length, bounds)
+        textPaint.getTextBounds(dateNumber, 0, dateNumber.length, bounds)
         canvas.drawText(
             dateNumber,
             (width / 2 - bounds.width() / 2).toFloat(),
             30f,
-            paint
+            textPaint
         )
+        canvas.drawLine(0f, 0f, width.toFloat(), 0f, linePaint)
     }
 }
