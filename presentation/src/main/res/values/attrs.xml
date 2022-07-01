@@ -8,4 +8,10 @@
         <attr name="dayItemViewStyle" format="reference" />
         <attr name="textSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="DateItemView">
+        <attr name="dateItemViewStyle" format="reference" />
+        <attr name="dateTextSize" format="dimension" />
+        <attr name="marginTop" format="dimension" />
+    </declare-styleable>
 </resources>

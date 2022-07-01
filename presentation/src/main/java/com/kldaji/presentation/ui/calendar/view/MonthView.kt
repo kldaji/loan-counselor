@@ -30,7 +30,7 @@ class MonthView(context: Context, attrs: AttributeSet? = null) : ViewGroup(conte
 
     fun addDateItemViews(firstDateOfMonth: Date, dates: List<Date>) {
         dates.forEach { date ->
-            addView(DateItemView(context, firstDateOfMonth, date))
+            addView(DateItemView(context, firstDateOfMonth = firstDateOfMonth, date = date))
         }
     }
 }

@@ -14,5 +14,6 @@
 
         <!-- Customize your theme here. -->
         <item name="dayItemViewStyle">@style/DayItemViewStyle</item>
+        <item name="dateItemViewStyle">@style/DateItemViewStyle</item>
     </style>
 </resources>
