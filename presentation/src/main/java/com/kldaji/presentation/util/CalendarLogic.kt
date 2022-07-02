@@ -96,4 +96,10 @@ object CalendarLogic {
         calendar.time = date
         return calendar.get(Calendar.DAY_OF_MONTH) == 1 && calendar.get(Calendar.MILLISECOND) == 0
     }
+
+    fun getMonth(monthAmount: Int): Int {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.add(Calendar.MONTH, monthAmount)
+        return calendar.get(Calendar.MONTH) + 1 // month starts with 0
+    }
 }
