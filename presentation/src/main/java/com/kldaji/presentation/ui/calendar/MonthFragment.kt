@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.kldaji.presentation.databinding.FragmentMonthBinding
+import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.util.CalendarLogic
 import java.util.*
 
 class MonthFragment : Fragment() {
-
     companion object {
         private const val TIMESTAMP = "timestamp"
 
@@ -24,6 +25,7 @@ class MonthFragment : Fragment() {
     private var _binding: FragmentMonthBinding? = null
     private val binding get() = _binding!!
     private var timestamp = 0L
+    private val viewModel by activityViewModels<ClientsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,19 +35,22 @@ class MonthFragment : Fragment() {
         arguments?.let {
             timestamp = it.getLong(TIMESTAMP)
         }
-        println("$this onCreateView")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("$this onViewCreated")
-        binding.monthView.addDateItemViews(Date(timestamp), CalendarLogic.getDateList(Date(timestamp)))
+        val dates = CalendarLogic.getDateList(Date(timestamp))
+        binding.monthView.addDateItemViews(
+            Date(timestamp),
+            dates,
+            viewModel.getMeetingClientsInMonth(dates),
+            viewModel.getRunClientsInMonth(dates)
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        println("$this onDestroyView")
     }
 }

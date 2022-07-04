@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
+import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.util.CalendarLogic
 import java.util.*
@@ -17,6 +18,8 @@ class DateItemView(
     defStyleAttr: Int = R.attr.dateItemViewStyle,
     private val firstDateOfMonth: Date,
     private val date: Date,
+    private val meetingClients: List<Client>,
+    private val runClients: List<Client>
 ) :
     View(context, attrs, defStyleAttr) {
 
@@ -48,6 +51,7 @@ class DateItemView(
             alpha = 50
         }
 
+        println("$date: $meetingClients, $runClients")
         typedArray.recycle()
     }
 
@@ -63,5 +67,8 @@ class DateItemView(
             textPaint
         )
         canvas.drawLine(0f, 0f, width.toFloat(), 0f, linePaint)
+
+        // draw circle
+        // draw text
     }
 }

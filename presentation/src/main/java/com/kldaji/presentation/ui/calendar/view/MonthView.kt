@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.core.view.children
+import com.kldaji.domain.Client
 import com.kldaji.presentation.util.CalendarLogic
 import java.util.*
 
@@ -28,9 +29,21 @@ class MonthView(context: Context, attrs: AttributeSet? = null) : ViewGroup(conte
         }
     }
 
-    fun addDateItemViews(firstDateOfMonth: Date, dates: List<Date>) {
-        dates.forEach { date ->
-            addView(DateItemView(context, firstDateOfMonth = firstDateOfMonth, date = date))
+    fun addDateItemViews(
+        firstDateOfMonth: Date,
+        dates: List<Date>,
+        meetingClientsInMonth: List<List<Client>>,
+        runClientsInMonth: List<List<Client>>,
+    ) {
+        // deliever clients
+        dates.forEachIndexed { index, date ->
+            addView(DateItemView(
+                context,
+                firstDateOfMonth = firstDateOfMonth,
+                date = date,
+                meetingClients = meetingClientsInMonth[index],
+                runClients = runClientsInMonth[index]
+            ))
         }
     }
 }

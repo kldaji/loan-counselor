@@ -13,9 +13,11 @@ import com.kldaji.domain.usecase.UpdateClientUseCase
 import com.kldaji.presentation.R
 import com.kldaji.presentation.ui.clients.entity.ScheduledClientView
 import com.kldaji.presentation.util.CalendarLogic
+import com.kldaji.presentation.util.DateConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,7 +103,7 @@ class ClientsViewModel @Inject constructor(
         val startOfTodayTimestamp = CalendarLogic.getStartOfTodayTimestamp()
         if (index == 0) { // meeting
             val meetingClients = clients.value?.filter {
-            val endOfTodayTimeStamp = CalendarLogic.getEndOfTodayTimestamp()
+                val endOfTodayTimeStamp = CalendarLogic.getEndOfTodayTimestamp()
                 it.meeting in startOfTodayTimestamp..endOfTodayTimeStamp
             } ?: listOf()
             _scheduledClients.value = meetingClients
@@ -112,5 +114,23 @@ class ClientsViewModel @Inject constructor(
             } ?: listOf()
             _scheduledClients.value = runClients
         }
+    }
+
+    fun getMeetingClientsInMonth(dates: List<Date>): List<List<Client>> {
+        val meetingClients = mutableListOf<List<Client>>()
+        dates.forEach { date ->
+            meetingClients.add(_clients.value?.filter { DateConverter.dateToLong(date) == it.meeting }
+                ?: listOf())
+        }
+        return meetingClients
+    }
+
+    fun getRunClientsInMonth(dates: List<Date>): List<List<Client>> {
+        val runClients = mutableListOf<List<Client>>()
+        dates.forEach { date ->
+            runClients.add(_clients.value?.filter { DateConverter.dateToLong(date) == it.run }
+                ?: listOf())
+        }
+        return runClients
     }
 }

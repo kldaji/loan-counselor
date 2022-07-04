@@ -24,4 +24,10 @@ object DateConverter {
         calendar.time = date
         return calendar.timeInMillis
     }
+
+    fun dateToLong(date: Date): Long {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = date
+        return calendar.timeInMillis
+    }
 }
