@@ -24,5 +24,6 @@
     <style name="DateItemViewStyle">
         <item name="dateTextSize" tools:ignore="SpUsage">14dp</item>
         <item name="marginTop">8dp</item>
+        <item name="radius">4dp</item>
     </style>
 </resources>

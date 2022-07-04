@@ -19,16 +19,23 @@ class DateItemView(
     private val firstDateOfMonth: Date,
     private val date: Date,
     private val meetingClients: List<Client>,
-    private val runClients: List<Client>
+    private val runClients: List<Client>,
 ) :
     View(context, attrs, defStyleAttr) {
 
+    // date text
     private val bounds = Rect()
-    private val textPaint: Paint
-    private val linePaint: Paint
     private val dateNumber: String = CalendarLogic.getDateNumber(date)
     private val mMarginTop: Float
+    private val textPaint: Paint
     private val mTextSize: Float
+
+    // top line
+    private val linePaint: Paint
+
+    // circle
+    private val circlePaint: Paint
+    private val mRadius: Float
 
     init {
         val typedArray = context.theme.obtainStyledAttributes(attrs,
@@ -37,7 +44,9 @@ class DateItemView(
             R.style.DateItemViewStyle)
 
         mMarginTop = typedArray.getDimension(R.styleable.DateItemView_marginTop, 0f)
-        mTextSize = typedArray.getDimensionPixelSize(R.styleable.DateItemView_dateTextSize, 0).toFloat()
+        mTextSize =
+            typedArray.getDimensionPixelSize(R.styleable.DateItemView_dateTextSize, 0).toFloat()
+        mRadius = typedArray.getDimension(R.styleable.DateItemView_radius, 0f)
 
         textPaint = Paint().apply {
             isAntiAlias = true
@@ -51,7 +60,8 @@ class DateItemView(
             alpha = 50
         }
 
-        println("$date: $meetingClients, $runClients")
+        circlePaint = Paint()
+
         typedArray.recycle()
     }
 
@@ -68,7 +78,20 @@ class DateItemView(
         )
         canvas.drawLine(0f, 0f, width.toFloat(), 0f, linePaint)
 
-        // draw circle
+        // meeting
+        circlePaint.color = Color.parseColor("#00ff00") // green
+        if (meetingClients.isNotEmpty()) canvas.drawCircle(width / 2 - mRadius / 2,
+            height / 2 - mRadius,
+            mRadius,
+            circlePaint)
+
+        // run
+        circlePaint.color = Color.parseColor("#ffff00") // yellow
+        if (runClients.isNotEmpty()) canvas.drawCircle(width / 2 - mRadius / 2,
+            height / 2 + mRadius * 3,
+            mRadius,
+            circlePaint)
+
         // draw text
     }
 }
