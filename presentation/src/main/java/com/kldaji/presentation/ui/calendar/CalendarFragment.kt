@@ -39,6 +39,9 @@ class CalendarFragment : Fragment() {
         binding.tbCalendar.setOnNavigateIconClickListener {
             findNavController().popBackStack()
         }
+        binding.tvGoToToday.setOnClickListener {
+            binding.vpCalendar.setCurrentItem(CalendarAdapter.START_POSITION, false)
+        }
     }
 
     private fun setPageChangeListener() {
