@@ -27,8 +27,8 @@ class DateItemView(
     private val bounds = Rect()
     private val dateNumber: String = CalendarLogic.getDateNumber(date)
     private val mMarginTop: Float
-    private val textPaint: Paint
-    private val mTextSize: Float
+    private val dateTextPaint: Paint
+    private val mDateTextSize: Float
 
     // top line
     private val linePaint: Paint
@@ -37,6 +37,10 @@ class DateItemView(
     private val circlePaint: Paint
     private val mRadius: Float
 
+    // x 3
+    private val numPaint: Paint
+    private val mNumTextSize: Float
+
     init {
         val typedArray = context.theme.obtainStyledAttributes(attrs,
             R.styleable.DateItemView,
@@ -44,15 +48,17 @@ class DateItemView(
             R.style.DateItemViewStyle)
 
         mMarginTop = typedArray.getDimension(R.styleable.DateItemView_marginTop, 0f)
-        mTextSize =
+        mDateTextSize =
             typedArray.getDimensionPixelSize(R.styleable.DateItemView_dateTextSize, 0).toFloat()
         mRadius = typedArray.getDimension(R.styleable.DateItemView_radius, 0f)
+        mNumTextSize =
+            typedArray.getDimensionPixelSize(R.styleable.DateItemView_numTextSize, 0).toFloat()
 
-        textPaint = Paint().apply {
+        dateTextPaint = Paint().apply {
             isAntiAlias = true
             color = Color.parseColor("#000000")
             if (!CalendarLogic.isSameMonth(firstDateOfMonth, date)) alpha = 50
-            textSize = mTextSize
+            textSize = mDateTextSize
         }
 
         linePaint = Paint().apply {
@@ -62,6 +68,11 @@ class DateItemView(
 
         circlePaint = Paint()
 
+        numPaint = Paint().apply {
+            color = Color.parseColor("#000000")
+            textSize = mNumTextSize
+        }
+
         typedArray.recycle()
     }
 
@@ -69,29 +80,41 @@ class DateItemView(
         super.onDraw(canvas)
         canvas ?: return
 
-        textPaint.getTextBounds(dateNumber, 0, dateNumber.length, bounds)
+        dateTextPaint.getTextBounds(dateNumber, 0, dateNumber.length, bounds)
         canvas.drawText(
             dateNumber,
             (width / 2 - bounds.width() / 2).toFloat(),
-            mMarginTop + mTextSize,
-            textPaint
+            mMarginTop + mDateTextSize,
+            dateTextPaint
         )
         canvas.drawLine(0f, 0f, width.toFloat(), 0f, linePaint)
 
         // meeting
         circlePaint.color = Color.parseColor("#00ff00") // green
-        if (meetingClients.isNotEmpty()) canvas.drawCircle(width / 2 - mRadius / 2,
-            height / 2 - mRadius,
-            mRadius,
-            circlePaint)
+        if (meetingClients.isNotEmpty()) {
+            canvas.drawCircle(width / 2 - mRadius * 3 / 2,
+                height / 2 - mRadius,
+                mRadius,
+                circlePaint)
+            numPaint.getTextBounds("x ${meetingClients.size}", 0, meetingClients.size + 2, bounds)
+            canvas.drawText("x ${meetingClients.size}",
+                width / 2 + mRadius / 2,
+                (height / 2).toFloat(),
+                numPaint)
+        }
 
         // run
         circlePaint.color = Color.parseColor("#ffff00") // yellow
-        if (runClients.isNotEmpty()) canvas.drawCircle(width / 2 - mRadius / 2,
-            height / 2 + mRadius * 3,
-            mRadius,
-            circlePaint)
-
-        // draw text
+        if (runClients.isNotEmpty()) {
+            canvas.drawCircle(width / 2 - mRadius * 3 / 2,
+                height / 2 + mRadius * 3,
+                mRadius,
+                circlePaint)
+            numPaint.getTextBounds("x ${runClients.size}", 0, runClients.size + 2, bounds)
+            canvas.drawText("x ${runClients.size}",
+                width / 2 + mRadius / 2,
+                height / 2 + mRadius * 4,
+                numPaint)
+        }
     }
 }
