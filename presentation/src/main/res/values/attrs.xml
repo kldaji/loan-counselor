@@ -13,5 +13,7 @@
         <attr name="dateItemViewStyle" format="reference" />
         <attr name="dateTextSize" format="dimension" />
         <attr name="marginTop" format="dimension" />
+        <attr name="radius" format="dimension" />
+        <attr name="numTextSize" format="dimension" />
     </declare-styleable>
 </resources>
