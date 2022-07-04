@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -37,14 +39,21 @@ class CalendarFragment : Fragment() {
         binding.tbCalendar.setOnNavigateIconClickListener {
             findNavController().popBackStack()
         }
+        binding.tvGoToToday.setOnClickListener {
+            binding.vpCalendar.setCurrentItem(CalendarAdapter.START_POSITION, false)
+        }
     }
 
     private fun setPageChangeListener() {
-        pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
+        pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                println(position - CalendarAdapter.START_POSITION)
                 binding.tbCalendar.setToolbarTitle(position - CalendarAdapter.START_POSITION)
+                if (position != CalendarAdapter.START_POSITION) {
+                    binding.tvGoToToday.isVisible = true
+                } else {
+                    binding.tvGoToToday.isInvisible = true
+                }
             }
         }
         binding.vpCalendar.registerOnPageChangeCallback(pageChangeCallback)
