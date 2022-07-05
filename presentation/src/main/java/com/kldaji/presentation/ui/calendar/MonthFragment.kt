@@ -52,10 +52,8 @@ class MonthFragment : Fragment() {
         )
     }
 
-    private fun showDateDialog(meetings: List<Client>, runs: List<Client>) {
-        val dialog = DateDialogFragment().apply {
-            setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-        }
+    private fun showDateDialog(timestamp: Long) {
+        val dialog = DateDialogFragment.newInstance(timestamp)
         dialog.show(parentFragmentManager, "dateDialogFragment")
     }
 

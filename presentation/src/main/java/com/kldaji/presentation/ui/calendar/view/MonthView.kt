@@ -34,7 +34,7 @@ class MonthView(context: Context, attrs: AttributeSet? = null) : ViewGroup(conte
         dates: List<Date>,
         meetingClientsInMonth: List<List<Client>>,
         runClientsInMonth: List<List<Client>>,
-        showDateDialog: (meetings: List<Client>, runs: List<Client>) -> Unit,
+        showDateDialog: (timestamp: Long) -> Unit,
     ) {
         // deliever clients
         dates.forEachIndexed { index, date ->

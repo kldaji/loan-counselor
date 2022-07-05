@@ -10,6 +10,7 @@ import android.view.View
 import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.util.CalendarLogic
+import com.kldaji.presentation.util.DateConverter
 import java.util.*
 
 class DateItemView(
@@ -20,7 +21,7 @@ class DateItemView(
     private val date: Date,
     private val meetingClients: List<Client>,
     private val runClients: List<Client>,
-    showDateDialog: (meetings: List<Client>, runs: List<Client>) -> Unit
+    showDateDialog: (timestamp: Long) -> Unit
 ) :
     View(context, attrs, defStyleAttr) {
 
@@ -77,7 +78,7 @@ class DateItemView(
         typedArray.recycle()
 
         this.setOnClickListener {
-            showDateDialog(meetingClients, runClients)
+            showDateDialog(DateConverter.dateToLong(date))
         }
     }
 

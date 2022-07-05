@@ -11,8 +11,19 @@ import com.kldaji.presentation.ui.calendar.adapter.DateAdapter
 
 class DateDialogFragment : DialogFragment() {
 
+    companion object {
+        private const val TIMESTAMP = "timestamp"
+
+        fun newInstance(timestamp: Long) = DateDialogFragment().apply {
+            val bundle = Bundle()
+            bundle.putLong(TIMESTAMP, timestamp)
+            arguments = bundle
+        }
+    }
+
     private var _binding: DialogFragmentDateBinding? = null
     private val binding: DialogFragmentDateBinding get() = _binding!!
+    private var timestamp = 0L
 
     override fun getTheme(): Int = R.style.FullWidthDialog
 
@@ -22,6 +33,10 @@ class DateDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = DialogFragmentDateBinding.inflate(inflater, container, false)
+
+        arguments?.let {
+            timestamp = it.getLong(TIMESTAMP)
+        }
         val adapter = DateAdapter(requireActivity())
         binding.vpDialogFragmentDate.adapter = adapter
         return binding.root
