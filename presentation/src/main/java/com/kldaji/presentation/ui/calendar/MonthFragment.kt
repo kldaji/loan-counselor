@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.kldaji.domain.Client
 import com.kldaji.presentation.databinding.FragmentMonthBinding
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.util.CalendarLogic
@@ -45,8 +47,16 @@ class MonthFragment : Fragment() {
             Date(timestamp),
             dates,
             viewModel.getMeetingClientsInMonth(dates),
-            viewModel.getRunClientsInMonth(dates)
+            viewModel.getRunClientsInMonth(dates),
+            this::showDateDialog
         )
+    }
+
+    private fun showDateDialog(meetings: List<Client>, runs: List<Client>) {
+        val dialog = DateDialogFragment().apply {
+            setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        }
+        dialog.show(parentFragmentManager, "dateDialogFragment")
     }
 
     override fun onDestroyView() {

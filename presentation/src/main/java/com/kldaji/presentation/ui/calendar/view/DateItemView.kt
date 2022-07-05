@@ -20,6 +20,7 @@ class DateItemView(
     private val date: Date,
     private val meetingClients: List<Client>,
     private val runClients: List<Client>,
+    showDateDialog: (meetings: List<Client>, runs: List<Client>) -> Unit
 ) :
     View(context, attrs, defStyleAttr) {
 
@@ -74,6 +75,10 @@ class DateItemView(
         }
 
         typedArray.recycle()
+
+        this.setOnClickListener {
+            showDateDialog(meetingClients, runClients)
+        }
     }
 
     override fun onDraw(canvas: Canvas?) {

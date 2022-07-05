@@ -27,4 +27,9 @@
         <item name="radius">4dp</item>
         <item name="numTextSize" tools:ignore="SpUsage">12dp</item>
     </style>
+
+    <style name="FullWidthDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>

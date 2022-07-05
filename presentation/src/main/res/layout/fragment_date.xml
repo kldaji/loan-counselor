@@ -7,6 +7,7 @@
     android:background="@drawable/border_rect_gray_8">
 
     <TextView
+        android:text="화요일"
         android:id="@+id/tv_day_of_week"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
