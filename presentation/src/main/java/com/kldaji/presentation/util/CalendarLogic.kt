@@ -102,4 +102,11 @@ object CalendarLogic {
         calendar.add(Calendar.MONTH, monthAmount)
         return calendar.get(Calendar.MONTH) + 1 // month starts with 0
     }
+
+    fun getTimestamp(timestamp: Long, dateAmount: Int): Long {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = Date(timestamp)
+        calendar.add(Calendar.DATE, dateAmount)
+        return calendar.timeInMillis
+    }
 }

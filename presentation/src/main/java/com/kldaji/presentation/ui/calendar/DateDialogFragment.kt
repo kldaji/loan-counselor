@@ -37,8 +37,11 @@ class DateDialogFragment : DialogFragment() {
         arguments?.let {
             timestamp = it.getLong(TIMESTAMP)
         }
-        val adapter = DateAdapter(requireActivity())
+
+        val adapter = DateAdapter(requireActivity(), timestamp)
         binding.vpDialogFragmentDate.adapter = adapter
+        binding.vpDialogFragmentDate.setCurrentItem(DateAdapter.START_POSITION, false)
+
         return binding.root
     }
 
