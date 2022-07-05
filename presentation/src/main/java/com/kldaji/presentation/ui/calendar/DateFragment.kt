@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.kldaji.presentation.databinding.FragmentDateBinding
 import com.kldaji.presentation.ui.ClientsViewModel
+import com.kldaji.presentation.util.CalendarLogic
 
 class DateFragment : Fragment() {
 
@@ -44,7 +45,12 @@ class DateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showDate()
+    }
 
+    private fun showDate() {
+        binding.tvDayOfWeek.text = CalendarLogic.getDayOfWeek(timestamp)
+        binding.tvDate.text = CalendarLogic.getMonthAndDate(timestamp)
     }
 
     override fun onDestroyView() {
