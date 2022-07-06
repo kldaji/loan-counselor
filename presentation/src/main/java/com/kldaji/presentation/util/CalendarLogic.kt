@@ -102,4 +102,35 @@ object CalendarLogic {
         calendar.add(Calendar.MONTH, monthAmount)
         return calendar.get(Calendar.MONTH) + 1 // month starts with 0
     }
+
+    fun getTimestamp(timestamp: Long, dateAmount: Int): Long {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = Date(timestamp)
+        calendar.add(Calendar.DATE, dateAmount)
+        return calendar.timeInMillis
+    }
+
+    // ex. 수요일
+    fun getDayOfWeek(timestamp: Long): String {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = Date(timestamp)
+        return when (calendar.get(Calendar.DAY_OF_WEEK)) {
+            1 -> "일요일"
+            2 -> "월요일"
+            3 -> "화요일"
+            4 -> "수요일"
+            5 -> "목요일"
+            6 -> "금요일"
+            else -> "토요일" // 7
+        }
+    }
+
+    // ex. 7월 19일
+    fun getMonthAndDate(timestamp: Long): String {
+        val calendar = Calendar.getInstance(Locale.KOREA)
+        calendar.time = Date(timestamp)
+        val month = calendar.get(Calendar.MONTH) + 1 // month starts with 0
+        val date = calendar.get(Calendar.DATE)
+        return "${month}월 ${date}일"
+    }
 }
