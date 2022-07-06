@@ -6,9 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
+import com.kldaji.domain.Client
 import com.kldaji.presentation.databinding.FragmentDateBinding
 import com.kldaji.presentation.ui.ClientsViewModel
+import com.kldaji.presentation.ui.calendar.adapter.DateScheduledClientAdapter
 import com.kldaji.presentation.util.CalendarLogic
+import java.util.*
 
 class DateFragment : Fragment() {
 
@@ -36,9 +41,6 @@ class DateFragment : Fragment() {
         arguments?.let {
             timestamp = it.getLong(TIMESTAMP)
         }
-
-        // need to add recyclerview adapter
-        // the items of recyclerview is fetched from viewModel
         return binding.root
     }
 
@@ -46,11 +48,31 @@ class DateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         showDate()
+        setAdapters()
     }
 
     private fun showDate() {
         binding.tvDayOfWeek.text = CalendarLogic.getDayOfWeek(timestamp)
         binding.tvDate.text = CalendarLogic.getMonthAndDate(timestamp)
+    }
+
+    private fun setAdapters() {
+        val meetings = viewModel.getMeetingClients(Date(timestamp))
+        val runs = viewModel.getRunClients(Date(timestamp))
+        val meetingsAdapter = DateScheduledClientAdapter(true, meetings, object: DateScheduledClientAdapter.ItemClickListener {
+            override fun itemClick(client: Client) {
+                val direction = DateDialogFragmentDirections.actionDateDialogFragmentToReadClientFragment(client)
+                findNavController().navigate(direction)
+            }
+        })
+        val runsAdapter = DateScheduledClientAdapter(false, runs, object: DateScheduledClientAdapter.ItemClickListener {
+            override fun itemClick(client: Client) {
+                val direction = DateDialogFragmentDirections.actionDateDialogFragmentToReadClientFragment(client)
+                findNavController().navigate(direction)
+            }
+        })
+        val adapters = ConcatAdapter(meetingsAdapter, runsAdapter)
+        binding.rvDate.adapter = adapters
     }
 
     override fun onDestroyView() {

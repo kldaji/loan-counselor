@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.kldaji.domain.Client
+import androidx.navigation.fragment.findNavController
 import com.kldaji.presentation.databinding.FragmentMonthBinding
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.util.CalendarLogic
@@ -53,8 +52,8 @@ class MonthFragment : Fragment() {
     }
 
     private fun showDateDialog(timestamp: Long) {
-        val dialog = DateDialogFragment.newInstance(timestamp)
-        dialog.show(parentFragmentManager, "dateDialogFragment")
+        val direction = CalendarFragmentDirections.actionCalendarFragmentToDateDialogFragment(timestamp)
+        findNavController().navigate(direction)
     }
 
     override fun onDestroyView() {
