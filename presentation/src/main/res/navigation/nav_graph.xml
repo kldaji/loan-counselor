@@ -69,7 +69,14 @@
         android:id="@+id/calendarFragment"
         android:name="com.kldaji.presentation.ui.calendar.CalendarFragment"
         android:label="fragment_calendar"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_calendarFragment_to_dateDialogFragment"
+            app:destination="@id/dateDialogFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_readClientFragment"
+            app:destination="@id/readClientFragment" />
+    </fragment>
     <fragment
         android:id="@+id/writeClientFragment"
         android:name="com.kldaji.presentation.ui.client.WriteClientFragment"
@@ -101,4 +108,18 @@
             app:argType="string"
             android:defaultValue='""' />
     </fragment>
+    <dialog
+        android:id="@+id/dateDialogFragment"
+        android:name="com.kldaji.presentation.ui.calendar.DateDialogFragment"
+        android:label="DateDialogFragment" >
+        <action
+            android:id="@+id/action_dateDialogFragment_to_readClientFragment"
+            app:destination="@id/readClientFragment" />
+        <argument
+            android:name="timestamp"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_dateDialogFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </dialog>
 </navigation>

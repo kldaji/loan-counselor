@@ -10,15 +10,19 @@ import com.kldaji.presentation.databinding.ItemDateScheduledClientBinding
 class DateScheduledClientAdapter(
     private val isMeeting: Boolean,
     private val clients: List<Client>,
-) :
-    RecyclerView.Adapter<DateScheduledClientAdapter.DateScheduledClientViewHolder>() {
+    private val clickListener: ItemClickListener,
+) : RecyclerView.Adapter<DateScheduledClientAdapter.DateScheduledClientViewHolder>() {
+
+    interface ItemClickListener {
+        fun itemClick(client: Client)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
     ): DateScheduledClientViewHolder {
         return DateScheduledClientViewHolder(ItemDateScheduledClientBinding.inflate(LayoutInflater.from(
-            parent.context), parent, false), isMeeting)
+            parent.context), parent, false), isMeeting, clickListener)
     }
 
     override fun onBindViewHolder(holder: DateScheduledClientViewHolder, position: Int) {
@@ -29,11 +33,14 @@ class DateScheduledClientAdapter(
 
     class DateScheduledClientViewHolder(
         private val binding: ItemDateScheduledClientBinding,
-        isMeeting: Boolean,
+        isMeeting: Boolean, clickListener: ItemClickListener,
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
+            binding.setItemClickListener {
+                clickListener.itemClick(binding.client!!)
+            }
             if (isMeeting) {
                 binding.vDateScheduledClient.setBackgroundResource(R.drawable.border_rect_green_16)
             } else {
@@ -43,6 +50,7 @@ class DateScheduledClientAdapter(
 
         fun bind(client: Client) {
             binding.client = client
+            binding.executePendingBindings()
         }
     }
 }

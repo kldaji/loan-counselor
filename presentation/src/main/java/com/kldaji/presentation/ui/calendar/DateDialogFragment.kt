@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.DialogFragmentDateBinding
@@ -16,19 +17,10 @@ import com.kldaji.presentation.ui.calendar.adapter.DateAdapter
 
 class DateDialogFragment : DialogFragment() {
 
-    companion object {
-        private const val TIMESTAMP = "timestamp"
-
-        fun newInstance(timestamp: Long) = DateDialogFragment().apply {
-            val bundle = Bundle()
-            bundle.putLong(TIMESTAMP, timestamp)
-            arguments = bundle
-        }
-    }
-
     private var _binding: DialogFragmentDateBinding? = null
     private val binding: DialogFragmentDateBinding get() = _binding!!
     private var timestamp = 0L
+    private val safeArgs: DateDialogFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +29,7 @@ class DateDialogFragment : DialogFragment() {
     ): View {
         _binding = DialogFragmentDateBinding.inflate(inflater, container, false)
 
-        arguments?.let {
-            timestamp = it.getLong(TIMESTAMP)
-        }
-
+        timestamp = safeArgs.timestamp
         val adapter = DateAdapter(requireActivity(), timestamp)
         binding.vpDialogFragmentDate.adapter = adapter
         binding.vpDialogFragmentDate.setCurrentItem(DateAdapter.START_POSITION, false)

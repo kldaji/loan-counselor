@@ -8,16 +8,21 @@
         <variable
             name="client"
             type="com.kldaji.domain.Client" />
+
+        <variable
+            name="itemClickListener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{itemClickListener}">
 
         <View
             android:id="@+id/v_date_scheduled_client"
-            android:layout_width="10dp"
-            android:layout_height="80dp"
+            android:layout_width="6dp"
+            android:layout_height="50dp"
             android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:contentDescription="@string/iv_profile"
-            android:src="@drawable/ic_profile_36"
+            android:src="@drawable/ic_profile_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/v_date_scheduled_client"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:text="@{client.name}"
-            android:textAppearance="@style/Clients"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintStart_toEndOf="@id/iv_profile"
             app:layout_constraintTop_toTopOf="@id/iv_profile"
@@ -53,7 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:text="@{client.birth}"
-            android:textAppearance="@style/ClientsTitle"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_profile"

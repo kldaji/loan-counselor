@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
+import com.kldaji.domain.Client
 import com.kldaji.presentation.databinding.FragmentDateBinding
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.calendar.adapter.DateScheduledClientAdapter
@@ -57,8 +59,18 @@ class DateFragment : Fragment() {
     private fun setAdapters() {
         val meetings = viewModel.getMeetingClients(Date(timestamp))
         val runs = viewModel.getRunClients(Date(timestamp))
-        val meetingsAdapter = DateScheduledClientAdapter(true, meetings)
-        val runsAdapter = DateScheduledClientAdapter(false, runs)
+        val meetingsAdapter = DateScheduledClientAdapter(true, meetings, object: DateScheduledClientAdapter.ItemClickListener {
+            override fun itemClick(client: Client) {
+                val direction = DateDialogFragmentDirections.actionDateDialogFragmentToReadClientFragment(client)
+                findNavController().navigate(direction)
+            }
+        })
+        val runsAdapter = DateScheduledClientAdapter(false, runs, object: DateScheduledClientAdapter.ItemClickListener {
+            override fun itemClick(client: Client) {
+                val direction = DateDialogFragmentDirections.actionDateDialogFragmentToReadClientFragment(client)
+                findNavController().navigate(direction)
+            }
+        })
         val adapters = ConcatAdapter(meetingsAdapter, runsAdapter)
         binding.rvDate.adapter = adapters
     }
