@@ -102,7 +102,7 @@ class DateItemView(
                 height / 2 - mRadius,
                 mRadius,
                 circlePaint)
-            numPaint.getTextBounds("x ${meetingClients.size}", 0, meetingClients.size + 2, bounds)
+            numPaint.getTextBounds("x ${meetingClients.size}", 0, "x ${meetingClients.size}".length, bounds)
             canvas.drawText("x ${meetingClients.size}",
                 width / 2 + mRadius / 2,
                 (height / 2).toFloat(),
@@ -116,7 +116,7 @@ class DateItemView(
                 height / 2 + mRadius * 3,
                 mRadius,
                 circlePaint)
-            numPaint.getTextBounds("x ${runClients.size}", 0, runClients.size + 2, bounds)
+            numPaint.getTextBounds("x ${runClients.size}", 0, "x ${runClients.size}".length, bounds)
             canvas.drawText("x ${runClients.size}",
                 width / 2 + mRadius / 2,
                 height / 2 + mRadius * 4,

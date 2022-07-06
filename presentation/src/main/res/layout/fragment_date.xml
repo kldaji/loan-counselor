@@ -38,4 +38,12 @@
         android:background="@color/black"
         app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/v_boundary" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

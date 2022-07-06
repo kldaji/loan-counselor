@@ -119,8 +119,7 @@ class ClientsViewModel @Inject constructor(
     fun getMeetingClientsInMonth(dates: List<Date>): List<List<Client>> {
         val meetingClients = mutableListOf<List<Client>>()
         dates.forEach { date ->
-            meetingClients.add(_clients.value?.filter { DateConverter.dateToLong(date) == it.meeting }
-                ?: listOf())
+            meetingClients.add(getMeetingClients(date))
         }
         return meetingClients
     }
@@ -128,9 +127,16 @@ class ClientsViewModel @Inject constructor(
     fun getRunClientsInMonth(dates: List<Date>): List<List<Client>> {
         val runClients = mutableListOf<List<Client>>()
         dates.forEach { date ->
-            runClients.add(_clients.value?.filter { DateConverter.dateToLong(date) == it.run }
-                ?: listOf())
+            runClients.add(getRunClients(date))
         }
         return runClients
+    }
+
+    fun getMeetingClients(date: Date): List<Client> {
+        return _clients.value?.filter { DateConverter.dateToLong(date) == it.meeting } ?: listOf()
+    }
+
+    fun getRunClients(date: Date): List<Client> {
+        return _clients.value?.filter { DateConverter.dateToLong(date) == it.run } ?: listOf()
     }
 }
