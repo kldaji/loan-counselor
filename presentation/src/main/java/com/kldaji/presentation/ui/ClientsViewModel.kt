@@ -41,6 +41,9 @@ class ClientsViewModel @Inject constructor(
     private val _clients = MutableLiveData<List<Client>>()
     val clients: LiveData<List<Client>> = _clients
 
+    private val _clientsByName = MutableLiveData<List<Client>>()
+    val clientsByName: LiveData<List<Client>> = _clientsByName
+
     fun fetchClients() {
         viewModelScope.launch(Dispatchers.IO) {
             _clients.postValue(getAllClientsUseCase())
@@ -138,5 +141,15 @@ class ClientsViewModel @Inject constructor(
 
     fun getRunClients(date: Date): List<Client> {
         return _clients.value?.filter { DateConverter.dateToLong(date) == it.run } ?: listOf()
+    }
+
+    fun getClientsByName(name: String) {
+        val currentClients = _clients.value ?: return
+
+        _clientsByName.value = currentClients.filter { it.name.contains(name) }
+    }
+
+    fun clearClientsByName() {
+        _clientsByName.value = listOf()
     }
 }

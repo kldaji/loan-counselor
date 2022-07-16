@@ -23,7 +23,7 @@ class ClientAdapter : ListAdapter<ClientViewItem, RecyclerView.ViewHolder>(diff)
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is ClientViewItem.HeaderItem -> ITEM_HEADER
-            is ClientViewItem.ClientItem -> ITEM_CLIENT
+            else -> ITEM_CLIENT
         }
     }
 

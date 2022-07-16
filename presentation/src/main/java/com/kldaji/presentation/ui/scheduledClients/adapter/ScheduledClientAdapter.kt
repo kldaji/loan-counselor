@@ -29,7 +29,7 @@ class ScheduledClientAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return when (clientViewItems[position]) {
             is ClientViewItem.HeaderItem -> ITEM_HEADER
-            is ClientViewItem.ClientItem -> ITEM_CLIENT
+            else -> ITEM_CLIENT
         }
     }
 
