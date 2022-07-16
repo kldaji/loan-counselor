@@ -1,15 +1,15 @@
 package com.kldaji.presentation.ui.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.FragmentSearchBinding
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.search.adapter.SearchResultAdapter
@@ -29,7 +29,9 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        adapter = SearchResultAdapter(listOf(ClientViewItem.EmptyItem()))
+
+        showEmptyMessage()
+        adapter = SearchResultAdapter(listOf())
         binding.rvSearchResult.adapter = adapter
         return binding.root
     }
@@ -40,6 +42,11 @@ class SearchFragment : Fragment() {
         setEditTextFocus()
         setListeners()
         setObservers()
+    }
+
+    private fun showEmptyMessage() {
+        binding.rvSearchResult.isInvisible = true
+        binding.tvEmptyMessage.isVisible = true
     }
 
     private fun setEditTextFocus() {
@@ -65,8 +72,12 @@ class SearchFragment : Fragment() {
 
     private fun setObservers() {
         viewModel.clientsByName.observe(viewLifecycleOwner) { clients ->
-            if (clients.isEmpty()) adapter.setResults(listOf(ClientViewItem.EmptyItem()))
-            else adapter.setResults(clients.map { ClientViewItem.ClientItem(it) })
+            if (clients.isEmpty()) showEmptyMessage()
+            else {
+                binding.tvEmptyMessage.isInvisible = true
+                binding.rvSearchResult.isVisible = true
+                adapter.setResults(clients)
+            }
         }
     }
 

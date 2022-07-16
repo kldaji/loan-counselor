@@ -8,49 +8,25 @@ import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.ItemClientBinding
 import com.kldaji.presentation.databinding.ItemEmptyBinding
 
-class SearchResultAdapter(private var results: List<ClientViewItem>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchResultAdapter(private var results: List<ClientViewItem.ClientItem>) :
+    RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
 
-    companion object {
-        const val EMPTY_TYPE = 0
-        const val CLIENT_TYPE = 1
-    }
-
-    fun setResults(clientViewItems: List<ClientViewItem>) {
-        results = clientViewItems
+    fun setResults(clients: List<Client>) {
+        results = clients.map { ClientViewItem.ClientItem(it) }
         notifyDataSetChanged()
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (results[position] is ClientViewItem.EmptyItem) EMPTY_TYPE
-        else CLIENT_TYPE
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
+        return SearchResultViewHolder(ItemClientBinding.inflate(LayoutInflater.from(parent.context),
+            parent,
+            false))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            EMPTY_TYPE -> EmptyViewHolder(ItemEmptyBinding.inflate(LayoutInflater.from(parent.context),
-                parent,
-                false))
-            else -> SearchResultViewHolder(ItemClientBinding.inflate(LayoutInflater.from(parent.context),
-                parent,
-                false))
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is SearchResultViewHolder -> {
-                val clientItem = results[position] as ClientViewItem.ClientItem
-                holder.bind(clientItem)
-            }
-        }
+    override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
+        holder.bind(results[position])
     }
 
     override fun getItemCount(): Int = results.size
-
-
-    class EmptyViewHolder(private val binding: ItemEmptyBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     class SearchResultViewHolder(private val binding: ItemClientBinding) :
         RecyclerView.ViewHolder(binding.root) {
