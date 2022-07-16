@@ -3,11 +3,18 @@ package com.kldaji.presentation.ui.search.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kldaji.domain.Client
 import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.ItemClientBinding
+import com.kldaji.presentation.databinding.ItemEmptyBinding
 
-class SearchResultAdapter(private val results: List<ClientViewItem.ClientItem>) :
+class SearchResultAdapter(private var results: List<ClientViewItem.ClientItem>) :
     RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
+
+    fun setResults(clients: List<Client>) {
+        results = clients.map { ClientViewItem.ClientItem(it) }
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
         return SearchResultViewHolder(ItemClientBinding.inflate(LayoutInflater.from(parent.context),
@@ -20,7 +27,6 @@ class SearchResultAdapter(private val results: List<ClientViewItem.ClientItem>) 
     }
 
     override fun getItemCount(): Int = results.size
-
 
     class SearchResultViewHolder(private val binding: ItemClientBinding) :
         RecyclerView.ViewHolder(binding.root) {
