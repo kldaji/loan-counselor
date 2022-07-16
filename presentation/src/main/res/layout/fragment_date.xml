@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/border_rect_gray_8">
+    android:background="@drawable/border_rect_white_8">
 
     <TextView
         android:id="@+id/tv_day_of_week"
