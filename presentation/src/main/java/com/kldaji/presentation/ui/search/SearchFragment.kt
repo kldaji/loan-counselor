@@ -30,7 +30,6 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        showEmptyMessage()
         adapter = SearchResultAdapter(listOf())
         binding.rvSearchResult.adapter = adapter
         return binding.root
@@ -83,7 +82,12 @@ class SearchFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.clearClientsByName()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        viewModel.clearClientsByName()
     }
 }

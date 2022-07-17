@@ -33,7 +33,11 @@
         android:id="@+id/searchFragment"
         android:name="com.kldaji.presentation.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_readClientFragment"
+            app:destination="@id/readClientFragment" />
+    </fragment>
     <fragment
         android:id="@+id/readClientFragment"
         android:name="com.kldaji.presentation.ui.client.ReadClientFragment"

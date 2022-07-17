@@ -2,11 +2,12 @@ package com.kldaji.presentation.ui.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kldaji.domain.Client
 import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.ItemClientBinding
-import com.kldaji.presentation.databinding.ItemEmptyBinding
+import com.kldaji.presentation.ui.search.SearchFragmentDirections
 
 class SearchResultAdapter(private var results: List<ClientViewItem.ClientItem>) :
     RecyclerView.Adapter<SearchResultAdapter.SearchResultViewHolder>() {
@@ -31,8 +32,19 @@ class SearchResultAdapter(private var results: List<ClientViewItem.ClientItem>) 
     class SearchResultViewHolder(private val binding: ItemClientBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            binding.setClickListener { v ->
+                binding.client?.let {
+                    val direction =
+                        SearchFragmentDirections.actionSearchFragmentToReadClientFragment(it)
+                    v.findNavController().navigate(direction)
+                }
+            }
+        }
+
         fun bind(clientItem: ClientViewItem.ClientItem) {
             binding.client = clientItem.client
+            binding.executePendingBindings()
         }
     }
 }
