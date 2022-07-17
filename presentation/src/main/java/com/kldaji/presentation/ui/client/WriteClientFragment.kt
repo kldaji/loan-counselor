@@ -1,6 +1,7 @@
 package com.kldaji.presentation.ui.client
 
 import android.Manifest
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TimePicker
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -85,6 +87,7 @@ class WriteClientFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         connectGenderDropDownAdapter()
         setDatePickerListener()
+        setTimePickerListener()
         setNavigateToBack()
         setCompleteClickListener()
         setPictureAdapter()
@@ -126,6 +129,23 @@ class WriteClientFragment : Fragment() {
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
             .build()
+    }
+
+    private fun setTimePickerListener() {
+        val timePicker = createTimePicker()
+        binding.tieMeetingTime.setOnClickListener {
+            timePicker.show()
+        }
+    }
+
+    private fun createTimePicker(): TimePickerDialog {
+        return TimePickerDialog(requireContext(),
+            { _, hourOfDay, minute ->
+                binding.tieMeetingTime.setText("$hourOfDay : ${String.format("%02d", minute)}")
+            },
+            12,
+            0,
+            false)
     }
 
     private fun setNavigateToBack() {
