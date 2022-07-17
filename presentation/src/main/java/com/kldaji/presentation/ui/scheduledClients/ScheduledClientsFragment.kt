@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -38,9 +40,15 @@ class ScheduledClientsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.fetchScheduledClients(navArgs.index)
+        setEmptyMessage()
         setToolbarTitle()
         setClickListeners()
         setObservers()
+    }
+
+    private fun setEmptyMessage() {
+        binding.tvEmptyMessage.text = if (navArgs.index == 0) "오늘 미팅 예정 고객은 없습니다."
+        else "한달 내 대출 실행 예정 고객은 없습니다."
     }
 
     private fun setToolbarTitle() {
@@ -55,8 +63,23 @@ class ScheduledClientsFragment : Fragment() {
 
     private fun setObservers() {
         viewModel.scheduledClients.observe(viewLifecycleOwner) {
-            adapter.setScheduledClients(it)
+            if (it.isEmpty()) {
+                showEmptyMessage()
+            } else {
+                hideEmptyMessage()
+                adapter.setScheduledClients(it)
+            }
         }
+    }
+
+    private fun showEmptyMessage() {
+        binding.rvScheduledClients.isInvisible = true
+        binding.tvEmptyMessage.isVisible = true
+    }
+
+    private fun hideEmptyMessage() {
+        binding.rvScheduledClients.isVisible = true
+        binding.tvEmptyMessage.isInvisible = true
     }
 
     override fun onDestroyView() {
