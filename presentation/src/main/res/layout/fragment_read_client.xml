@@ -10,6 +10,7 @@
             type="com.kldaji.domain.Client" />
 
         <import type="com.kldaji.domain.Loan" />
+
         <import type="com.kldaji.presentation.util.EnumConverter" />
     </data>
 
@@ -189,13 +190,12 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_meeting"
-                    android:layout_width="0dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="36dp"
-                    android:hint="@string/til_read_client_meeting"
+                    android:hint="@string/til_write_client_meeting"
                     app:layout_constraintBottom_toBottomOf="@id/iv_calender"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/til_meeting_time"
                     app:layout_constraintStart_toEndOf="@id/iv_profile"
                     app:layout_constraintTop_toTopOf="@id/iv_calender">
 
@@ -204,6 +204,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_meeting_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="36dp"
+                    android:hint="@string/til_meeting_time"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_calender"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/til_meeting"
+                    app:layout_constraintTop_toTopOf="@id/iv_calender">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_meeting_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:text="@{client.meetingTime}"
                         android:textSize="16sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>

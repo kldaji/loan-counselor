@@ -190,6 +190,7 @@ class WriteClientFragment : Fragment() {
             loan = EnumConverter.stringToLoan(binding.rgWriteClient.checkedRadioButtonId),
             gender = EnumConverter.stringToGender(binding.actGender.text.toString()),
             meeting = DateConverter.stringToLong(binding.tieMeeting.text.toString()),
+            meetingTime = binding.tieMeetingTime.text.toString(),
             run = DateConverter.stringToLong(binding.tieRun.text.toString()),
             remark = binding.tieRemark.text.toString(),
             pictures = viewModel.pictures.value ?: listOf()
