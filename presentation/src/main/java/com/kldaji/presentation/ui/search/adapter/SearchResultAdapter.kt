@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kldaji.domain.Client
 import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.ItemClientBinding
-import com.kldaji.presentation.ui.clients.ClientsFragmentDirections
 import com.kldaji.presentation.ui.search.SearchFragmentDirections
 
 class SearchResultAdapter(private var results: List<ClientViewItem.ClientItem>) :

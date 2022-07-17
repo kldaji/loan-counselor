@@ -144,6 +144,7 @@ class ClientsViewModel @Inject constructor(
     }
 
     fun getClientsByName(name: String) {
+        if (name == "") return
         val currentClients = _clients.value ?: return
 
         _clientsByName.value = currentClients.filter { it.name.contains(name) }
