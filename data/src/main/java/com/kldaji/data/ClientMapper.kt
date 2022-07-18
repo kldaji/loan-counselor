@@ -12,6 +12,7 @@ object ClientMapper {
             loan = client.loan,
             gender = client.gender,
             meeting = client.meeting,
+            meetingTime = client.meetingTime,
             run = client.run,
             remark = client.remark,
             pictures = client.pictures
@@ -27,6 +28,7 @@ object ClientMapper {
             loan = clientEntity.loan,
             gender = clientEntity.gender,
             meeting = clientEntity.meeting,
+            meetingTime = clientEntity.meetingTime,
             run = clientEntity.run,
             remark = clientEntity.remark,
             pictures = clientEntity.pictures

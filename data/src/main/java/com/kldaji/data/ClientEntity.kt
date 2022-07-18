@@ -23,6 +23,8 @@ data class ClientEntity(
     @ColumnInfo
     val meeting: Long,
     @ColumnInfo
+    val meetingTime: String,
+    @ColumnInfo
     val run: Long,
     @ColumnInfo
     val remark: String,

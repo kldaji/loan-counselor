@@ -10,6 +10,7 @@ data class Client(
     val loan: Loan,
     val gender: Gender,
     val meeting: Long,
+    val meetingTime: String,
     val run: Long,
     val remark: String,
     val pictures: List<String>
