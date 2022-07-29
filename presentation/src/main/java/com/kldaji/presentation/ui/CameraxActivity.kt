@@ -1,7 +1,9 @@
 package com.kldaji.presentation.ui
 
 import android.Manifest
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -117,7 +119,10 @@ class CameraxActivity : AppCompatActivity() {
                 override fun
                         onImageSaved(output: ImageCapture.OutputFileResults) {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
-                    Toast.makeText(this@CameraxActivity, msg, Toast.LENGTH_SHORT).show()
+                    val intent = Intent()
+                    intent.putExtra("uri", output.savedUri.toString())
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
                 }
             }
         )

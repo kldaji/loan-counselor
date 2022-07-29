@@ -1,9 +1,8 @@
 package com.kldaji.presentation.ui.client
 
-import android.Manifest
+import android.app.Activity
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -12,10 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TimePicker
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -51,7 +47,7 @@ class WriteClientFragment : Fragment() {
             result.data?.data?.let {
                 requireActivity().contentResolver.takePersistableUriPermission(it,
                     Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                viewModel.addPicture(it)
+                viewModel.addPicture(it.toString())
             }
         }
     private var pictureUri: Uri? = null
@@ -59,15 +55,15 @@ class WriteClientFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             if (success) {
                 Log.i(TAG, pictureUri.toString())
-                viewModel.addPicture(pictureUri)
+                viewModel.addPicture(pictureUri.toString())
             }
         }
-    private val requestPermissionCallback =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                Log.i(TAG, "permission is granted")
-            } else {
-                Log.i(TAG, "permission is not granted")
+    private val startCameraxActivityCallback =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it.data?.getStringExtra("uri")?.let { uri ->
+                    viewModel.addPicture(uri)
+                }
             }
         }
 
@@ -204,7 +200,8 @@ class WriteClientFragment : Fragment() {
                 override fun onButtonClick(menuRes: Int) {
                     when (menuRes) {
                         R.id.take_picture -> {
-                            startActivity(Intent(requireActivity(), CameraxActivity::class.java))
+                            startCameraxActivityCallback.launch(Intent(requireActivity(),
+                                CameraxActivity::class.java))
                         }
                         else -> {
                             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
@@ -220,27 +217,6 @@ class WriteClientFragment : Fragment() {
                 }
             })
         binding.rvWriteClient.adapter = pictureAdapter
-    }
-
-    private fun requestPermission() {
-        when {
-            ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
-                val pictureFile = createImageFile()
-                Log.i(TAG, pictureFile.absolutePath)
-                pictureUri = FileProvider.getUriForFile(requireContext(),
-                    "com.kldaji.loancounselor.fileprovider",
-                    pictureFile)
-                takePictureCallback.launch(pictureUri)
-            }
-            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-                // explain with UI why the permission is needed
-                requestPermissionCallback.launch(Manifest.permission.CAMERA)
-            }
-            else -> {
-                requestPermissionCallback.launch(Manifest.permission.CAMERA)
-            }
-        }
     }
 
     private fun createImageFile(): File {
