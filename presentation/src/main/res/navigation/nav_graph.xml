@@ -9,7 +9,7 @@
         android:id="@+id/clientsFragment"
         android:name="com.kldaji.presentation.ui.clients.ClientsFragment"
         android:label="fragment_clients"
-        tools:layout="@layout/fragment_clients" >
+        tools:layout="@layout/fragment_clients">
         <action
             android:id="@+id/action_clientsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -33,7 +33,7 @@
         android:id="@+id/searchFragment"
         android:name="com.kldaji.presentation.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_readClientFragment"
             app:destination="@id/readClientFragment" />
@@ -42,7 +42,7 @@
         android:id="@+id/readClientFragment"
         android:name="com.kldaji.presentation.ui.client.ReadClientFragment"
         android:label="fragment_read_client"
-        tools:layout="@layout/fragment_read_client" >
+        tools:layout="@layout/fragment_read_client">
         <argument
             android:name="client"
             app:argType="com.kldaji.domain.Client" />
@@ -60,11 +60,11 @@
         android:id="@+id/scheduledClientsFragment"
         android:name="com.kldaji.presentation.ui.scheduledClients.ScheduledClientsFragment"
         android:label="fragment_scheduled_clients"
-        tools:layout="@layout/fragment_scheduled_clients" >
+        tools:layout="@layout/fragment_scheduled_clients">
         <argument
             android:name="index"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
         <action
             android:id="@+id/action_scheduledClientsFragment_to_readClientFragment"
             app:destination="@id/readClientFragment" />
@@ -73,7 +73,7 @@
         android:id="@+id/calendarFragment"
         android:name="com.kldaji.presentation.ui.calendar.CalendarFragment"
         android:label="fragment_calendar"
-        tools:layout="@layout/fragment_calendar" >
+        tools:layout="@layout/fragment_calendar">
         <action
             android:id="@+id/action_calendarFragment_to_dateDialogFragment"
             app:destination="@id/dateDialogFragment" />
@@ -85,15 +85,12 @@
         android:id="@+id/writeClientFragment"
         android:name="com.kldaji.presentation.ui.client.WriteClientFragment"
         android:label="fragment_write_client"
-        tools:layout="@layout/fragment_write_client" >
+        tools:layout="@layout/fragment_write_client">
         <argument
             android:name="client"
+            android:defaultValue="@null"
             app:argType="com.kldaji.domain.Client"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <action
-            android:id="@+id/action_writeClientFragment_to_fullPictureFragment"
-            app:destination="@id/fullPictureFragment" />
+            app:nullable="true" />
         <argument
             android:name="mode"
             app:argType="com.kldaji.presentation.ui.client.entity.Mode" />
@@ -101,21 +98,24 @@
             android:id="@+id/action_writeClientFragment_to_readClientFragment"
             app:destination="@id/readClientFragment"
             app:popUpTo="@id/clientsFragment" />
+        <action
+            android:id="@+id/action_writeClientFragment_to_photoViewPagerFragment"
+            app:destination="@id/photoViewPagerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/fullPictureFragment"
-        android:name="com.kldaji.presentation.ui.client.FullPictureViewPagerFragment"
-        android:label="fragment_full_picture"
-        tools:layout="@layout/fragment_full_picture_view_pager" >
+        android:id="@+id/photoViewPagerFragment"
+        android:name="com.kldaji.presentation.ui.client.PhotoViewPagerFragment"
+        android:label="fragment_photo_view_pager"
+        tools:layout="@layout/fragment_photo_view_pager">
         <argument
             android:name="uri"
-            app:argType="string"
-            android:defaultValue='""' />
+            android:defaultValue='""'
+            app:argType="string" />
     </fragment>
     <dialog
         android:id="@+id/dateDialogFragment"
         android:name="com.kldaji.presentation.ui.calendar.DateDialogFragment"
-        android:label="DateDialogFragment" >
+        android:label="DateDialogFragment">
         <action
             android:id="@+id/action_dateDialogFragment_to_readClientFragment"
             app:destination="@id/readClientFragment" />

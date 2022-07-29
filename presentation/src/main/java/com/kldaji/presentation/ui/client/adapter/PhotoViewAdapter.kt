@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kldaji.presentation.databinding.ItemFullPictureBinding
 import com.kldaji.presentation.ui.client.entity.PictureItemView
 
-class FullPictureAdapter(private val pictureUris: List<PictureItemView.PictureItem>) :
-    RecyclerView.Adapter<FullPictureAdapter.FullPictureViewHolder>() {
+class PhotoViewAdapter(private val pictureUris: List<PictureItemView.PictureItem>) :
+    RecyclerView.Adapter<PhotoViewAdapter.FullPictureViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FullPictureViewHolder {

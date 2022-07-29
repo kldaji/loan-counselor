@@ -79,7 +79,7 @@ class PictureAdapter(
             binding.setImageClickListener { v ->
                 binding.pictureItem?.let { pictureItem ->
                     val direction =
-                        WriteClientFragmentDirections.actionWriteClientFragmentToFullPictureFragment(
+                        WriteClientFragmentDirections.actionWriteClientFragmentToPhotoViewPagerFragment(
                             pictureItem.uri)
                     v.findNavController().navigate(direction)
                 }
