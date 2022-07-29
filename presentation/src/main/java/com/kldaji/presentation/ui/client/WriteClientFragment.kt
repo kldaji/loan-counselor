@@ -24,6 +24,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentWriteClientBinding
+import com.kldaji.presentation.ui.CameraxActivity
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.client.adapter.PictureAdapter
 import com.kldaji.presentation.ui.client.entity.Mode
@@ -202,7 +203,9 @@ class WriteClientFragment : Fragment() {
             object : PictureAdapter.CameraButtonClickListener { // camera button
                 override fun onButtonClick(menuRes: Int) {
                     when (menuRes) {
-                        R.id.take_picture -> requestPermission()
+                        R.id.take_picture -> {
+                            startActivity(Intent(requireActivity(), CameraxActivity::class.java))
+                        }
                         else -> {
                             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                             intent.type = "image/*"

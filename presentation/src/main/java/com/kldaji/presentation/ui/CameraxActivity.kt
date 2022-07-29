@@ -117,7 +117,6 @@ class CameraxActivity : AppCompatActivity() {
                 override fun
                         onImageSaved(output: ImageCapture.OutputFileResults) {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@CameraxActivity, msg, Toast.LENGTH_SHORT).show()
                 }
             }
