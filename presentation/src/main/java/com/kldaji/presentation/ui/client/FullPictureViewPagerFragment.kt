@@ -37,18 +37,11 @@ class FullPictureViewPagerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         attachTabLayout()
-        navigateToBack()
     }
 
     private fun attachTabLayout() {
         TabLayoutMediator(binding.tlFullPicture, binding.vpFullPicture) { tab, position -> }
             .attach()
-    }
-
-    private fun navigateToBack() {
-        binding.ivFullPictureClose.setOnClickListener {
-            findNavController().popBackStack()
-        }
     }
 
     override fun onDestroyView() {
