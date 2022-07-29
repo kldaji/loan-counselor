@@ -5,7 +5,6 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -27,9 +26,6 @@ import com.kldaji.presentation.ui.client.entity.Mode
 import com.kldaji.presentation.util.DateConverter
 import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 @AndroidEntryPoint
 class WriteClientFragment : Fragment() {
@@ -217,13 +213,6 @@ class WriteClientFragment : Fragment() {
                 }
             })
         binding.rvWriteClient.adapter = pictureAdapter
-    }
-
-    private fun createImageFile(): File {
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//        val storageDir = requireContext().filesDir
-        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
     }
 
     private fun addPicturesObserver() {
