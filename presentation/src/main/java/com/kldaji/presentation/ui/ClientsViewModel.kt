@@ -78,11 +78,15 @@ class ClientsViewModel @Inject constructor(
         }
     }
 
-    private val _pictures = MutableLiveData<List<String>>()
+    private val _pictures = MutableLiveData<List<String>>(listOf())
     val pictures: LiveData<List<String>> = _pictures
 
-    fun fetchPictures(client: Client?) {
-        _pictures.value = client?.pictures ?: listOf()
+    fun fetchPictures(client: Client) {
+        _pictures.value = client.pictures
+    }
+
+    fun setPicturesEmpty() {
+        _pictures.value = listOf()
     }
 
     fun addPicture(uri: String?) {

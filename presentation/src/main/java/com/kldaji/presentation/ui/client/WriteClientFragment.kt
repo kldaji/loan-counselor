@@ -76,6 +76,7 @@ class WriteClientFragment : Fragment() {
             binding.client = it
             binding.tieMeeting.setText(DateConverter.longToString(it.meeting))
             binding.tieRun.setText(DateConverter.longToString(it.run))
+            viewModel.fetchPictures(it)
         }
         return binding.root
     }
@@ -88,7 +89,6 @@ class WriteClientFragment : Fragment() {
         setNavigateToBack()
         setCompleteClickListener()
         setPictureAdapter()
-        setClient()
         addPicturesObserver()
     }
 
@@ -226,10 +226,6 @@ class WriteClientFragment : Fragment() {
         return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
     }
 
-    private fun setClient() {
-        viewModel.fetchPictures(navArgs.client)
-    }
-
     private fun addPicturesObserver() {
         viewModel.pictures.observe(viewLifecycleOwner) {
             Log.i(TAG, it.toString())
@@ -240,5 +236,10 @@ class WriteClientFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.setPicturesEmpty()
     }
 }

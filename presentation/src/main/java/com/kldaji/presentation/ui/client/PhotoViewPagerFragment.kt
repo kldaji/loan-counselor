@@ -1,6 +1,7 @@
 package com.kldaji.presentation.ui.client
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,7 @@ class PhotoViewPagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.i("PhotoViewPagerFragment", "onViewCreated")
         attachTabLayout()
     }
 
