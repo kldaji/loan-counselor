@@ -17,9 +17,6 @@
             android:id="@+id/action_clientsFragment_to_readClientFragment"
             app:destination="@id/readClientFragment" />
         <action
-            android:id="@+id/action_clientsFragment_to_settingFragment"
-            app:destination="@id/settingFragment" />
-        <action
             android:id="@+id/action_clientsFragment_to_scheduledClientsFragment"
             app:destination="@id/scheduledClientsFragment" />
         <action
@@ -51,11 +48,7 @@
             app:destination="@id/writeClientFragment"
             app:popUpToInclusive="false" />
     </fragment>
-    <fragment
-        android:id="@+id/settingFragment"
-        android:name="com.kldaji.presentation.ui.setting.SettingFragment"
-        android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" />
+
     <fragment
         android:id="@+id/scheduledClientsFragment"
         android:name="com.kldaji.presentation.ui.scheduledClients.ScheduledClientsFragment"
@@ -122,8 +115,5 @@
         <argument
             android:name="timestamp"
             app:argType="long" />
-        <action
-            android:id="@+id/action_dateDialogFragment_to_settingFragment"
-            app:destination="@id/settingFragment" />
     </dialog>
 </navigation>

@@ -61,10 +61,6 @@ class ClientsFragment : Fragment() {
                     this.findNavController().navigate(direction)
                     true
                 }
-                R.id.setting -> {
-                    this.findNavController().navigate(R.id.settingFragment)
-                    true
-                }
                 else -> false
             }
         }
