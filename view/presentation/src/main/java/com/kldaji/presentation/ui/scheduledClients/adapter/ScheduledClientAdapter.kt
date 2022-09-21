@@ -19,12 +19,22 @@ class ScheduledClientAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private const val ITEM_CLIENT = 1
     }
 
-    fun setScheduledClients(clients: List<Client>) {
+    fun setScheduledClients(index: Int, clients: List<Client>) {
         clientViewItems.clear()
-        clientViewItems.addAll(clients.flatMap {
-            listOf(ClientViewItem.HeaderItem(CalendarLogic.getMonthAndDate(it.meeting)),
-                ClientViewItem.ClientItem(it, it.id))
-        })
+        when (index) {
+            0 -> {
+                clientViewItems.addAll(clients.flatMap {
+                    listOf(ClientViewItem.HeaderItem(CalendarLogic.getMonthAndDate(it.meeting) + " " + it.meetingTime),
+                        ClientViewItem.ClientItem(it, it.id))
+                })
+            }
+            1 -> {
+                clientViewItems.addAll(clients.flatMap {
+                    listOf(ClientViewItem.HeaderItem(CalendarLogic.getMonthAndDate(it.run)),
+                        ClientViewItem.ClientItem(it, it.id))
+                })
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
