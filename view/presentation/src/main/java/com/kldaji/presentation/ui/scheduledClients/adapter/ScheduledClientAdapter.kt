@@ -9,6 +9,7 @@ import com.kldaji.domain.ClientViewItem
 import com.kldaji.presentation.databinding.ItemClientBinding
 import com.kldaji.presentation.databinding.ItemScheduledClientHeaderBinding
 import com.kldaji.presentation.ui.scheduledClients.ScheduledClientsFragmentDirections
+import com.kldaji.presentation.util.CalendarLogic
 
 class ScheduledClientAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val clientViewItems = mutableListOf<ClientViewItem>()
@@ -21,7 +22,7 @@ class ScheduledClientAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     fun setScheduledClients(clients: List<Client>) {
         clientViewItems.clear()
         clientViewItems.addAll(clients.flatMap {
-            listOf(ClientViewItem.HeaderItem(it.meeting.toString()),
+            listOf(ClientViewItem.HeaderItem(CalendarLogic.getMonthAndDate(it.meeting)),
                 ClientViewItem.ClientItem(it, it.id))
         })
     }
