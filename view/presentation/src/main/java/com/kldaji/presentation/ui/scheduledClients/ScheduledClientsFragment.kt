@@ -67,7 +67,7 @@ class ScheduledClientsFragment : Fragment() {
                 showEmptyMessage()
             } else {
                 hideEmptyMessage()
-                adapter.setScheduledClients(it)
+                adapter.setScheduledClients(navArgs.index, it)
             }
         }
     }

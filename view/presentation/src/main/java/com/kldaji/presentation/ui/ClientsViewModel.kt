@@ -113,7 +113,7 @@ class ClientsViewModel @Inject constructor(
                 val endOfTodayTimeStamp = CalendarLogic.getEndOfTodayTimestamp()
                 it.meeting in startOfTodayTimestamp..endOfTodayTimeStamp
             } ?: listOf()
-            _scheduledClients.value = meetingClients
+            _scheduledClients.value = meetingClients.sortedBy { it.meetingTime }
         } else { // run
             val runClients = clients.value?.filter {
                 val afterOneMonthTimestamp = CalendarLogic.getAfterOneMonthTimestamp()
