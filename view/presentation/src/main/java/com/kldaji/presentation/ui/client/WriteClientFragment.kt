@@ -1,31 +1,38 @@
 package com.kldaji.presentation.ui.client
 
-import android.app.Activity
 import android.app.TimePickerDialog
-import android.content.Intent
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kldaji.domain.Client
 import com.kldaji.presentation.R
 import com.kldaji.presentation.databinding.FragmentWriteClientBinding
-import com.kldaji.presentation.ui.CameraxActivity
 import com.kldaji.presentation.ui.ClientsViewModel
 import com.kldaji.presentation.ui.client.adapter.PictureAdapter
 import com.kldaji.presentation.ui.client.entity.Mode
 import com.kldaji.presentation.util.DateConverter
 import com.kldaji.presentation.util.EnumConverter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 @AndroidEntryPoint
 class WriteClientFragment : Fragment() {
@@ -38,30 +45,8 @@ class WriteClientFragment : Fragment() {
     private val viewModel by activityViewModels<ClientsViewModel>()
     private val navArgs: WriteClientFragmentArgs by navArgs()
     private lateinit var pictureAdapter: PictureAdapter
-    private val getContentCallback =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            result.data?.data?.let {
-                requireActivity().contentResolver.takePersistableUriPermission(it,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                viewModel.addPicture(it.toString())
-            }
-        }
-    private var pictureUri: Uri? = null
-    private val takePictureCallback =
-        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-            if (success) {
-                Log.i(TAG, pictureUri.toString())
-                viewModel.addPicture(pictureUri.toString())
-            }
-        }
-    private val startCameraxActivityCallback =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                it.data?.getStringExtra("uri")?.let { uri ->
-                    viewModel.addPicture(uri)
-                }
-            }
-        }
+    private lateinit var takePhotoLauncher: ActivityResultLauncher<Void>
+    private lateinit var getContentLauncher: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +64,8 @@ class WriteClientFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setLaunchers()
         connectGenderDropDownAdapter()
         setDatePickerListener()
         setTimePickerListener()
@@ -86,6 +73,63 @@ class WriteClientFragment : Fragment() {
         setCompleteClickListener()
         setPictureAdapter()
         addPicturesObserver()
+    }
+
+    private fun setLaunchers() {
+        takePhotoLauncher =
+            registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
+                bitmap ?: return@registerForActivityResult
+
+                lifecycleScope.launch {
+                    if (saveToGallery(bitmap)) {
+                        Toast.makeText(requireContext(),
+                            "Successfully saved to gallery",
+                            Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(),
+                            "Failed to save image to gallery",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        getContentLauncher =
+            registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+                uris.forEach { uri ->
+                    viewModel.addPicture(uri.toString())
+                }
+            }
+    }
+
+    private fun saveToGallery(
+        bitmap: Bitmap,
+        contentResolver: ContentResolver = requireActivity().contentResolver,
+        filename: String = System.currentTimeMillis().toString() + ".jpg",
+        mimeType: String = "images/*",
+    ): Boolean {
+        val imageUri: Uri =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Images.Media.getContentUri(
+                MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+            put(MediaStore.Images.Media.MIME_TYPE, mimeType)
+        }
+
+        return try {
+            contentResolver.insert(imageUri, contentValues)?.also { uri ->
+                viewModel.addPicture(uri.toString())
+
+                contentResolver.openOutputStream(uri).use { outputStream ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                }
+            } ?: throw IOException("Failed to create Media Store Entry")
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
     }
 
     private fun connectGenderDropDownAdapter() {
@@ -195,15 +239,8 @@ class WriteClientFragment : Fragment() {
             object : PictureAdapter.CameraButtonClickListener { // camera button
                 override fun onButtonClick(menuRes: Int) {
                     when (menuRes) {
-                        R.id.take_picture -> {
-                            startCameraxActivityCallback.launch(Intent(requireActivity(),
-                                CameraxActivity::class.java))
-                        }
-                        else -> {
-                            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                            intent.type = "image/*"
-                            getContentCallback.launch(intent)
-                        }
+                        R.id.take_picture -> takePhotoLauncher.launch(null)
+                        else -> getContentLauncher.launch("image/*")
                     }
                 }
             },
