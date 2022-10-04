@@ -18,6 +18,6 @@ fun ScheduledClientsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("scheduled clients screen")
+        Text("scheduled clients screen $index")
     }
 }
