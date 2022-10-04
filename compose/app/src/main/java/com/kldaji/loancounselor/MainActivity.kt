@@ -6,10 +6,20 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.kldaji.loancounselor.ui.calendar.CalendarScreen
+import com.kldaji.loancounselor.ui.client.ReadClientScreen
+import com.kldaji.loancounselor.ui.client.WriteClientScreen
+import com.kldaji.loancounselor.ui.clients.ClientsScreen
+import com.kldaji.loancounselor.ui.scheduledClients.ScheduledClientsScreen
+import com.kldaji.loancounselor.ui.search.SearchScreen
 import com.kldaji.loancounselor.ui.theme.LoanCounseolorTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,10 +27,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LoanCounseolorTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    MainNavHost()
                 }
             }
         }
@@ -28,14 +39,54 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
+fun MainNavHost(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = "clients",
+) {
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        composable("clients") {
+            ClientsScreen(
+                onNavigateToReadClient = { id ->
+                    navController.navigate("readClient/$id")
+                },
+                onNavigateToWriteClient = {
+                    navController.navigate("writeClient")
+                },
+                onNavigateToSearchClient = {
+                    navController.navigate("search")
+                },
+                onNavigateToScheduledClients = { index ->
+                    navController.navigate("scheduledClients/$index")
+                },
+                onNavigateToCalendar = {
+                    navController.navigate("calendar")
+                }
+            )
+        }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    LoanCounseolorTheme {
-        Greeting("Android")
+        composable(
+            route = "readClient/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.LongType })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getLong("id")?.let { id ->
+                ReadClientScreen(id = id)
+            }
+        }
+        composable("writeClient") { WriteClientScreen() }
+        composable("search") { SearchScreen(/*...*/) }
+        composable(
+            route = "scheduledClients/{index}",
+            arguments = listOf(navArgument("index") { type = NavType.IntType })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getInt("index")?.let { index ->
+                ScheduledClientsScreen(index = index)
+            }
+        }
+        composable("calendar") { CalendarScreen(/*...*/) }
     }
 }
