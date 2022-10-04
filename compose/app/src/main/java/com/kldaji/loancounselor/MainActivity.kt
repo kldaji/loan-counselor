@@ -50,23 +50,7 @@ fun MainNavHost(
         startDestination = startDestination
     ) {
         composable("clients") {
-            ClientsScreen(
-                onNavigateToReadClient = { id ->
-                    navController.navigate("readClient/$id")
-                },
-                onNavigateToWriteClient = {
-                    navController.navigate("writeClient")
-                },
-                onNavigateToSearchClient = {
-                    navController.navigate("search")
-                },
-                onNavigateToScheduledClients = { index ->
-                    navController.navigate("scheduledClients/$index")
-                },
-                onNavigateToCalendar = {
-                    navController.navigate("calendar")
-                }
-            )
+            ClientsScreen(navController = navController)
         }
 
         composable(
