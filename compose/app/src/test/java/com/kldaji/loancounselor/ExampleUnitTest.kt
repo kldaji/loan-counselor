@@ -1,4 +1,4 @@
-package com.kldaji.loancounseolor
+package com.kldaji.loancounselor
 
 import org.junit.Test
 

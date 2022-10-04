@@ -1,4 +1,4 @@
-package com.kldaji.loancounseolor.ui.theme
+package com.kldaji.loancounselor.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
