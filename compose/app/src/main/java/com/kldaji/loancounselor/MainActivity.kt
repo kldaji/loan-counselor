@@ -1,4 +1,4 @@
-package com.kldaji.loancounseolor
+package com.kldaji.loancounselor
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.kldaji.loancounseolor.ui.theme.LoanCounseolorTheme
+import com.kldaji.loancounselor.ui.theme.LoanCounseolorTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

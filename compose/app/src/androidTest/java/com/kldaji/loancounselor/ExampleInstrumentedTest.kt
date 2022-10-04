@@ -1,4 +1,4 @@
-package com.kldaji.loancounseolor
+package com.kldaji.loancounselor
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
