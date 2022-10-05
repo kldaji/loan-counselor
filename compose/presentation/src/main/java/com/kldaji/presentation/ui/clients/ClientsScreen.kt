@@ -19,6 +19,8 @@ import androidx.compose.material.icons.filled.PersonAddAlt1
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,13 +30,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.kldaji.domain.Client
+import com.kldaji.presentation.ClientsViewModel
 
 @Composable
 fun ClientsScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    clients: List<Client> = listOf()
+    viewModel: ClientsViewModel
 ) {
+    val clients by viewModel.clients.observeAsState(listOf())
+
     Scaffold(
         topBar = {
             ClientsTopBar(
