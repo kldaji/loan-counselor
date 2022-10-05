@@ -13,5 +13,8 @@ dependencyResolutionManagement {
         maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
 }
-rootProject.name = "LoanCounseolor"
+rootProject.name = "LoanCounselor"
 include ':app'
+include ':data'
+include ':domain'
+include ':presentation'
