@@ -22,6 +22,7 @@ import com.kldaji.presentation.ui.scheduledClients.ScheduledClientsScreen
 import com.kldaji.presentation.ui.search.SearchScreen
 import com.kldaji.presentation.ui.theme.LoanCounselorTheme
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -52,7 +53,8 @@ fun MainNavHost(
         startDestination = startDestination
     ) {
         composable("clients") {
-            ClientsScreen(navController = navController)
+            val viewModel = hiltViewModel<ClientsViewModel>()
+            ClientsScreen(navController = navController, viewModel = viewModel)
         }
 
         composable(
