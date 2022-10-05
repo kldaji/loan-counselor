@@ -102,7 +102,7 @@ fun KaKaoLoginButton(onButtonClick: () -> Unit) {
                 onButtonClick()
             }
         ) {
-            Image(painterResource(id = R.drawable.ic_launcher_foreground),
+            Image(painterResource(id = R.drawable.kakao_login_large_narrow),
                 contentDescription = "",
                 contentScale = ContentScale.FillBounds
             )

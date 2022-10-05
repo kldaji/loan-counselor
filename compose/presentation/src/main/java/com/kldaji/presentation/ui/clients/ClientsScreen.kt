@@ -217,7 +217,7 @@ fun ClientsHeader(modifier: Modifier, count: Int) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 16.dp),
+            .padding(top = 8.dp, start = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -255,13 +255,14 @@ fun ClientItem(
                 modifier = modifier.padding(end = 4.dp)
             )
             Text(
-                text = "",
+                text = client.name,
                 color = Color.Black,
                 fontSize = 16.sp
             )
         }
+
         Text(
-            text = "",
+            text = client.birth,
             color = Color.Gray,
             fontSize = 16.sp
         )
