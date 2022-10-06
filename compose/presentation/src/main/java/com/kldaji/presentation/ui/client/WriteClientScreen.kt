@@ -15,11 +15,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -63,14 +66,12 @@ fun WriteClientScreen(
     }
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     val photos by viewModel.pictures.observeAsState(listOf())
-    val client = Client()
 
     Scaffold(
         topBar = {
             WriteClientTopBar(
                 modifier = modifier,
                 onPopBackStack = navController::popBackStack,
-                client = client,
                 onAddClient = viewModel::insertClient
             )
         }
@@ -89,6 +90,10 @@ fun WriteClientScreen(
                     },
                 )
             }
+
+            item {
+                ClientInfo(modifier = modifier)
+            }
         }
     }
 }
@@ -97,7 +102,6 @@ fun WriteClientScreen(
 fun WriteClientTopBar(
     modifier: Modifier,
     onPopBackStack: () -> Unit,
-    client: Client,
     onAddClient: (Client) -> Unit,
 ) {
     Row(
@@ -125,7 +129,12 @@ fun WriteClientTopBar(
             color = Color.Black,
             fontSize = 16.sp,
             modifier = modifier.clickable {
-                onAddClient(client)
+                onAddClient(
+                    Client(
+                        name = "Kim",
+                        birth = "970703"
+                    )
+                )
                 onPopBackStack()
             }
         )
@@ -192,4 +201,48 @@ fun WriteClientPhotoItem(modifier: Modifier, photo: String) {
             .size(width = 60.dp, height = 60.dp),
         contentScale = ContentScale.FillBounds
     )
+}
+
+@Composable
+fun ClientInfo(
+    modifier: Modifier
+) {
+    Divider(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
+        color = Color.DarkGray
+    )
+
+    val radioOptions = listOf("담보대출", "전세대출")
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        radioOptions.forEach { text ->
+            Row(
+                modifier = modifier
+                    .selectable(
+                        selected = (text == selectedOption),
+                        onClick = { onOptionSelected(text) }
+                    )
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = (text == selectedOption),
+                    onClick = { onOptionSelected(text) }
+                )
+                Text(
+                    text = text,
+                    fontSize = 14.sp
+                )
+            }
+        }
+    }
 }
