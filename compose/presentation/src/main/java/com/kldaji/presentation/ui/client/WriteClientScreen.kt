@@ -1,6 +1,9 @@
 package com.kldaji.presentation.ui.client
 
+import android.content.Intent
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,7 +24,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.HighlightOff
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +34,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -45,6 +49,18 @@ fun WriteClientScreen(
     navController: NavController,
     viewModel: ClientsViewModel,
 ) {
+    val contentResolver = LocalContext.current.contentResolver
+    var uri: Uri? by remember {
+        mutableStateOf(null)
+    }
+    val getContentLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) {
+            uri = it
+        }
+    uri?.let {
+        contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        viewModel.addPicture(it.toString())
+    }
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     val photos by viewModel.pictures.observeAsState(listOf())
     val client = Client()
@@ -68,7 +84,9 @@ fun WriteClientScreen(
                     isExpanded = isDropDownMenuExpanded,
                     onSetIsExpanded = { isDropDownMenuExpanded = it },
                     photos = photos,
-                    onAddPhoto = viewModel::addPicture
+                    onAddPhoto = {
+                        getContentLauncher.launch(arrayOf("image/*"))
+                    },
                 )
             }
         }
@@ -80,7 +98,7 @@ fun WriteClientTopBar(
     modifier: Modifier,
     onPopBackStack: () -> Unit,
     client: Client,
-    onAddClient: (Client) -> Unit
+    onAddClient: (Client) -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -120,7 +138,7 @@ fun WriteClientPhotos(
     isExpanded: Boolean,
     onSetIsExpanded: (Boolean) -> Unit,
     photos: List<String>,
-    onAddPhoto: (String) -> Unit
+    onAddPhoto: () -> Unit,
 ) {
     LazyRow(
         modifier = modifier
@@ -138,7 +156,7 @@ fun WriteClientPhotos(
                     Icon(imageVector = Icons.Default.PhotoCamera, contentDescription = "사진 추가")
                 }
             }
-            
+
             DropdownMenu(expanded = isExpanded, onDismissRequest = { onSetIsExpanded(false) }) {
                 DropdownMenuItem(onClick = {
                     onSetIsExpanded(false)
@@ -146,6 +164,7 @@ fun WriteClientPhotos(
                     Text(text = "사진 촬영")
                 }
                 DropdownMenuItem(onClick = {
+                    onAddPhoto()
                     onSetIsExpanded(false)
                 }) {
                     Text(text = "갤러리")
@@ -168,14 +187,9 @@ fun WriteClientPhotoItem(modifier: Modifier, photo: String) {
     Image(
         painter = rememberImagePainter(data = uri),
         contentDescription = "이미지",
+        modifier = modifier
+            .padding(start = 16.dp)
+            .size(width = 60.dp, height = 60.dp),
+        contentScale = ContentScale.FillBounds
     )
-
-    Box(
-        modifier = modifier.size(width = 65.dp, height = 65.dp),
-        contentAlignment = Alignment.TopEnd
-    ) {
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(imageVector = Icons.Default.HighlightOff, contentDescription = "삭제")
-        }
-    }
 }
