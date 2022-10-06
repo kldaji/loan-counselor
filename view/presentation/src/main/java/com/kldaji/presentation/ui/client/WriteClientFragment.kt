@@ -3,6 +3,7 @@ package com.kldaji.presentation.ui.client
 import android.app.TimePickerDialog
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -46,7 +47,7 @@ class WriteClientFragment : Fragment() {
     private val navArgs: WriteClientFragmentArgs by navArgs()
     private lateinit var pictureAdapter: PictureAdapter
     private lateinit var takePhotoLauncher: ActivityResultLauncher<Void>
-    private lateinit var getContentLauncher: ActivityResultLauncher<String>
+    private lateinit var getContentLauncher: ActivityResultLauncher<Array<String>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,8 +95,9 @@ class WriteClientFragment : Fragment() {
             }
 
         getContentLauncher =
-            registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+            registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
                 uris.forEach { uri ->
+                    requireContext().contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     viewModel.addPicture(uri.toString())
                 }
             }
@@ -240,7 +242,7 @@ class WriteClientFragment : Fragment() {
                 override fun onButtonClick(menuRes: Int) {
                     when (menuRes) {
                         R.id.take_picture -> takePhotoLauncher.launch(null)
-                        else -> getContentLauncher.launch("image/*")
+                        else -> getContentLauncher.launch(arrayOf("image/*"))
                     }
                 }
             },
