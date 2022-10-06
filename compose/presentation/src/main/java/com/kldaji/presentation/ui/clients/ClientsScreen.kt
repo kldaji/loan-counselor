@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -36,8 +37,9 @@ import com.kldaji.presentation.ClientsViewModel
 fun ClientsScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: ClientsViewModel
+    viewModel: ClientsViewModel,
 ) {
+    viewModel.fetchClients()
     val clients by viewModel.clients.observeAsState(listOf())
 
     Scaffold(
@@ -222,7 +224,7 @@ fun ClientsHeader(modifier: Modifier, count: Int) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, start = 16.dp),
+            .padding(top = 8.dp, start = 16.dp, bottom = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -242,33 +244,34 @@ fun ClientsHeader(modifier: Modifier, count: Int) {
 @Composable
 fun ClientItem(
     modifier: Modifier,
-    client: Client
+    client: Client,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
-            modifier = modifier.fillMaxWidth()
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = "프로필",
-                modifier = modifier.padding(end = 4.dp)
+                modifier = modifier
+                    .size(50.dp)
+                    .padding(end = 16.dp)
             )
             Text(
                 text = client.name,
                 color = Color.Black,
-                fontSize = 16.sp
+                fontSize = 20.sp
             )
         }
-
         Text(
             text = client.birth,
-            color = Color.Gray,
+            color = Color.Black,
             fontSize = 16.sp
         )
     }
