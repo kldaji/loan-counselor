@@ -47,13 +47,14 @@ fun MainNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = "clients",
 ) {
+    val viewModel = hiltViewModel<ClientsViewModel>()
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
         composable("clients") {
-            val viewModel = hiltViewModel<ClientsViewModel>()
             ClientsScreen(navController = navController, viewModel = viewModel)
         }
 
@@ -65,7 +66,9 @@ fun MainNavHost(
                 ReadClientScreen(id = id)
             }
         }
-        composable("writeClient") { WriteClientScreen() }
+        composable("writeClient") {
+            WriteClientScreen(navController = navController, viewModel = viewModel)
+        }
         composable("search") { SearchScreen(/*...*/) }
         composable(
             route = "scheduledClients/{index}",
