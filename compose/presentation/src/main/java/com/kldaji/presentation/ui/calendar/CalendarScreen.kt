@@ -71,14 +71,19 @@ fun Days(modifier: Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .height(24.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Day.values().forEach { day ->
-            Text(
-                text = day.text,
-                color = day.textColor,
-            )
+            Column(
+                modifier = modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = day.text,
+                    color = day.textColor,
+                )
+            }
         }
     }
 }
