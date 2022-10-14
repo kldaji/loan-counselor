@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdk 23
-        targetSdk 32
+        targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -67,6 +67,11 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     implementation "io.coil-kt:coil-compose:1.4.0"
+
+    implementation "com.google.accompanist:accompanist-pager:0.26.5-rc"
+
+    // If using indicators, also depend on
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.26.5-rc"
 
     implementation project(":domain")
 }

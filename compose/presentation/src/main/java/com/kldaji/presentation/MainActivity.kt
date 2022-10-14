@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity() {
 fun MainNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "clients",
+    startDestination: String = "calendar",
 ) {
     val viewModel = hiltViewModel<ClientsViewModel>()
 
