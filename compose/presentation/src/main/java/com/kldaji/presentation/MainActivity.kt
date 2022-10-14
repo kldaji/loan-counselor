@@ -14,6 +14,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,7 +29,6 @@ import com.kldaji.presentation.ui.scheduledClients.ScheduledClientsScreen
 import com.kldaji.presentation.ui.search.SearchScreen
 import com.kldaji.presentation.ui.theme.LoanCounselorTheme
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.hilt.navigation.compose.hiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -129,6 +129,6 @@ fun MainNavHost(
                 ScheduledClientsScreen(index = index)
             }
         }
-        composable("calendar") { CalendarScreen(/*...*/) }
+        composable("calendar") { CalendarScreen(navController = navController) }
     }
 }
