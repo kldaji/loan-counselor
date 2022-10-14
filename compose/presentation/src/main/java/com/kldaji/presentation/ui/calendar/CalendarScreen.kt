@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -56,6 +57,7 @@ enum class Day(val text: String, val textColor: Color) {
 @Composable
 fun CalendarScreen(
     modifier: Modifier = Modifier,
+    navController: NavController,
 ) {
     val startPosition = Int.MAX_VALUE / 2
     val state = rememberPagerState(initialPage = startPosition)
@@ -70,7 +72,7 @@ fun CalendarScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navController.popBackStack() }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "뒤로가기")
                 }
                 Text(

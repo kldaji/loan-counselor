@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.filled.PeopleAlt
 import androidx.compose.material.icons.filled.PersonAddAlt1
@@ -53,6 +55,11 @@ fun ClientsScreen(
                     navController.navigate("writeClient")
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { navController.navigate("calendar") }) {
+                Icon(imageVector = Icons.Default.CalendarMonth, contentDescription = "캘런더 화면으로 이동")
+            }
         }
     ) { paddingValues ->
         LazyColumn(modifier = modifier.padding(paddingValues)) {
